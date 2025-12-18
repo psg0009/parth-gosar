@@ -1,0 +1,78 @@
+import type { Metadata } from "next";
+import { Space_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
+import "./globals.css";
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-space-grotesk",
+  display: "swap",
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-jetbrains",
+  display: "swap",
+});
+
+export const metadata: Metadata = {
+  title: "Parth Gosar | AI/ML Researcher & Software Engineer",
+  description:
+    "Portfolio of Parth Gosar - AI/ML Researcher at USC, 2025 Oswald Award recipient, and founder of INSURESPECTRE. Specializing in deep learning, NLP, and building impactful AI solutions.",
+  keywords: [
+    "Parth Gosar",
+    "AI Researcher",
+    "Machine Learning",
+    "USC",
+    "Penn State",
+    "Software Engineer",
+    "Deep Learning",
+    "NLP",
+    "Computer Science",
+  ],
+  authors: [{ name: "Parth Gosar" }],
+  creator: "Parth Gosar",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://parthgosar.com",
+    title: "Parth Gosar | AI/ML Researcher & Software Engineer",
+    description:
+      "AI/ML Researcher at USC, 2025 Oswald Award recipient, building impactful AI solutions.",
+    siteName: "Parth Gosar Portfolio",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Parth Gosar | AI/ML Researcher & Software Engineer",
+    description:
+      "AI/ML Researcher at USC, 2025 Oswald Award recipient, building impactful AI solutions.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en" className="scroll-smooth">
+      <body
+        className={`${spaceGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable} font-body antialiased bg-black text-white`}
+      >
+        {/* Noise Overlay */}
+        <div className="noise-overlay" />
+        
+        {children}
+      </body>
+    </html>
+  );
+}
