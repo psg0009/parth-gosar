@@ -15,9 +15,11 @@ import {
   Zap,
   Target,
   TrendingUp,
-  Layers
+  Layers,
+  ExternalLink
 } from "lucide-react";
 import DNAHelix from "../visualizations/DNAHelix";
+import FlowingBackground from "../visualizations/FlowingBackground";
 
 const researchAreas = [
   {
@@ -67,6 +69,7 @@ const researchPositions = [
     title: "Research Assistant",
     lab: "Fan MRI Lab",
     institution: "USC",
+    link: "https://sites.usc.edu/fan-mri-lab/staff/",
     color: "cyan",
     status: "Active",
     description: "Building multimodal deep learning models for accelerated MRI reconstruction. Achieved 15% workflow acceleration for radiologists and reduced image processing time by 2 seconds per scan.",
@@ -105,78 +108,16 @@ export default function ResearchSection() {
 
   return (
     <section id="research" ref={ref} className="section relative overflow-hidden">
-      {/* Animated Background */}
-      <div className="absolute inset-0">
-        {/* 3D Grid Floor Effect */}
-        <div className="absolute bottom-0 left-0 right-0 h-64 research-grid-3d opacity-30" />
+      {/* Flowing Background - continues the visual flow */}
+      <FlowingBackground />
 
-        {/* Floating orbs */}
-        <motion.div
-          className="absolute top-20 left-[10%] w-64 h-64 rounded-full bg-cyan-500/10 blur-[100px] research-orb"
-          animate={{
-            x: [0, 30, 0],
-            y: [0, -20, 0],
-          }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.div
-          className="absolute bottom-40 right-[15%] w-80 h-80 rounded-full bg-emerald-500/10 blur-[120px] research-orb"
-          animate={{
-            x: [0, -40, 0],
-            y: [0, 30, 0],
-          }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-        />
-        <motion.div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-purple-500/5 blur-[150px]"
-        />
-
-        {/* Neural network connections */}
-        <svg className="absolute inset-0 w-full h-full opacity-10">
-          <defs>
-            <linearGradient id="neural-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#22d3ee" />
-              <stop offset="50%" stopColor="#10b981" />
-              <stop offset="100%" stopColor="#f472b6" />
-            </linearGradient>
-          </defs>
-          {[...Array(8)].map((_, i) => (
-            <motion.circle
-              key={i}
-              cx={`${15 + (i % 4) * 25}%`}
-              cy={`${20 + Math.floor(i / 4) * 60}%`}
-              r="3"
-              fill="url(#neural-gradient)"
-              className="neural-pulse"
-              style={{ animationDelay: `${i * 0.3}s` }}
-            />
-          ))}
-          {/* Connection lines */}
-          <motion.path
-            d="M 15% 20% Q 40% 50% 65% 20%"
-            stroke="url(#neural-gradient)"
-            strokeWidth="0.5"
-            fill="none"
-            initial={{ pathLength: 0, opacity: 0 }}
-            animate={isVisible ? { pathLength: 1, opacity: 0.3 } : {}}
-            transition={{ duration: 2, delay: 0.5 }}
-          />
-          <motion.path
-            d="M 40% 20% Q 52% 50% 65% 80%"
-            stroke="url(#neural-gradient)"
-            strokeWidth="0.5"
-            fill="none"
-            initial={{ pathLength: 0, opacity: 0 }}
-            animate={isVisible ? { pathLength: 1, opacity: 0.3 } : {}}
-            transition={{ duration: 2, delay: 0.8 }}
-          />
-        </svg>
-
-        {/* DNA Helix decoration */}
-        <div className="absolute right-4 top-1/3 opacity-20 hidden xl:block">
-          <DNAHelix height={300} />
-        </div>
+      {/* DNA Helix decoration */}
+      <div className="absolute right-4 top-1/3 opacity-20 hidden xl:block">
+        <DNAHelix height={300} />
       </div>
+
+      {/* Emerald accent for Research theme */}
+      <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-emerald-500/5 to-transparent pointer-events-none" />
 
       <div className="relative container-custom">
         {/* Section Header */}
@@ -190,12 +131,12 @@ export default function ResearchSection() {
             whileHover={{ scale: 1.02 }}
           >
             <Brain size={18} className="text-cyan-400" />
-            <span className="text-cyan-400 text-sm font-mono tracking-wider">MEDICAL AI RESEARCH</span>
+            <span className="text-cyan-400 text-sm font-mono tracking-wider">RESEARCH</span>
             <Sparkles size={14} className="text-cyan-400" />
           </motion.div>
 
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            Advancing <span className="bg-gradient-to-r from-cyan-400 via-emerald-400 to-purple-400 bg-clip-text text-transparent">Healthcare</span> with AI
+            Pioneering <span className="bg-gradient-to-r from-cyan-400 via-emerald-400 to-purple-400 bg-clip-text text-transparent">Healthcare</span> AI
           </h2>
           <p className="text-white/60 max-w-2xl mx-auto">
             Developing interpretable AI systems for medical imaging, clinical prediction, and personalized medicine
@@ -248,7 +189,7 @@ export default function ResearchSection() {
           })}
         </motion.div>
 
-        {/* Research Positions - Timeline Design */}
+        {/* Research Positions - Holographic Lab Cards */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isVisible ? { opacity: 1, y: 0 } : {}}
@@ -256,79 +197,204 @@ export default function ResearchSection() {
           className="mb-16"
         >
           <div className="flex items-center gap-3 mb-8">
-            <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-            <h3 className="text-xl font-semibold text-white">Current Research Positions</h3>
+            <motion.div
+              className="relative w-3 h-3"
+              animate={{ rotate: 360 }}
+              transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+            >
+              <div className="absolute inset-0 rounded-full bg-cyan-400" />
+              <div className="absolute inset-0 rounded-full bg-cyan-400 animate-ping opacity-50" />
+            </motion.div>
+            <h3 className="text-xl font-semibold text-white">Active Research Labs</h3>
+            <div className="flex-1 h-px bg-gradient-to-r from-cyan-500/30 to-transparent ml-4" />
           </div>
 
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid md:grid-cols-2 gap-8">
             {researchPositions.map((position, index) => {
               const isHovered = hoveredPosition === index;
-              const borderColor = position.color === "cyan" ? "border-cyan-500" : "border-emerald-500";
-              const textColor = position.color === "cyan" ? "text-cyan-400" : "text-emerald-400";
-              const bgColor = position.color === "cyan" ? "bg-cyan-500" : "bg-emerald-500";
+              const primaryColor = position.color === "cyan" ? "#22d3ee" : "#34d399";
+              const secondaryColor = position.color === "cyan" ? "#06b6d4" : "#10b981";
 
               return (
                 <motion.div
                   key={position.lab}
-                  initial={{ opacity: 0, x: index === 0 ? -30 : 30 }}
-                  animate={isVisible ? { opacity: 1, x: 0 } : {}}
-                  transition={{ delay: 0.5 + index * 0.1 }}
+                  initial={{ opacity: 0, y: 30, rotateX: -10 }}
+                  animate={isVisible ? { opacity: 1, y: 0, rotateX: 0 } : {}}
+                  transition={{ delay: 0.5 + index * 0.15, type: "spring", stiffness: 100 }}
                   onMouseEnter={() => setHoveredPosition(index)}
                   onMouseLeave={() => setHoveredPosition(null)}
-                  className="group relative"
+                  whileHover={{ y: -8, scale: 1.02 }}
+                  className="group perspective-1000"
+                  style={{ transformStyle: "preserve-3d" }}
                 >
-                  <div className={`relative overflow-hidden rounded-2xl border border-white/10 bg-cyber-dark/80 backdrop-blur-sm transition-all duration-500 hover:border-white/20`}>
-                    {/* Animated side accent */}
+                  <div
+                    className="relative overflow-hidden rounded-2xl backdrop-blur-xl"
+                    style={{
+                      background: `linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.4) 100%)`,
+                      border: `1px solid ${primaryColor}40`,
+                      boxShadow: `0 0 40px ${primaryColor}20, inset 0 1px 0 ${primaryColor}20`,
+                    }}
+                  >
+                    {/* Animated scanning line */}
                     <motion.div
-                      className={`absolute left-0 top-0 bottom-0 w-1 ${bgColor}`}
-                      animate={{ opacity: isHovered ? 1 : 0.5 }}
+                      className="absolute left-0 right-0 h-[2px]"
+                      style={{
+                        background: `linear-gradient(90deg, transparent, ${primaryColor}, transparent)`,
+                        boxShadow: `0 0 20px ${primaryColor}`,
+                      }}
+                      animate={{ top: ["-5%", "105%"] }}
+                      transition={{ duration: 3, repeat: Infinity, ease: "linear", delay: index * 0.5 }}
                     />
 
-                    {/* Top glow line */}
+                    {/* Corner brackets */}
+                    <div className="absolute top-3 left-3 w-6 h-6 border-l-2 border-t-2" style={{ borderColor: primaryColor }} />
+                    <div className="absolute top-3 right-3 w-6 h-6 border-r-2 border-t-2" style={{ borderColor: primaryColor }} />
+                    <div className="absolute bottom-3 left-3 w-6 h-6 border-l-2 border-b-2" style={{ borderColor: primaryColor }} />
+                    <div className="absolute bottom-3 right-3 w-6 h-6 border-r-2 border-b-2" style={{ borderColor: primaryColor }} />
+
+                    {/* Holographic shimmer */}
                     <motion.div
-                      className={`absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent ${position.color === "cyan" ? "via-cyan-500" : "via-emerald-500"} to-transparent`}
-                      animate={{ opacity: isHovered ? 1 : 0 }}
+                      className="absolute inset-0 pointer-events-none opacity-20"
+                      style={{
+                        background: `linear-gradient(105deg, transparent 40%, ${primaryColor}60 50%, transparent 60%)`,
+                        backgroundSize: "200% 100%",
+                      }}
+                      animate={{ backgroundPosition: ["200% 0%", "-200% 0%"] }}
+                      transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
                     />
 
                     {/* Content */}
                     <div className="relative p-6">
-                      {/* Header */}
-                      <div className="flex items-start justify-between mb-4">
-                        <div>
-                          <h4 className="text-lg font-semibold text-white mb-1">{position.title}</h4>
-                          <p className={`${textColor} font-medium`}>{position.lab}, {position.institution}</p>
+                      {/* Header with lab icon */}
+                      <div className="flex items-start justify-between mb-5">
+                        <div className="flex items-start gap-4">
+                          {/* Animated lab icon */}
+                          <motion.div
+                            className="relative w-16 h-16 rounded-xl flex items-center justify-center"
+                            style={{
+                              background: `linear-gradient(135deg, ${primaryColor}30, ${secondaryColor}10)`,
+                              border: `1px solid ${primaryColor}50`,
+                            }}
+                            whileHover={{ rotate: 10, scale: 1.1 }}
+                          >
+                            {/* Orbiting particles */}
+                            {[0, 1, 2].map((i) => (
+                              <motion.div
+                                key={i}
+                                className="absolute w-2 h-2 rounded-full"
+                                style={{ background: primaryColor }}
+                                animate={{
+                                  x: [12 * Math.cos(i * 2.094), 12 * Math.cos(i * 2.094 + Math.PI), 12 * Math.cos(i * 2.094)],
+                                  y: [12 * Math.sin(i * 2.094), 12 * Math.sin(i * 2.094 + Math.PI), 12 * Math.sin(i * 2.094)],
+                                  opacity: [0.3, 1, 0.3],
+                                }}
+                                transition={{ duration: 3, repeat: Infinity, delay: i * 0.3 }}
+                              />
+                            ))}
+                            {position.color === "cyan" ? (
+                              <ScanLine size={28} style={{ color: primaryColor }} />
+                            ) : (
+                              <Dna size={28} style={{ color: primaryColor }} />
+                            )}
+                          </motion.div>
+
+                          <div>
+                            {position.link ? (
+                              <a
+                                href={position.link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-xl font-bold text-white mb-1 hover:underline inline-flex items-center gap-1.5 group/link"
+                              >
+                                {position.lab}
+                                <ExternalLink size={14} className="opacity-0 group-hover/link:opacity-100 transition-opacity" />
+                              </a>
+                            ) : (
+                              <h4 className="text-xl font-bold text-white mb-1">{position.lab}</h4>
+                            )}
+                            <p className="text-sm" style={{ color: primaryColor }}>{position.institution}</p>
+                          </div>
                         </div>
-                        <div className={`flex items-center gap-2 px-3 py-1 rounded-full ${position.color === "cyan" ? "bg-cyan-500/10 border border-cyan-500/30" : "bg-emerald-500/10 border border-emerald-500/30"}`}>
-                          <span className={`w-1.5 h-1.5 rounded-full ${bgColor} animate-pulse`} />
-                          <span className={`text-xs font-medium ${textColor}`}>{position.status}</span>
-                        </div>
+
+                        {/* Status indicator */}
+                        <motion.div
+                          className="flex items-center gap-2 px-3 py-1.5 rounded-full"
+                          style={{
+                            background: `${primaryColor}15`,
+                            border: `1px solid ${primaryColor}40`,
+                          }}
+                          animate={{ boxShadow: [`0 0 0 0 ${primaryColor}00`, `0 0 0 8px ${primaryColor}00`] }}
+                          transition={{ duration: 2, repeat: Infinity }}
+                        >
+                          <motion.div
+                            className="w-2 h-2 rounded-full"
+                            style={{ background: primaryColor }}
+                            animate={{ opacity: [1, 0.3, 1], scale: [1, 0.8, 1] }}
+                            transition={{ duration: 1.5, repeat: Infinity }}
+                          />
+                          <span className="text-xs font-mono" style={{ color: primaryColor }}>{position.status}</span>
+                        </motion.div>
                       </div>
 
-                      {/* Description */}
-                      <p className="text-white/60 text-sm mb-4 leading-relaxed">
-                        {position.description}
-                      </p>
+                      {/* Description with terminal style */}
+                      <div
+                        className="mb-5 p-4 rounded-lg"
+                        style={{
+                          background: `linear-gradient(135deg, ${primaryColor}08, transparent)`,
+                          borderLeft: `3px solid ${primaryColor}50`
+                        }}
+                      >
+                        <p className="text-white/70 text-sm leading-relaxed">
+                          {position.description}
+                        </p>
+                      </div>
 
-                      {/* Metrics */}
-                      <div className="flex gap-4 mb-4">
-                        {position.metrics.map((metric) => (
-                          <div key={metric.label} className="flex items-center gap-2">
-                            <Zap size={14} className={textColor} />
-                            <span className="text-xs text-white/50">{metric.label}:</span>
-                            <span className={`text-sm font-semibold ${textColor}`}>{metric.value}</span>
-                          </div>
+                      {/* Metrics with holographic display */}
+                      <div className="grid grid-cols-2 gap-3 mb-5">
+                        {position.metrics.map((metric, mIndex) => (
+                          <motion.div
+                            key={metric.label}
+                            className="relative p-3 rounded-lg overflow-hidden"
+                            style={{
+                              background: `${primaryColor}10`,
+                              border: `1px solid ${primaryColor}30`,
+                            }}
+                            initial={{ opacity: 0, x: -10 }}
+                            animate={isVisible ? { opacity: 1, x: 0 } : {}}
+                            transition={{ delay: 0.7 + index * 0.1 + mIndex * 0.1 }}
+                          >
+                            <div className="flex items-center gap-2">
+                              <Zap size={14} style={{ color: primaryColor }} />
+                              <span className="text-xs text-white/50 uppercase">{metric.label}</span>
+                            </div>
+                            <div
+                              className="text-2xl font-bold font-mono mt-1"
+                              style={{ color: primaryColor, textShadow: `0 0 20px ${primaryColor}50` }}
+                            >
+                              {metric.value}
+                            </div>
+                          </motion.div>
                         ))}
                       </div>
 
-                      {/* Tech Stack */}
+                      {/* Tech Stack - Floating tags */}
                       <div className="flex flex-wrap gap-2">
-                        {position.tech.map((tech) => (
-                          <span
+                        {position.tech.map((tech, tIndex) => (
+                          <motion.span
                             key={tech}
-                            className={`text-xs px-2.5 py-1 rounded-lg ${position.color === "cyan" ? "bg-cyan-500/10 text-cyan-400 border border-cyan-500/20" : "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"}`}
+                            className="text-xs px-3 py-1.5 rounded-full font-mono"
+                            style={{
+                              background: `${primaryColor}15`,
+                              color: primaryColor,
+                              border: `1px solid ${primaryColor}30`,
+                            }}
+                            initial={{ opacity: 0, scale: 0 }}
+                            animate={isVisible ? { opacity: 1, scale: 1 } : {}}
+                            transition={{ delay: 0.8 + index * 0.1 + tIndex * 0.05, type: "spring" }}
+                            whileHover={{ scale: 1.1, boxShadow: `0 0 15px ${primaryColor}50` }}
                           >
                             {tech}
-                          </span>
+                          </motion.span>
                         ))}
                       </div>
                     </div>

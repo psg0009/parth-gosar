@@ -8,7 +8,17 @@ interface DNAHelixProps {
   height?: number;
 }
 
+// Map height to CSS class
+const getHeightClass = (height: number): string => {
+  if (height <= 150) return "dna-h-150";
+  if (height <= 200) return "dna-h-200";
+  if (height <= 220) return "dna-h-220";
+  if (height <= 250) return "dna-h-250";
+  return "dna-h-300";
+};
+
 export default function DNAHelix({ className = "", height = 300 }: DNAHelixProps) {
+  const heightClass = getHeightClass(height);
   const [time, setTime] = useState(0);
 
   useEffect(() => {
@@ -37,7 +47,7 @@ export default function DNAHelix({ className = "", height = 300 }: DNAHelixProps
   ];
 
   return (
-    <div className={`relative ${className}`} style={{ height, width: 100 }}>
+    <div className={`relative ${heightClass} ${className}`}>
       <svg viewBox="0 0 100 300" className="w-full h-full">
         <defs>
           <linearGradient id="helixGradient1" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -137,13 +147,6 @@ export default function DNAHelix({ className = "", height = 300 }: DNAHelixProps
         />
       </svg>
 
-      {/* Labels */}
-      <div className="absolute -left-8 top-1/4 text-[8px] font-mono text-cyan-400/60 -rotate-90">
-        5' END
-      </div>
-      <div className="absolute -right-8 bottom-1/4 text-[8px] font-mono text-pink-400/60 -rotate-90">
-        3' END
-      </div>
     </div>
   );
 }

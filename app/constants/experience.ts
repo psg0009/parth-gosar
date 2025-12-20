@@ -102,25 +102,11 @@ export const experiences: Experience[] = [
     startDate: "May 2025",
     endDate: "Jul 2025",
     description: [
-      "Architected AI-powered insurance platform lowering premiums by $1,000+ annually for 100+ students",
+      "Architected AI-powered insurance platform helping 100+ students find better health insurance options",
       "Streamlined insurance search for students with unique insurance needs",
     ],
     type: "work",
     url: "https://insurespectre.com",
-  },
-  {
-    id: "psg-foundation",
-    role: "Founder",
-    company: "P.S.G Foundation",
-    location: "India",
-    startDate: "May 2018",
-    endDate: "Present",
-    description: [
-      "Founded nonprofit organization focused on community empowerment and outreach",
-      "Led communication strategies and community service initiatives",
-    ],
-    type: "work",
-    url: "https://www.instagram.com/psgfoundation_/",
   },
   {
     id: "ist-research-assistant",
@@ -230,12 +216,26 @@ export const experiences: Experience[] = [
     ],
     type: "teaching",
   },
+  {
+    id: "psg-foundation",
+    role: "Founder",
+    company: "P.S.G Foundation",
+    location: "India",
+    startDate: "May 2018",
+    endDate: "Present",
+    description: [
+      "Founded nonprofit organization focused on community empowerment and outreach",
+      "Led communication strategies and community service initiatives",
+    ],
+    type: "work",
+    url: "https://www.instagram.com/psgfoundation_/",
+  },
 ];
 
 export const education: Education[] = [
   {
     id: "usc",
-    degree: "Master of Science in Computer Science",
+    degree: "Master of Science - Computer Science",
     school: "University of Southern California",
     location: "Los Angeles, CA",
     startDate: "Aug 2025",
@@ -244,13 +244,12 @@ export const education: Education[] = [
   },
   {
     id: "psu",
-    degree: "Bachelor of Science in Computer Science",
+    degree: "Bachelor of Science - Computer Science",
     school: "The Pennsylvania State University",
     location: "University Park, PA",
     startDate: "Aug 2022",
     endDate: "May 2025",
-    gpa: "3.70/4.0",
-    focus: "Minor in Mathematics",
+    focus: "Computer Science",
   },
 ];
 
@@ -428,7 +427,7 @@ export const newsArticles: NewsArticle[] = [
     source: "The Daily Collegian",
     date: "October 2022",
     description: "Parth Gosar officially sworn in as the ISC representative to the University Park Undergraduate Association.",
-    url: "https://www.psucollegian.com/news/campus/penn-state-upua-swears-in-new-international-student-council-representative/article_bebdf752-451e-11ed-89e6-e3c23de13d68.html",
+    url: "https://www.instagram.com/p/CjWhEolIYy1/",
   },
   {
     id: "isc-website",
@@ -450,28 +449,10 @@ export const newsArticles: NewsArticle[] = [
 
 export const iscJourney: ISCJourneyStep[] = [
   {
-    id: "programming",
-    role: "Programming Committee Member",
-    period: "Aug 2022 - Nov 2022",
-    description: "Started ISC journey as a Programming Committee member, helping organize cultural events and student activities.",
-  },
-  {
-    id: "eboard-member",
-    role: "Executive Board Member",
-    period: "Nov 2022 - Apr 2023",
-    description: "Elevated to Executive Board, contributing to strategic decisions and organizational leadership.",
-  },
-  {
-    id: "upua-rep",
-    role: "ISC Representative to UPUA",
-    period: "Oct 2022 - Mar 2023",
-    description: "Sworn in as ISC representative to the University Park Undergraduate Association, serving as the voice of international students in student government.",
-  },
-  {
-    id: "finance-director",
-    role: "Financial Director",
-    period: "Mar 2023 - Apr 2024",
-    description: "Served as Financial Director on the Executive Board. Streamlined nine financial operations benefiting 3,000+ students annually and cultivated key relationships with the Finance Committee.",
+    id: "advisor",
+    role: "Student Advisor to ISC",
+    period: "May 2025 - Present",
+    description: "Continuing to guide and mentor the next generation of ISC leadership, ensuring continuity of initiatives and institutional knowledge transfer.",
   },
   {
     id: "president",
@@ -481,10 +462,28 @@ export const iscJourney: ISCJourneyStep[] = [
     highlight: true,
   },
   {
-    id: "advisor",
-    role: "Student Advisor to ISC",
-    period: "May 2025 - Present",
-    description: "Continuing to guide and mentor the next generation of ISC leadership, ensuring continuity of initiatives and institutional knowledge transfer.",
+    id: "finance-director",
+    role: "Financial Director",
+    period: "Mar 2023 - Apr 2024",
+    description: "Served as Financial Director on the Executive Board. Streamlined nine financial operations benefiting 3,000+ students annually and cultivated key relationships with the Finance Committee.",
+  },
+  {
+    id: "upua-rep",
+    role: "ISC Representative to UPUA",
+    period: "Oct 2022 - Mar 2023",
+    description: "Sworn in as ISC representative to the University Park Undergraduate Association, serving as the voice of international students in student government.",
+  },
+  {
+    id: "eboard-member",
+    role: "Executive Board Member",
+    period: "Nov 2022 - Apr 2023",
+    description: "Elevated to Executive Board, contributing to strategic decisions and organizational leadership.",
+  },
+  {
+    id: "programming",
+    role: "Programming Committee Member",
+    period: "Aug 2022 - Nov 2022",
+    description: "Started ISC journey as a Programming Committee member, helping organize cultural events and student activities.",
   },
 ];
 
@@ -495,14 +494,6 @@ export const additionalLeadership = [
     organization: "University Libraries, Penn State",
     period: "2023 - 2025",
     description: "Promoted library resources and services to students, gathered valuable feedback to inform improvements, and served in various leadership roles within the Library Ambassador program.",
-  },
-  {
-    id: "cob-member",
-    role: "Community Oversight Board Member",
-    organization: "Borough of State College",
-    period: "Oct 2024 - Present",
-    description: "Appointed to serve on the State College Borough Council's Community Oversight Board, providing civilian oversight of the State College Police Department to ensure equitable treatment for all community members.",
-    url: "https://www.statecollegepa.us/745/Community-Oversight-Board",
   },
 ];
 
@@ -516,16 +507,16 @@ export const publications: Publication[] = [
     status: "published",
   },
   {
-    id: "jain-ai",
-    title: "Jain AI: A Hybrid Retrieval-Augmented Generation System for Ancient Prakrit Text Analysis and Interpretation",
+    id: "crossmodal-hemanet",
+    title: "CrossModal-HemaNet: Multi-Modal Deep Learning for Blood Cancer Diagnosis Under Class Imbalance",
     authors: "Parth Gosar et al.",
     venue: "Under Review",
     date: "2025",
     status: "under_review",
   },
   {
-    id: "crossmodal-hemanet",
-    title: "CrossModal-HemaNet: Multi-Modal Deep Learning for Blood Cancer Diagnosis Under Class Imbalance",
+    id: "jain-ai",
+    title: "Jain AI: A Hybrid Retrieval-Augmented Generation System for Ancient Prakrit Text Analysis and Interpretation",
     authors: "Parth Gosar et al.",
     venue: "Under Review",
     date: "2025",

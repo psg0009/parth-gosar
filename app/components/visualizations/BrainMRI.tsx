@@ -8,7 +8,18 @@ interface BrainMRIProps {
   size?: number;
 }
 
+// Map size to CSS class
+const getSizeClass = (size: number): string => {
+  if (size <= 250) return "viz-size-250";
+  if (size <= 280) return "viz-size-280";
+  if (size <= 300) return "viz-size-300";
+  if (size <= 320) return "viz-size-320";
+  if (size <= 350) return "viz-size-350";
+  return "viz-size-400";
+};
+
 export default function BrainMRI({ className = "", size = 400 }: BrainMRIProps) {
+  const sizeClass = getSizeClass(size);
   const [scanLine, setScanLine] = useState(0);
   const [activeSlice, setActiveSlice] = useState(0);
 
@@ -34,11 +45,8 @@ export default function BrainMRI({ className = "", size = 400 }: BrainMRIProps) 
     return { id: i, opacity, scale, z: (i - 6) * 8 };
   });
 
-  // Use CSS custom properties for dynamic sizing
-  const sizeStyle = { "--brain-size": `${size}px` } as React.CSSProperties;
-
   return (
-    <div className={`relative brain-mri-container ${className}`} style={sizeStyle}>
+    <div className={`relative ${sizeClass} ${className}`}>
       {/* Outer glow ring */}
       <motion.div
         className="absolute inset-0 rounded-full brain-mri-conic-gradient"
@@ -58,7 +66,7 @@ export default function BrainMRI({ className = "", size = 400 }: BrainMRIProps) 
         >
           {/* Brain outline layers */}
           {slices.map((slice) => (
-            <g key={slice.id} style={{ opacity: slice.opacity }}>
+            <motion.g key={slice.id} animate={{ opacity: slice.opacity }} transition={{ duration: 0.3 }}>
               {/* Outer brain shape */}
               <ellipse
                 cx="100"
@@ -109,7 +117,7 @@ export default function BrainMRI({ className = "", size = 400 }: BrainMRIProps) 
                 stroke="rgba(34, 211, 238, 0.4)"
                 strokeWidth="0.5"
               />
-            </g>
+            </motion.g>
           ))}
 
           {/* Tumor detection highlight */}
@@ -196,7 +204,8 @@ export default function BrainMRI({ className = "", size = 400 }: BrainMRIProps) 
         {/* Scan line */}
         <motion.div
           className="absolute left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-cyan-400 to-transparent"
-          style={{ top: `${scanLine}%` }}
+          animate={{ top: `${scanLine}%` }}
+          transition={{ duration: 0 }}
         />
 
         {/* Corner brackets */}
@@ -206,14 +215,15 @@ export default function BrainMRI({ className = "", size = 400 }: BrainMRIProps) 
         <div className="absolute bottom-2 right-2 w-6 h-6 border-r-2 border-b-2 border-cyan-500/60" />
       </div>
 
-      {/* Data readouts */}
-      <div className="absolute -right-4 top-1/4 text-[10px] font-mono text-cyan-400/80 space-y-1">
+      {/* Data readouts - right side */}
+      <div className="absolute -right-4 top-1/4 text-xs font-mono text-cyan-400 space-y-1">
         <div>SLICE: {String(activeSlice + 1).padStart(2, "0")}/12</div>
         <div>RES: 256x256</div>
         <div>T2W FLAIR</div>
       </div>
 
-      <div className="absolute -left-4 bottom-1/4 text-[10px] font-mono text-emerald-400/80 space-y-1 text-right">
+      {/* Data readouts - left side */}
+      <div className="absolute -left-4 bottom-1/4 text-xs font-mono text-emerald-400 space-y-1 text-right">
         <div>AI CONF: 94.2%</div>
         <div>PROC: ACTIVE</div>
         <motion.div

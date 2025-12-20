@@ -1,7 +1,6 @@
 export interface Skill {
   name: string;
   icon?: string;
-  level: number; // 1-100
 }
 
 export interface SkillCategory {
@@ -17,12 +16,12 @@ export const skillCategories: SkillCategory[] = [
     title: "Medical AI & Imaging",
     icon: "",
     skills: [
-      { name: "Medical Image Analysis", level: 92 },
-      { name: "MRI/CT Reconstruction", level: 88 },
-      { name: "Image Segmentation (U-Net)", level: 90 },
-      { name: "DICOM Processing", level: 85 },
-      { name: "MONAI Framework", level: 82 },
-      { name: "VarNet Architecture", level: 85 },
+      { name: "Medical Image Analysis" },
+      { name: "MRI/CT Reconstruction" },
+      { name: "Image Segmentation (U-Net)" },
+      { name: "VarNet Architecture" },
+      { name: "MONAI Framework" },
+      { name: "DICOM Processing" },
     ],
   },
   {
@@ -30,12 +29,12 @@ export const skillCategories: SkillCategory[] = [
     title: "Deep Learning & ML",
     icon: "",
     skills: [
-      { name: "PyTorch", level: 95 },
-      { name: "TensorFlow/Keras", level: 90 },
-      { name: "CNNs & Vision Models", level: 92 },
-      { name: "NLP & Transformers", level: 88 },
-      { name: "Multi-Modal Learning", level: 85 },
-      { name: "Explainable AI (XAI)", level: 82 },
+      { name: "PyTorch" },
+      { name: "CNNs & Vision Models" },
+      { name: "TensorFlow/Keras" },
+      { name: "NLP & Transformers" },
+      { name: "Multi-Modal Learning" },
+      { name: "Explainable AI (XAI)" },
     ],
   },
   {
@@ -43,11 +42,11 @@ export const skillCategories: SkillCategory[] = [
     title: "Bioinformatics",
     icon: "",
     skills: [
-      { name: "Genomic Data Analysis", level: 85 },
-      { name: "Gene Expression", level: 82 },
-      { name: "Bioinformatics Pipelines", level: 80 },
-      { name: "Statistical Genetics", level: 78 },
-      { name: "R/Bioconductor", level: 80 },
+      { name: "Genomic Data Analysis" },
+      { name: "Bioinformatics Pipelines" },
+      { name: "Gene Expression" },
+      { name: "R/Bioconductor" },
+      { name: "Statistical Genetics" },
     ],
   },
   {
@@ -55,12 +54,12 @@ export const skillCategories: SkillCategory[] = [
     title: "Programming",
     icon: "",
     skills: [
-      { name: "Python", level: 95 },
-      { name: "Java", level: 85 },
-      { name: "C++", level: 80 },
-      { name: "R", level: 78 },
-      { name: "MATLAB", level: 80 },
-      { name: "SQL", level: 85 },
+      { name: "Python" },
+      { name: "SQL" },
+      { name: "Java" },
+      { name: "C++" },
+      { name: "MATLAB" },
+      { name: "R" },
     ],
   },
   {
@@ -68,12 +67,12 @@ export const skillCategories: SkillCategory[] = [
     title: "Cloud & Infrastructure",
     icon: "",
     skills: [
-      { name: "AWS (S3, EC2, SageMaker)", level: 85 },
-      { name: "Google Cloud Platform", level: 82 },
-      { name: "Docker", level: 88 },
-      { name: "Kubernetes", level: 78 },
-      { name: "HPC/SLURM", level: 80 },
-      { name: "GPU Computing (CUDA)", level: 85 },
+      { name: "Docker" },
+      { name: "GPU Computing (CUDA)" },
+      { name: "AWS (S3, EC2, SageMaker)" },
+      { name: "Google Cloud Platform" },
+      { name: "HPC/SLURM" },
+      { name: "Kubernetes" },
     ],
   },
   {
@@ -81,29 +80,27 @@ export const skillCategories: SkillCategory[] = [
     title: "Research & Analysis",
     icon: "",
     skills: [
-      { name: "Research Methodology", level: 92 },
-      { name: "Statistical Analysis", level: 88 },
-      { name: "Scientific Writing", level: 85 },
-      { name: "Data Visualization", level: 88 },
-      { name: "Clinical Data Analysis", level: 82 },
-      { name: "IRB/HIPAA Compliance", level: 78 },
+      { name: "Research Methodology" },
+      { name: "Statistical Analysis" },
+      { name: "Data Visualization" },
+      { name: "Scientific Writing" },
+      { name: "Clinical Data Analysis" },
+      { name: "IRB/HIPAA Compliance" },
     ],
   },
 ];
 
 export const technologies = [
-  // Medical AI
-  "PyTorch", "MONAI", "VarNet", "U-Net", "DICOM",
-  // ML/DL
-  "TensorFlow", "Transformers", "CNNs", "LSTMs",
-  // Bioinformatics
-  "Bioconductor", "Genomics", "R",
-  // Programming
-  "Python", "Java", "C++", "SQL",
-  // Cloud
-  "AWS", "GCP", "Docker", "CUDA",
-  // Data
-  "Pandas", "NumPy", "Scikit-learn", "Matplotlib"
+  // Medical AI Frameworks
+  "MONAI", "VarNet", "U-Net", "DICOM", "Bioconductor", "Genomics",
+  // ML/DL Frameworks
+  "PyTorch", "TensorFlow", "Transformers", "CNNs", "LSTMs", "Scikit-learn",
+  // Programming Languages
+  "Python", "Java", "C++", "R", "SQL", "MATLAB",
+  // Cloud & Infrastructure
+  "AWS", "GCP", "Docker", "Kubernetes", "CUDA",
+  // Data Science Tools
+  "Pandas", "NumPy", "Matplotlib", "OpenCV", "Hugging Face",
 ];
 
 export const medicalDomains = [

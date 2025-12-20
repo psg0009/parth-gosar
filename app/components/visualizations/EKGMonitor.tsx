@@ -15,38 +15,79 @@ export default function EKGMonitor({
   label = "NEURAL ACTIVITY",
 }: EKGMonitorProps) {
   const [points, setPoints] = useState<number[]>([]);
+  const [heartRate, setHeartRate] = useState(72);
+  const [amplitude, setAmplitude] = useState(0.92);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const indexRef = useRef(0);
+
+  // Stable heart rate that changes occasionally
+  useEffect(() => {
+    const rateInterval = setInterval(() => {
+      setHeartRate(Math.floor(68 + Math.random() * 15));
+      setAmplitude(0.85 + Math.random() * 0.2);
+    }, 3000);
+    return () => clearInterval(rateInterval);
+  }, []);
 
   useEffect(() => {
-    // Generate EKG-like pattern
+    // Generate EKG-like pattern with proper heartbeat shape
     const generatePoint = (index: number) => {
-      const baseNoise = Math.sin(index * 0.1) * 5 + Math.random() * 3;
+      // Create a realistic ECG waveform cycle (about 50 points per beat)
+      const cyclePos = index % 50;
 
-      // Create QRS complex pattern periodically
-      const cyclePos = index % 60;
-      if (cyclePos >= 20 && cyclePos <= 22) {
-        return -15 + Math.random() * 5; // P wave
-      } else if (cyclePos >= 25 && cyclePos <= 26) {
-        return -20; // Q
-      } else if (cyclePos >= 27 && cyclePos <= 29) {
-        return 40 + Math.random() * 10; // R peak
-      } else if (cyclePos >= 30 && cyclePos <= 32) {
-        return -25; // S
-      } else if (cyclePos >= 38 && cyclePos <= 42) {
-        return 15 + Math.random() * 5; // T wave
+      // Baseline with slight variation
+      const baseline = Math.sin(index * 0.05) * 2;
+
+      // P wave (atrial depolarization) - small bump
+      if (cyclePos >= 5 && cyclePos <= 10) {
+        const t = (cyclePos - 5) / 5;
+        return baseline + Math.sin(t * Math.PI) * 8;
       }
-      return baseNoise;
+      // PR segment (flat)
+      else if (cyclePos >= 11 && cyclePos <= 14) {
+        return baseline;
+      }
+      // Q wave (small downward)
+      else if (cyclePos >= 15 && cyclePos <= 16) {
+        return baseline - 8;
+      }
+      // R wave (sharp upward spike - the main heartbeat peak)
+      else if (cyclePos >= 17 && cyclePos <= 19) {
+        const t = (cyclePos - 17) / 2;
+        if (t < 0.5) {
+          return baseline + t * 2 * 35; // Going up
+        } else {
+          return baseline + (1 - t) * 2 * 35; // Coming down
+        }
+      }
+      // S wave (sharp downward)
+      else if (cyclePos >= 20 && cyclePos <= 22) {
+        const t = (cyclePos - 20) / 2;
+        return baseline - 15 + t * 15;
+      }
+      // ST segment (flat, slightly elevated)
+      else if (cyclePos >= 23 && cyclePos <= 28) {
+        return baseline + 2;
+      }
+      // T wave (repolarization - rounded bump)
+      else if (cyclePos >= 29 && cyclePos <= 38) {
+        const t = (cyclePos - 29) / 9;
+        return baseline + Math.sin(t * Math.PI) * 12;
+      }
+      // Return to baseline
+      return baseline;
     };
 
     const interval = setInterval(() => {
       setPoints((prev) => {
-        const newPoints = [...prev, generatePoint(prev.length)];
+        indexRef.current += 1;
+        const newPoints = [...prev, generatePoint(indexRef.current)];
         if (newPoints.length > 150) {
           return newPoints.slice(-150);
         }
         return newPoints;
       });
-    }, 30);
+    }, 25);
 
     return () => clearInterval(interval);
   }, []);
@@ -112,19 +153,18 @@ export default function EKGMonitor({
   }, [points, color]);
 
   return (
-    <div className={`relative bg-cyber-black/50 rounded-lg border border-cyan-500/20 p-3 ${className}`}>
+    <div className={`relative bg-transparent rounded-lg border border-cyan-500/10 p-3 ${className}`}>
       {/* Header */}
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center gap-2">
           <motion.span
-            className="w-2 h-2 rounded-full"
-            style={{ backgroundColor: color }}
+            className="w-2 h-2 rounded-full bg-cyan-400"
             animate={{ opacity: [1, 0.3, 1] }}
             transition={{ duration: 1, repeat: Infinity }}
           />
           <span className="text-[10px] font-mono text-white/60">{label}</span>
         </div>
-        <span className="text-[10px] font-mono" style={{ color }}>
+        <span className="text-[10px] font-mono text-cyan-400">
           LIVE
         </span>
       </div>
@@ -139,8 +179,8 @@ export default function EKGMonitor({
 
       {/* Stats */}
       <div className="flex justify-between mt-2 text-[9px] font-mono text-white/40">
-        <span>RATE: {Math.floor(60 + Math.random() * 20)} BPM</span>
-        <span>AMP: {(0.8 + Math.random() * 0.4).toFixed(2)} mV</span>
+        <span>RATE: {heartRate} BPM</span>
+        <span>AMP: {amplitude.toFixed(2)} mV</span>
       </div>
     </div>
   );

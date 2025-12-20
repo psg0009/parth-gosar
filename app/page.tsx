@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Preloader from "./components/Preloader";
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
+import BackToTop from "./components/ui/BackToTop";
 import HeroSection from "./components/sections/HeroSection";
 import AboutSection from "./components/sections/AboutSection";
 import FeaturesSection from "./components/sections/FeaturesSection";
@@ -66,6 +67,9 @@ export default function Home() {
 
         <Footer />
       </div>
+
+      {/* Back to Top Button - Outside main content wrapper so it's always accessible */}
+      <BackToTop />
     </>
   );
 }

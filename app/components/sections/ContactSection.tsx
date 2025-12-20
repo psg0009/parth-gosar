@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useIntersection } from "@/app/hooks/useIntersection";
 import { Mail, MapPin, Github, Linkedin, Copy, Check, ExternalLink, Sparkles } from "lucide-react";
 import { useState } from "react";
+import FlowingBackground from "../visualizations/FlowingBackground";
 
 const contactInfo = [
   {
@@ -45,15 +46,6 @@ const socialLinks = [
   },
 ];
 
-const interests = [
-  "Medical AI",
-  "Deep Learning",
-  "Healthcare Tech",
-  "Research Collaboration",
-  "Bioinformatics",
-  "Open Source",
-];
-
 export default function ContactSection() {
   const { ref, isVisible } = useIntersection<HTMLElement>({ threshold: 0.1 });
   const [copied, setCopied] = useState(false);
@@ -67,59 +59,11 @@ export default function ContactSection() {
 
   return (
     <section id="contact" ref={ref} className="section relative overflow-hidden">
-      {/* Animated Background */}
-      <div className="absolute inset-0">
-        {/* Grid pattern */}
-        <div className="absolute inset-0 opacity-10">
-          <svg className="w-full h-full">
-            <defs>
-              <pattern id="contact-grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                <circle cx="20" cy="20" r="1" fill="rgba(0, 255, 136, 0.5)" />
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#contact-grid)" />
-          </svg>
-        </div>
+      {/* Flowing Background - unified with other sections */}
+      <FlowingBackground />
 
-        {/* Gradient orbs */}
-        <motion.div
-          className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-[150px]"
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.3, 0.5, 0.3],
-          }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.div
-          className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-[150px]"
-          animate={{
-            scale: [1.2, 1, 1.2],
-            opacity: [0.5, 0.3, 0.5],
-          }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        />
-
-        {/* Floating particles */}
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-1 h-1 rounded-full bg-primary/40"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              y: [0, -30, 0],
-              opacity: [0.2, 0.8, 0.2],
-            }}
-            transition={{
-              duration: 3 + Math.random() * 2,
-              repeat: Infinity,
-              delay: Math.random() * 2,
-            }}
-          />
-        ))}
-      </div>
+      {/* Green/Primary theme for Contact */}
+      <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-emerald-500/5 to-transparent pointer-events-none" />
 
       <div className="relative container-custom">
         {/* Section Header */}
@@ -133,12 +77,12 @@ export default function ContactSection() {
             whileHover={{ scale: 1.02 }}
           >
             <Sparkles size={16} className="text-primary" />
-            <span className="text-primary text-sm font-mono tracking-wider">GET IN TOUCH</span>
+            <span className="text-primary text-sm font-mono tracking-wider">LET'S CONNECT</span>
             <Sparkles size={16} className="text-primary" />
           </motion.div>
 
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            Let's <span className="bg-gradient-to-r from-primary via-cyan-400 to-purple-400 bg-clip-text text-transparent">Connect</span>
+            Start a <span className="bg-gradient-to-r from-primary via-cyan-400 to-purple-400 bg-clip-text text-transparent">Conversation</span>
           </h2>
           <p className="text-white/60 max-w-2xl mx-auto">
             Interested in research collaboration, AI projects, or healthcare innovation? Let's build something amazing together.
@@ -269,26 +213,10 @@ export default function ContactSection() {
 
               {/* Content */}
               <div className="relative h-full flex flex-col items-center justify-center p-8 text-center">
-                {/* Availability badge */}
-                <motion.div
-                  className="flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/30 mb-6"
-                  animate={{ scale: [1, 1.02, 1] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                >
-                  <span className="relative flex h-2.5 w-2.5">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
-                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary" />
-                  </span>
-                  <span className="text-sm font-medium text-primary">Available for Opportunities</span>
-                </motion.div>
-
                 {/* Main text */}
-                <h3 className="text-2xl font-bold text-white mb-3">
+                <h3 className="text-2xl font-bold text-white mb-8">
                   Ready to Collaborate?
                 </h3>
-                <p className="text-white/50 text-sm mb-8 max-w-xs">
-                  Open to research roles, investments, and collaborations
-                </p>
 
                 {/* Email CTA */}
                 <motion.a
@@ -303,24 +231,6 @@ export default function ContactSection() {
                   <span className="relative text-primary font-semibold group-hover:text-white transition-colors">Send me an email</span>
                   <Mail size={18} className="relative text-primary group-hover:text-white transition-colors" />
                 </motion.a>
-
-                {/* Interests */}
-                <div className="mt-8 pt-6 border-t border-white/10 w-full">
-                  <p className="text-xs text-white/30 uppercase tracking-wider mb-3">Interested in</p>
-                  <div className="flex flex-wrap justify-center gap-2">
-                    {interests.map((interest, i) => (
-                      <motion.span
-                        key={interest}
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={isVisible ? { opacity: 1, scale: 1 } : {}}
-                        transition={{ delay: 0.6 + i * 0.05 }}
-                        className="px-3 py-1 text-xs rounded-full bg-white/5 border border-white/10 text-white/60 hover:border-primary/30 hover:text-primary transition-all cursor-default"
-                      >
-                        {interest}
-                      </motion.span>
-                    ))}
-                  </div>
-                </div>
 
                 {/* Decorative corner elements */}
                 <div className="absolute top-4 right-4 flex gap-1">
@@ -416,47 +326,6 @@ export default function ContactSection() {
               );
             })}
 
-            {/* Quick response card */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isVisible ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.6 }}
-              className="relative overflow-hidden rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/10 to-transparent p-6"
-            >
-              {/* Decorative elements */}
-              <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-3xl" />
-
-              <div className="relative">
-                <div className="flex items-center gap-3 mb-3">
-                  <motion.div
-                    animate={{ rotate: [0, 360] }}
-                    transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-                  >
-                    <Sparkles size={20} className="text-primary" />
-                  </motion.div>
-                  <span className="text-sm font-semibold text-primary">Quick Response</span>
-                </div>
-                <p className="text-sm text-white/60 leading-relaxed">
-                  I typically respond within 24-48 hours. Looking forward to hearing from you!
-                </p>
-
-                {/* Response time indicator */}
-                <div className="mt-4 pt-4 border-t border-white/5">
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="text-white/40">Avg. response time</span>
-                    <span className="text-primary font-mono">~24 hrs</span>
-                  </div>
-                  <div className="mt-2 h-1 rounded-full bg-white/10 overflow-hidden">
-                    <motion.div
-                      className="h-full bg-gradient-to-r from-primary to-cyan-400 rounded-full"
-                      initial={{ width: 0 }}
-                      animate={isVisible ? { width: "85%" } : {}}
-                      transition={{ duration: 1.5, delay: 0.8 }}
-                    />
-                  </div>
-                </div>
-              </div>
-            </motion.div>
           </motion.div>
         </div>
       </div>

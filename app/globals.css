@@ -1315,3 +1315,96 @@ a {
   0%, 100% { opacity: 0.3; transform: scale(1); }
   50% { opacity: 1; transform: scale(1.1); }
 }
+
+/* Healthcare pulse animation - moves along DNA/ECG path */
+.healthcare-pulse-travel {
+  animation: pulse-travel 4s linear infinite;
+}
+
+@keyframes pulse-travel {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(400px); }
+}
+
+/* HeroSection visualization styles */
+.hero-brain-hologram {
+  z-index: -1;
+  perspective: 500px;
+}
+
+.hero-matrix-stream {
+  z-index: -1;
+}
+
+.hero-ai-concepts {
+  z-index: -2;
+}
+
+.hero-dna-svg {
+  z-index: -1;
+}
+
+.hero-heart-container {
+  perspective: 100px;
+  z-index: -1;
+}
+
+.hero-medical-symbols {
+  z-index: -2;
+}
+
+.hero-bg-size-200 {
+  background-size: 200% 200%;
+}
+
+/* Preserve 3D transform */
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+/* DNAHelix styles */
+.dna-helix-container {
+  position: relative;
+}
+
+/* BrainMRI styles */
+.brain-mri-size {
+  width: var(--brain-size, 400px);
+  height: var(--brain-size, 400px);
+}
+
+/* Visualization dynamic sizing */
+.viz-size-70 { width: 70px; height: 70px; }
+.viz-size-85 { width: 85px; height: 85px; }
+.viz-size-90 { width: 90px; height: 90px; }
+.viz-size-100 { width: 100px; height: 100px; }
+.viz-size-120 { width: 120px; height: 120px; }
+.viz-size-150 { width: 150px; height: 150px; }
+.viz-size-200 { width: 200px; height: 200px; }
+.viz-size-250 { width: 250px; height: 250px; }
+.viz-size-280 { width: 280px; height: 280px; }
+.viz-size-300 { width: 300px; height: 300px; }
+.viz-size-320 { width: 320px; height: 320px; }
+.viz-size-350 { width: 350px; height: 350px; }
+.viz-size-400 { width: 400px; height: 400px; }
+
+/* DNAHelix height styles */
+.dna-h-150 { height: 150px; width: 75px; }
+.dna-h-200 { height: 200px; width: 100px; }
+.dna-h-220 { height: 220px; width: 100px; }
+.dna-h-250 { height: 250px; width: 100px; }
+.dna-h-300 { height: 300px; width: 100px; }
+
+/* BrainMRI slice opacity classes */
+.slice-opacity-0 { opacity: 0.1; }
+.slice-opacity-1 { opacity: 0.4; }
+.slice-opacity-2 { opacity: 0.7; }
+.slice-opacity-3 { opacity: 1; }
+
+/* 3D Perspective utilities */
+.perspective-1000 {
+  perspective: 1000px;
+}
+.perspective-500 {
+  perspective: 500px;
+}

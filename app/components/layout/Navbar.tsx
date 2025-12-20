@@ -8,12 +8,12 @@ import Button from "../ui/Button";
 import Image from "next/image";
 
 const navLinks = [
-  { href: "#about", label: "About" },
+  { href: "#about", label: "Profile" },
   { href: "#research", label: "Research" },
-  { href: "#experience", label: "Experience" },
-  { href: "#projects", label: "Projects" },
-  { href: "#skills", label: "Skills" },
-  { href: "#contact", label: "Contact" },
+  { href: "#experience", label: "Timeline" },
+  { href: "#projects", label: "Portfolio" },
+  { href: "#skills", label: "Expertise" },
+  { href: "#contact", label: "Connect" },
 ];
 
 const socialLinks = [
@@ -71,17 +71,16 @@ export default function Navbar() {
         <div className="container-custom">
           <nav className="flex items-center justify-between">
             {/* Logo with Profile Photo */}
-            <motion.a
-              href="#"
-              className="flex items-center gap-3 text-xl md:text-2xl font-display font-bold tracking-wider"
-              whileHover={{ scale: 1.02 }}
-              onClick={(e) => {
-                e.preventDefault();
-                window.scrollTo({ top: 0, behavior: "smooth" });
-              }}
-            >
-              {/* Profile Photo */}
-              <div className="relative">
+            <div className="flex items-center gap-3 text-xl md:text-2xl font-display font-bold tracking-wider">
+              {/* Profile Photo - clicks to open full image in new tab */}
+              <motion.a
+                href="/author_image.jpg"
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.02 }}
+                className="relative cursor-pointer block"
+                title="Click to view full photo"
+              >
                 {/* Animated ring */}
                 <motion.div
                   className="absolute -inset-1.5 rounded-full bg-gradient-to-r from-cyan-400 via-emerald-400 to-primary opacity-80"
@@ -94,18 +93,25 @@ export default function Navbar() {
                     src="/author_image.jpg"
                     alt="Parth Gosar"
                     fill
-                    className="object-cover object-top scale-110"
+                    className="object-cover object-[52%_18%] scale-[1.3]"
                     priority
                   />
                 </div>
                 {/* Status dot */}
                 <span className="absolute bottom-1 right-1 w-5 h-5 rounded-full bg-emerald-400 border-2 border-cyber-black" />
-              </div>
+              </motion.a>
 
-              <span className="text-cyan-400">PARTH</span>
-              <span className="text-white/60">/</span>
-              <span className="text-white">GOSAR</span>
-            </motion.a>
+              {/* Name - clicks to email */}
+              <motion.a
+                href="mailto:gosar@usc.edu?subject=Let's%20Connect%20-%20From%20Your%20Portfolio"
+                className="flex items-center gap-3 hover:opacity-80 transition-opacity"
+                whileHover={{ scale: 1.02 }}
+              >
+                <span className="text-cyan-400">PARTH</span>
+                <span className="text-white/60">/</span>
+                <span className="text-white">GOSAR</span>
+              </motion.a>
+            </div>
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center gap-8">
@@ -241,6 +247,7 @@ export default function Navbar() {
           </motion.div>
         )}
       </AnimatePresence>
+
     </>
   );
 }

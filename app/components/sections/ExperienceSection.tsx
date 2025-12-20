@@ -5,8 +5,10 @@ import { useIntersection } from "@/app/hooks/useIntersection";
 import { ExternalLink, Briefcase, FlaskConical, GraduationCap, BookOpen, Award, Newspaper, Users, ChevronRight, Sparkles, MapPin, Calendar, ArrowUpRight, Globe, Rocket, Star, Target, Activity, TrendingUp, Crown, Trophy, Building, User, FileText } from "lucide-react";
 import Card from "../ui/Card";
 import Badge from "../ui/Badge";
-import { experiences, education, awards, newsArticles, iscJourney, additionalLeadership, publications } from "@/app/constants/experience";
+import { experiences, education, awards, newsArticles, iscJourney, additionalLeadership, publications, leadership } from "@/app/constants/experience";
 import { useState, useRef, useEffect } from "react";
+import FlowingBackground from "../visualizations/FlowingBackground";
+import TabThemeBackground from "../visualizations/TabThemeBackgrounds";
 
 // ============================================
 // GALAXY JOURNEY VISUALIZATION
@@ -122,9 +124,10 @@ function FloatingParticles() {
   );
 }
 
-// Galaxy orbital path visualization - Grid-based layout (no inline styles)
+// Galaxy orbital path visualization - Elliptical layout around center
 function GalaxyOrbit({ selectedNode, onNodeSelect }: { selectedNode: string | null; onNodeSelect: (id: string) => void }) {
   const colorClasses = nodeColorClasses;
+  const selectedMilestone = journeyMilestones.find(n => n.id === selectedNode) || null;
 
   // Node sizes for Tailwind classes
   const nodeSizeClasses = {
@@ -133,51 +136,70 @@ function GalaxyOrbit({ selectedNode, onNodeSelect }: { selectedNode: string | nu
     sm: "w-10 h-10",
   };
 
-  // Grid positions for nodes (using CSS grid areas)
-  const gridPositions = [
-    "col-start-3 row-start-1", // psu-start - top center
-    "col-start-5 row-start-1", // isc-join - top right
-    "col-start-6 row-start-2", // upua - right upper
-    "col-start-6 row-start-3", // research-start - right middle
-    "col-start-5 row-start-4", // finance-dir - right lower
-    "col-start-4 row-start-5", // nlp-intern - bottom right
-    "col-start-3 row-start-5", // isc-president - bottom center
-    "col-start-2 row-start-5", // cob - bottom left
-    "col-start-1 row-start-4", // insurespectre - left lower
-    "col-start-1 row-start-3", // oswald - left middle
-    "col-start-1 row-start-2", // usc-start - left upper
-    "col-start-2 row-start-1", // usc-research - top left
-  ];
+  // Calculate elliptical positions around center - wide horizontal ellipse
+  const getNodePosition = (index: number, total: number) => {
+    const angle = (index / total) * 2 * Math.PI - Math.PI / 2; // Start from top
+    const radiusX = 46; // Horizontal radius (percentage) - wider
+    const radiusY = 32; // Vertical radius (percentage) - shorter for clear ellipse
+    const x = 50 + radiusX * Math.cos(angle);
+    const y = 50 + radiusY * Math.sin(angle);
+    return { x, y };
+  };
+
+  // Generate SVG path for ellipse that passes through nodes
+  const generateEllipsePath = () => {
+    // Use same radiusX and radiusY as getNodePosition
+    const radiusX = 46;
+    const radiusY = 32;
+    // SVG ellipse path: M (start) A (arc) ... Z (close)
+    return `M ${50 + radiusX},50 A ${radiusX},${radiusY} 0 1,1 ${50 - radiusX},50 A ${radiusX},${radiusY} 0 1,1 ${50 + radiusX},50`;
+  };
 
   return (
     <div className="relative w-full py-8">
-      {/* Central glow */}
-      <motion.div
-        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-r from-primary/30 via-secondary/20 to-accent/30 blur-3xl w-[200px] h-[200px] pointer-events-none"
-        animate={{
-          scale: [1, 1.2, 1],
-          opacity: [0.3, 0.5, 0.3],
-        }}
-        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-      />
+      {/* Elliptical node layout - contains everything */}
+      <div className="relative w-full aspect-[4/3] max-w-4xl mx-auto min-h-[450px] md:min-h-[550px]">
+        {/* Elliptical orbit path - drawn through node positions */}
+        <svg
+          className="absolute inset-0 w-full h-full pointer-events-none"
+          style={{ overflow: 'visible' }}
+        >
+          <ellipse
+            cx="50%"
+            cy="50%"
+            rx="46%"
+            ry="32%"
+            fill="none"
+            stroke="rgba(139, 92, 246, 0.4)"
+            strokeWidth="2"
+            strokeDasharray="8 6"
+          />
+        </svg>
 
-      {/* Center label */}
-      <motion.div
-        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center text-center w-40 pointer-events-none z-10"
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 1 }}
-      >
-        <span className="text-2xl font-bold gradient-text">Journey</span>
-        <span className="text-xs text-white/50 font-mono">2022 - Present</span>
-      </motion.div>
+        {/* Central glow - centered in node container */}
+        <motion.div
+          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-r from-primary/30 via-secondary/20 to-accent/30 blur-3xl w-[180px] h-[180px] pointer-events-none"
+          animate={{
+            scale: [1, 1.2, 1],
+            opacity: [0.3, 0.5, 0.3],
+          }}
+          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+        />
 
-      {/* Grid-based node layout */}
-      <div className="grid grid-cols-6 grid-rows-5 gap-4 md:gap-6 max-w-4xl mx-auto px-4 min-h-[400px] md:min-h-[500px]">
+        {/* Center label - centered in node container */}
+        <motion.div
+          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center text-center pointer-events-none z-10"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 1 }}
+        >
+          <span className="text-3xl md:text-4xl font-bold gradient-text">Journey</span>
+          <span className="text-xs text-white/50 font-mono mt-1">2022 - Present</span>
+        </motion.div>
         {journeyMilestones.map((node, index) => {
-          const isSelected = selectedNode === node.id;
           const colors = colorClasses[node.colorKey];
           const sizeClass = nodeSizeClasses[node.size];
+          const pos = getNodePosition(index, journeyMilestones.length);
 
           const pulseColorClass = {
             cyan: "bg-cyan-400",
@@ -187,17 +209,18 @@ function GalaxyOrbit({ selectedNode, onNodeSelect }: { selectedNode: string | nu
             amber: "bg-amber-400",
           }[node.colorKey];
 
-          const bgClass = isSelected ? pulseColorClass : "bg-cyber-dark/80";
-          const textClass = isSelected ? "text-black" : colors.text;
-
           return (
             <motion.div
               key={node.id}
-              className={`${gridPositions[index]} flex flex-col items-center justify-center cursor-pointer`}
+              className="absolute flex flex-col items-center group"
+              style={{
+                left: `${pos.x}%`,
+                top: `${pos.y}%`,
+                transform: "translate(-50%, -50%)",
+              }}
               initial={{ scale: 0, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ delay: index * 0.08, type: "spring", stiffness: 200 }}
-              onClick={() => onNodeSelect(node.id)}
             >
               <div className="relative">
                 {/* Pulse ring for highlighted nodes */}
@@ -212,23 +235,12 @@ function GalaxyOrbit({ selectedNode, onNodeSelect }: { selectedNode: string | nu
                   />
                 )}
 
-                {/* Selection ring */}
-                {isSelected && (
-                  <motion.div
-                    className={`absolute -inset-2 rounded-full border-2 ${colors.border}`}
-                    initial={{ scale: 0.8, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    transition={{ type: "spring" }}
-                  />
-                )}
-
                 {/* Node */}
                 <motion.div
-                  className={`relative flex items-center justify-center rounded-full border-2 backdrop-blur-sm ${sizeClass} ${bgClass} ${colors.border} shadow-lg`}
-                  whileHover={{ scale: 1.15 }}
-                  whileTap={{ scale: 0.95 }}
+                  className={`relative flex items-center justify-center rounded-full border-2 backdrop-blur-sm ${sizeClass} bg-black/20 ${colors.border} shadow-lg`}
+                  whileHover={{ scale: 1.1 }}
                 >
-                  <span className={textClass}>{node.icon}</span>
+                  <span className={colors.text}>{node.icon}</span>
                 </motion.div>
               </div>
 
@@ -241,82 +253,22 @@ function GalaxyOrbit({ selectedNode, onNodeSelect }: { selectedNode: string | nu
               >
                 {node.year}
               </motion.div>
+
+              {/* Hover tooltip with label */}
+              <div className="absolute -top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
+                <div className="px-3 py-1.5 rounded-lg bg-black/90 backdrop-blur-sm border border-white/20 whitespace-nowrap shadow-lg">
+                  <span className="text-xs text-white/90">{node.label}</span>
+                </div>
+              </div>
             </motion.div>
           );
         })}
+
       </div>
     </div>
   );
 }
 
-// Selected node detail card
-function NodeDetailCard({ node }: { node: GalaxyNode | null }) {
-  if (!node) return null;
-
-  const colorClasses = nodeColorClasses[node.colorKey];
-  const borderColorClass = {
-    cyan: "border-l-cyan-400",
-    purple: "border-l-violet-500",
-    pink: "border-l-pink-400",
-    green: "border-l-emerald-400",
-    amber: "border-l-amber-400",
-  }[node.colorKey];
-
-  const bgColorClass = {
-    cyan: "bg-cyan-400/20 border-cyan-400/40",
-    purple: "bg-violet-500/20 border-violet-500/40",
-    pink: "bg-pink-400/20 border-pink-400/40",
-    green: "bg-emerald-400/20 border-emerald-400/40",
-    amber: "bg-amber-400/20 border-amber-400/40",
-  }[node.colorKey];
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20, scale: 0.95 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={{ opacity: 0, y: -20, scale: 0.95 }}
-      transition={{ type: "spring", stiffness: 300, damping: 25 }}
-      className="relative overflow-hidden"
-    >
-      <Card variant="glass" padding="lg" className={`border-l-4 ${borderColorClass}`}>
-        {/* Animated background gradient */}
-        <motion.div
-          className={`absolute inset-0 opacity-20 bg-gradient-radial from-current to-transparent ${colorClasses.text}`}
-          animate={{ opacity: [0.1, 0.2, 0.1] }}
-          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-        />
-
-        <div className="relative">
-          <div className="flex items-start gap-4">
-            <motion.div
-              className={`w-14 h-14 rounded-2xl flex items-center justify-center border ${bgColorClass}`}
-              whileHover={{ rotate: 10 }}
-            >
-              <span className={colorClasses.text}>{node.icon}</span>
-            </motion.div>
-            <div className="flex-1">
-              <div className="flex items-center gap-2 mb-1">
-                <h3 className="text-xl font-bold text-white">{node.label}</h3>
-                {node.highlight && (
-                  <motion.span
-                    animate={{ rotate: [0, 10, -10, 0] }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                  >
-                    <Star size={16} className="text-yellow-400 fill-yellow-400" />
-                  </motion.span>
-                )}
-              </div>
-              <p className="text-white/70">{node.description}</p>
-              <Badge variant="outline" size="sm" className={`mt-2 ${colorClasses.border} ${colorClasses.text}`}>
-                {node.year}
-              </Badge>
-            </div>
-          </div>
-        </div>
-      </Card>
-    </motion.div>
-  );
-}
 
 // ============================================
 // TABS AND CONTENT SECTIONS
@@ -337,7 +289,6 @@ const tabs = [
 export default function ExperienceSection() {
   const { ref, isVisible } = useIntersection<HTMLElement>({ threshold: 0.1 });
   const [activeTab, setActiveTab] = useState("journey");
-  const [selectedNode, setSelectedNode] = useState<string | null>("oswald");
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -363,7 +314,12 @@ export default function ExperienceSection() {
   };
 
   // Sort function: "Present" first, then by most recent date
+  // Exception: PSG Foundation always appears last
   const sortByDate = (a: typeof experiences[0], b: typeof experiences[0]) => {
+    // PSG Foundation always goes to the end
+    if (a.id === "psg-foundation") return 1;
+    if (b.id === "psg-foundation") return -1;
+
     const getDateValue = (dateStr: string) => {
       if (dateStr === "Present") return Infinity;
       const months: Record<string, number> = { Jan: 1, Feb: 2, Mar: 3, Apr: 4, May: 5, Jun: 6, Jul: 7, Aug: 8, Sep: 9, Oct: 10, Nov: 11, Dec: 12 };
@@ -377,31 +333,16 @@ export default function ExperienceSection() {
   const researchExperiences = experiences.filter((e) => e.type === "research").sort(sortByDate);
   const teachingExperiences = experiences.filter((e) => e.type === "teaching").sort(sortByDate);
 
-  const selectedMilestone = journeyMilestones.find(n => n.id === selectedNode) || null;
-
   return (
     <section id="experience" ref={ref} className="section relative overflow-hidden bg-gradient-to-b from-cyber-dark via-[#0a0a14] to-cyber-dark">
-      {/* Galaxy Background */}
-      <ConstellationBackground />
-      <FloatingParticles />
+      {/* Flowing Background - unified with other sections */}
+      <FlowingBackground />
 
-      {/* Ambient gradient orbs */}
-      <motion.div
-        className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[200px]"
-        animate={{
-          scale: [1, 1.3, 1],
-          x: [0, 50, 0],
-        }}
-        transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <motion.div
-        className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-secondary/10 rounded-full blur-[200px]"
-        animate={{
-          scale: [1.2, 1, 1.2],
-          y: [0, -50, 0],
-        }}
-        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-      />
+      {/* Pink/Purple theme for Experience timeline */}
+      <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-pink-500/5 to-transparent pointer-events-none" />
+
+      {/* Galaxy Background for constellation effect */}
+      <ConstellationBackground />
 
       <div ref={containerRef} className="relative container-custom">
         <motion.div
@@ -423,7 +364,7 @@ export default function ExperienceSection() {
               >
                 <Rocket size={18} className="text-primary" />
               </motion.div>
-              <span className="text-white/80 text-sm font-mono tracking-wider">EXPERIENCE & JOURNEY</span>
+              <span className="text-white/80 text-sm font-mono tracking-wider">TIMELINE</span>
               <motion.div
                 className="w-2 h-2 rounded-full bg-primary"
                 animate={{
@@ -433,7 +374,7 @@ export default function ExperienceSection() {
               />
             </motion.div>
             <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              My <span className="gradient-text">Journey</span>
+              Career <span className="gradient-text">Chronicle</span>
             </h2>
             <p className="text-white/60 max-w-2xl mx-auto">
               From research labs to startup boardrooms — building impactful solutions that shape the future
@@ -457,7 +398,7 @@ export default function ExperienceSection() {
               />
 
               {/* Main container with holographic border */}
-              <div className="relative p-1 rounded-3xl bg-gradient-to-r from-white/10 via-white/5 to-white/10">
+              <div className="relative p-1 rounded-3xl">
                 <motion.div
                   className="absolute inset-0 rounded-3xl opacity-50"
                   style={{
@@ -470,7 +411,7 @@ export default function ExperienceSection() {
                   transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
                 />
 
-                <div className="relative bg-cyber-dark/80 backdrop-blur-2xl rounded-3xl p-6 overflow-hidden">
+                <div className="relative backdrop-blur-sm rounded-3xl p-6 overflow-hidden">
                   {/* Scanline effect */}
                   <motion.div
                     className="absolute inset-0 pointer-events-none opacity-[0.03] scanline-bg"
@@ -535,7 +476,7 @@ export default function ExperienceSection() {
                               relative flex flex-col items-center gap-2 p-4 rounded-2xl
                               border transition-all duration-500 overflow-hidden
                               ${isActive
-                                ? "bg-black/60 border-transparent"
+                                ? "bg-black/30 border-transparent"
                                 : "bg-white/[0.02] border-white/10 hover:border-white/20 hover:bg-white/[0.05]"
                               }
                             `}
@@ -715,100 +656,41 @@ export default function ExperienceSection() {
             </div>
           </motion.div>
 
-          {/* Content Area */}
-          <AnimatePresence mode="wait">
-            {/* JOURNEY TAB - Galaxy Visualization */}
-            {activeTab === "journey" && (
-              <motion.div
-                key="journey"
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.4 }}
-                className="space-y-8"
-              >
-                {/* Galaxy Orbit Visualization */}
+          {/* Content Area with Dynamic Themed Background */}
+          <div className="relative min-h-[600px]">
+            {/* Dynamic Tab Theme Background - Full coverage */}
+            <motion.div
+              key={`bg-${activeTab}`}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5 }}
+              className="absolute -inset-8 rounded-3xl overflow-hidden pointer-events-none"
+              style={{ minHeight: "100%" }}
+            >
+              <TabThemeBackground activeTab={activeTab} />
+            </motion.div>
+
+            <AnimatePresence mode="wait">
+              {/* JOURNEY TAB - Galaxy Visualization */}
+              {activeTab === "journey" && (
                 <motion.div
-                  className="relative rounded-3xl overflow-hidden border border-white/5 bg-gradient-to-b from-cyber-card/50 to-transparent backdrop-blur-sm"
-                  variants={itemVariants}
+                  key="journey"
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.4 }}
+                  className="relative space-y-8"
                 >
-                  <GalaxyOrbit selectedNode={selectedNode} onNodeSelect={setSelectedNode} />
-                </motion.div>
-
-                {/* Selected Node Details */}
-                <div className="grid md:grid-cols-2 gap-6">
-                  <AnimatePresence mode="wait">
-                    <NodeDetailCard key={selectedNode} node={selectedMilestone} />
-                  </AnimatePresence>
-
-                  {/* Quick Journey Stats */}
-                  <motion.div variants={itemVariants}>
-                    <Card variant="glass" padding="lg" className="h-full">
-                      <div className="flex items-center gap-2 mb-6">
-                        <Activity size={18} className="text-primary" />
-                        <span className="font-mono text-sm text-white/60">JOURNEY METRICS</span>
-                      </div>
-                      <div className="grid grid-cols-2 gap-4">
-                        <motion.div
-                          className="stat-cyan p-4 rounded-xl text-center"
-                          initial={{ opacity: 0, scale: 0.8 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{ delay: 0.5 }}
-                          whileHover={{ scale: 1.05 }}
-                        >
-                          <div className="stat-icon flex justify-center mb-2"><Calendar size={16} /></div>
-                          <div className="stat-value text-2xl font-bold font-mono">3+</div>
-                          <div className="text-xs text-white/40">Years Active</div>
-                        </motion.div>
-                        <motion.div
-                          className="stat-purple p-4 rounded-xl text-center"
-                          initial={{ opacity: 0, scale: 0.8 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{ delay: 0.6 }}
-                          whileHover={{ scale: 1.05 }}
-                        >
-                          <div className="stat-icon flex justify-center mb-2"><Briefcase size={16} /></div>
-                          <div className="stat-value text-2xl font-bold font-mono">12+</div>
-                          <div className="text-xs text-white/40">Roles Held</div>
-                        </motion.div>
-                        <motion.div
-                          className="stat-green p-4 rounded-xl text-center"
-                          initial={{ opacity: 0, scale: 0.8 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{ delay: 0.7 }}
-                          whileHover={{ scale: 1.05 }}
-                        >
-                          <div className="stat-icon flex justify-center mb-2"><BookOpen size={16} /></div>
-                          <div className="stat-value text-2xl font-bold font-mono">3+</div>
-                          <div className="text-xs text-white/40">Publications</div>
-                        </motion.div>
-                        <motion.div
-                          className="stat-pink p-4 rounded-xl text-center"
-                          initial={{ opacity: 0, scale: 0.8 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{ delay: 0.8 }}
-                          whileHover={{ scale: 1.05 }}
-                        >
-                          <div className="stat-icon flex justify-center mb-2"><Users size={16} /></div>
-                          <div className="stat-value text-2xl font-bold font-mono">3K+</div>
-                          <div className="text-xs text-white/40">Students Led</div>
-                        </motion.div>
-                      </div>
-                    </Card>
+                  {/* Galaxy Orbit Visualization */}
+                  <motion.div
+                    className="relative overflow-hidden"
+                    variants={itemVariants}
+                  >
+                    <GalaxyOrbit selectedNode={null} onNodeSelect={() => {}} />
                   </motion.div>
-                </div>
-
-                {/* Instruction hint */}
-                <motion.p
-                  className="text-center text-white/40 text-sm"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 1.5 }}
-                >
-                  Click on any node in the orbit to explore that milestone
-                </motion.p>
-              </motion.div>
-            )}
+                </motion.div>
+              )}
 
             {/* WORK TAB */}
             {activeTab === "work" && (
@@ -818,7 +700,7 @@ export default function ExperienceSection() {
                 initial="hidden"
                 animate="visible"
                 exit={{ opacity: 0, x: -20 }}
-                className="space-y-20"
+                className="relative space-y-20"
               >
                 {workExperiences.map((exp, index) => (
                   <motion.div key={exp.id} variants={itemVariants}>
@@ -849,7 +731,7 @@ export default function ExperienceSection() {
                 initial="hidden"
                 animate="visible"
                 exit={{ opacity: 0, x: -20 }}
-                className="space-y-20"
+                className="relative space-y-20"
               >
                 {researchExperiences.map((exp, index) => (
                   <motion.div key={exp.id} variants={itemVariants}>
@@ -881,7 +763,7 @@ export default function ExperienceSection() {
                 initial="hidden"
                 animate="visible"
                 exit={{ opacity: 0, x: -20 }}
-                className="space-y-20"
+                className="relative space-y-20"
               >
                 {teachingExperiences.map((exp, index) => (
                   <motion.div key={exp.id} variants={itemVariants}>
@@ -912,7 +794,7 @@ export default function ExperienceSection() {
                 initial="hidden"
                 animate="visible"
                 exit={{ opacity: 0, x: -20 }}
-                className="space-y-10"
+                className="relative space-y-10"
               >
                 {/* Published - Hero Card Style */}
                 <div className="relative">
@@ -957,7 +839,7 @@ export default function ExperienceSection() {
                         transition={{ delay: i * 0.15, type: "spring", stiffness: 100 }}
                         className="group perspective-1200"
                       >
-                        <div className="relative bg-gradient-to-br from-cyber-surface via-cyber-surface to-primary/5 rounded-2xl border border-primary/30 overflow-hidden hover:border-primary/60 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/20">
+                        <div className="relative bg-gradient-to-br from-black/20 via-black/15 to-primary/10 backdrop-blur-md rounded-2xl border border-primary/30 overflow-hidden hover:border-primary/60 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/20">
                           {/* Animated Background Pattern */}
                           <div className="absolute inset-0 opacity-10">
                             <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(0,255,136,0.1)_50%,transparent_75%)] bg-[length:250%_250%] animate-shimmer" />
@@ -1071,7 +953,7 @@ export default function ExperienceSection() {
                         whileHover={{ x: 8, scale: 1.01 }}
                         className="group"
                       >
-                        <div className="relative bg-cyber-surface rounded-xl border border-secondary/20 overflow-hidden hover:border-secondary/50 transition-all duration-300">
+                        <div className="relative bg-black/15 backdrop-blur-md rounded-xl border border-secondary/20 overflow-hidden hover:border-secondary/50 transition-all duration-300">
                           {/* Left Accent */}
                           <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-secondary via-purple-500 to-pink-500" />
 
@@ -1162,7 +1044,7 @@ export default function ExperienceSection() {
                         whileHover={{ y: -4 }}
                         className="group"
                       >
-                        <div className="relative bg-gradient-to-br from-cyber-surface via-cyber-surface to-cyan-950/30 rounded-xl border border-cyan-500/20 overflow-hidden hover:border-cyan-400/50 transition-all duration-300 hover:shadow-xl hover:shadow-cyan-500/10">
+                        <div className="relative bg-gradient-to-br from-black/20 via-black/15 to-cyan-900/20 backdrop-blur-md rounded-xl border border-cyan-500/20 overflow-hidden hover:border-cyan-400/50 transition-all duration-300 hover:shadow-xl hover:shadow-cyan-500/10">
                           {/* Holographic Corner */}
                           <div className="absolute top-0 right-0 w-24 h-24">
                             <div className="absolute inset-0 bg-gradient-to-bl from-cyan-500/20 via-transparent to-transparent" />
@@ -1253,7 +1135,7 @@ export default function ExperienceSection() {
                 initial="hidden"
                 animate="visible"
                 exit={{ opacity: 0, x: -20 }}
-                className="space-y-8"
+                className="relative space-y-8"
               >
                 {/* Section Header */}
                 <motion.div
@@ -1314,7 +1196,7 @@ export default function ExperienceSection() {
                         </motion.div>
 
                         {/* Education Card */}
-                        <div className="relative bg-gradient-to-br from-cyber-surface via-cyber-surface to-emerald-950/20 rounded-2xl border border-emerald-500/20 overflow-hidden hover:border-emerald-400/50 transition-all duration-500 hover:shadow-2xl hover:shadow-emerald-500/10 group-hover:translate-x-2">
+                        <div className="relative bg-gradient-to-br from-black/20 via-black/15 to-emerald-900/20 backdrop-blur-md rounded-2xl border border-emerald-500/20 overflow-hidden hover:border-emerald-400/50 transition-all duration-500 hover:shadow-2xl hover:shadow-emerald-500/10 group-hover:translate-x-2">
                           {/* Animated Top Border */}
                           <motion.div
                             className="h-1 bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400"
@@ -1430,7 +1312,7 @@ export default function ExperienceSection() {
                 initial="hidden"
                 animate="visible"
                 exit={{ opacity: 0, x: -20 }}
-                className="space-y-8"
+                className="relative space-y-8"
               >
                 {/* Section Header */}
                 <motion.div
@@ -1481,7 +1363,7 @@ export default function ExperienceSection() {
                       whileHover={{ y: -8, scale: 1.02 }}
                       className="group"
                     >
-                      <div className="relative h-full bg-gradient-to-br from-cyber-surface via-cyber-surface to-amber-950/20 rounded-2xl border border-amber-500/20 overflow-hidden hover:border-amber-400/50 transition-all duration-500 hover:shadow-2xl hover:shadow-amber-500/20">
+                      <div className="relative h-full bg-gradient-to-br from-black/20 via-black/15 to-amber-900/20 backdrop-blur-md rounded-2xl border border-amber-500/20 overflow-hidden hover:border-amber-400/50 transition-all duration-500 hover:shadow-2xl hover:shadow-amber-500/20">
                         {/* Golden Shimmer Effect */}
                         <motion.div
                           className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity"
@@ -1579,7 +1461,7 @@ export default function ExperienceSection() {
                 initial="hidden"
                 animate="visible"
                 exit={{ opacity: 0, x: -20 }}
-                className="space-y-8"
+                className="relative space-y-8"
               >
                 {/* Section Header */}
                 <motion.div
@@ -1648,7 +1530,7 @@ export default function ExperienceSection() {
                       className="group"
                     >
                       <a href={article.url} target="_blank" rel="noopener noreferrer" className="block">
-                        <div className="relative bg-gradient-to-br from-cyber-surface via-cyber-surface to-pink-950/20 rounded-2xl border border-pink-500/20 overflow-hidden hover:border-pink-400/50 transition-all duration-500 hover:shadow-2xl hover:shadow-pink-500/10 group-hover:translate-x-3">
+                        <div className="relative bg-gradient-to-br from-black/20 via-black/15 to-pink-900/20 backdrop-blur-md rounded-2xl border border-pink-500/20 overflow-hidden hover:border-pink-400/50 transition-all duration-500 hover:shadow-2xl hover:shadow-pink-500/10 group-hover:translate-x-3">
                           {/* Animated Gradient Sweep */}
                           <motion.div
                             className="absolute inset-0 bg-gradient-to-r from-transparent via-pink-500/5 to-transparent opacity-0 group-hover:opacity-100"
@@ -1739,8 +1621,79 @@ export default function ExperienceSection() {
                 initial="hidden"
                 animate="visible"
                 exit={{ opacity: 0, x: -20 }}
-                className="space-y-10"
+                className="relative space-y-10"
               >
+                {/* Borough Council Section */}
+                {leadership.filter(l => l.id === "cob").map((role) => (
+                  <motion.div
+                    key={role.id}
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="relative"
+                  >
+                    {/* Section Header */}
+                    <div className="flex items-center gap-4 mb-6">
+                      <motion.div
+                        className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-500 flex items-center justify-center shadow-lg shadow-blue-500/30"
+                        whileHover={{ rotate: 10 }}
+                      >
+                        <Building size={24} className="text-white" />
+                      </motion.div>
+                      <div className="flex-1">
+                        <h4 className="text-xl font-bold text-white">Borough Council</h4>
+                        <motion.div
+                          className="h-0.5 bg-gradient-to-r from-blue-500 via-indigo-400 to-transparent mt-1"
+                          initial={{ width: 0 }}
+                          animate={{ width: "100%" }}
+                          transition={{ duration: 0.8 }}
+                        />
+                      </div>
+                    </div>
+
+                    {/* Borough Council Card */}
+                    <motion.div
+                      whileHover={{ y: -4, scale: 1.01 }}
+                      className="relative bg-gradient-to-br from-black/20 via-black/15 to-blue-900/20 backdrop-blur-md rounded-2xl border border-blue-500/30 overflow-hidden hover:border-blue-500/50 transition-all duration-300"
+                    >
+                      {/* Left Accent */}
+                      <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-blue-500 via-indigo-500 to-purple-500" />
+
+                      <div className="p-6 pl-8">
+                        <div className="flex flex-wrap items-start justify-between gap-3 mb-3">
+                          <div>
+                            <h5 className="text-lg font-bold text-white group-hover:text-blue-400 transition-colors">
+                              {role.role}
+                            </h5>
+                            <p className="text-blue-400 text-sm font-medium mt-1">{role.organization}</p>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <span className="px-3 py-1 bg-blue-500/10 border border-blue-500/30 rounded-lg text-blue-400 text-sm font-medium">
+                              {role.startDate} - {role.endDate}
+                            </span>
+                            {role.endDate === "Present" && (
+                              <span className="px-2 py-1 bg-green-500/20 border border-green-500/30 rounded-md text-green-400 text-xs font-medium">
+                                ACTIVE
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-2 text-white/50 text-sm mb-3">
+                          <MapPin size={14} />
+                          <span>{role.location}</span>
+                        </div>
+                        <ul className="space-y-2">
+                          {role.description?.map((desc, i) => (
+                            <li key={i} className="text-white/70 text-sm flex items-start gap-2">
+                              <ChevronRight size={14} className="text-blue-400 mt-1 flex-shrink-0" />
+                              <span>{desc}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </motion.div>
+                  </motion.div>
+                ))}
+
                 {/* ISC Journey Header - Hero Style */}
                 <motion.div
                   initial={{ opacity: 0, y: -30 }}
@@ -1817,7 +1770,7 @@ export default function ExperienceSection() {
                           className={`absolute left-2 top-4 w-7 h-7 rounded-full flex items-center justify-center z-10 ${
                             step.highlight
                               ? "bg-gradient-to-br from-primary to-green-400 shadow-lg shadow-primary/50"
-                              : "bg-cyber-surface border-2 border-primary/50"
+                              : "bg-black/15 backdrop-blur-md border-2 border-primary/50"
                           }`}
                           initial={{ scale: 0 }}
                           animate={{ scale: 1 }}
@@ -1836,8 +1789,8 @@ export default function ExperienceSection() {
                         {/* Step Card */}
                         <div className={`relative rounded-2xl border overflow-hidden transition-all duration-500 ${
                           step.highlight
-                            ? "bg-gradient-to-br from-primary/15 via-cyber-surface to-green-950/20 border-primary/40 hover:border-primary/60 shadow-xl shadow-primary/10"
-                            : "bg-cyber-surface border-white/10 hover:border-primary/30"
+                            ? "bg-gradient-to-br from-primary/20 via-black/20 to-green-900/20 backdrop-blur-md border-primary/40 hover:border-primary/60 shadow-xl shadow-primary/10"
+                            : "bg-black/15 backdrop-blur-md border-white/10 hover:border-primary/30"
                         } group-hover:translate-x-2`}>
                           {/* Top Accent for Highlight */}
                           {step.highlight && (
@@ -1927,7 +1880,7 @@ export default function ExperienceSection() {
                         whileHover={{ y: -4, scale: 1.02 }}
                         className="group"
                       >
-                        <div className="h-full relative bg-gradient-to-br from-cyber-surface via-cyber-surface to-secondary/5 rounded-2xl border border-secondary/20 overflow-hidden hover:border-secondary/50 transition-all duration-300">
+                        <div className="h-full relative bg-gradient-to-br from-black/20 via-black/15 to-secondary/10 backdrop-blur-md rounded-2xl border border-secondary/20 overflow-hidden hover:border-secondary/50 transition-all duration-300">
                           {/* Left Accent */}
                           <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-secondary via-purple-500 to-pink-500" />
 
@@ -1947,18 +1900,6 @@ export default function ExperienceSection() {
                               </div>
                             </div>
                             <p className="text-white/60 text-sm line-clamp-2">{role.description}</p>
-                            {"url" in role && role.url && (
-                              <motion.a
-                                href={role.url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center gap-1.5 text-xs text-secondary hover:text-secondary/80 mt-3 font-medium"
-                                whileHover={{ x: 4 }}
-                              >
-                                <span>Learn more</span>
-                                <ChevronRight size={14} />
-                              </motion.a>
-                            )}
                           </div>
                         </div>
                       </motion.div>
@@ -1972,7 +1913,7 @@ export default function ExperienceSection() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.7 }}
                 >
-                  <div className="relative bg-gradient-to-br from-cyber-surface via-cyber-surface to-cyan-950/20 rounded-2xl border border-cyan-500/20 overflow-hidden">
+                  <div className="relative bg-gradient-to-br from-black/20 via-black/15 to-cyan-900/20 backdrop-blur-md rounded-2xl border border-cyan-500/20 overflow-hidden">
                     {/* Background Effects */}
                     <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-transparent to-emerald-500/5" />
                     <motion.div
@@ -2015,7 +1956,7 @@ export default function ExperienceSection() {
                             transition={{ delay: i * 0.08 + 0.8, type: "spring" }}
                             whileHover={{ y: -4, scale: 1.05 }}
                           >
-                            <div className="px-4 py-2 bg-cyber-surface rounded-xl border border-cyan-500/20 hover:border-cyan-400/50 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/10 cursor-default">
+                            <div className="px-4 py-2 bg-black/15 backdrop-blur-md rounded-xl border border-cyan-500/20 hover:border-cyan-400/50 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/10 cursor-default">
                               <span className="text-white/70 text-sm font-medium group-hover/tag:text-cyan-400 transition-colors">
                                 {board}
                               </span>
@@ -2032,7 +1973,8 @@ export default function ExperienceSection() {
                 </motion.div>
               </motion.div>
             )}
-          </AnimatePresence>
+            </AnimatePresence>
+          </div>
         </motion.div>
       </div>
     </section>
@@ -2156,7 +2098,7 @@ function EnhancedTimelineCard({
         />
 
         {/* Card body */}
-        <div className="relative bg-black/90 backdrop-blur-xl rounded-2xl overflow-hidden border border-white/5">
+        <div className="relative bg-black/10 backdrop-blur-xl rounded-2xl overflow-hidden">
           {/* Animated top border beam */}
           <div className="absolute top-0 left-0 right-0 h-[2px] overflow-hidden">
             <motion.div

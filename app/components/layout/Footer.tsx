@@ -10,16 +10,18 @@ const socialLinks = [
 ];
 
 const quickLinks = [
-  { href: "#about", label: "About" },
-  { href: "#experience", label: "Experience" },
-  { href: "#projects", label: "Projects" },
-  { href: "#skills", label: "Skills" },
-  { href: "#contact", label: "Contact" },
+  { href: "#about", label: "Profile" },
+  { href: "#research", label: "Research" },
+  { href: "#experience", label: "Timeline" },
+  { href: "#projects", label: "Portfolio" },
+  { href: "#skills", label: "Expertise" },
+  { href: "#contact", label: "Connect" },
 ];
 
 const externalLinks = [
   { href: "https://news.engr.psu.edu/2025/gosar-parth-oswald-award-winner.aspx", label: "Oswald Award" },
   { href: "https://www.psu.edu/news/academics/story/four-student-leaders-named-2025-oswald-award-winners", label: "Penn State News" },
+  { href: "https://www.statecollegepa.us/745/Community-Oversight-Board", label: "Borough Council" },
 ];
 
 export default function Footer() {
@@ -33,9 +35,12 @@ export default function Footer() {
   };
 
   return (
-    <footer className="relative bg-cyber-elevated border-t border-cyber-border">
+    <footer className="relative bg-gradient-to-b from-cyber-elevated to-cyber-dark border-t border-primary/20">
       {/* Grid Background */}
-      <div className="absolute inset-0 grid-bg opacity-20" />
+      <div className="absolute inset-0 grid-bg opacity-30" />
+
+      {/* Glow effect at top */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
 
       <div className="relative container-custom py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
@@ -54,9 +59,9 @@ export default function Footer() {
               <span className="text-white/60">//</span>
               <span className="text-white">GOSAR</span>
             </motion.a>
-            <p className="text-white/60 max-w-md mb-6 leading-relaxed">
-              AI/ML Researcher & Software Engineer pursuing MS in Computer Science 
-              (AI) at USC. Passionate about building innovative solutions that make 
+            <p className="text-white/70 max-w-md mb-6 leading-relaxed">
+              AI/ML Researcher & Software Engineer pursuing MS in Computer Science
+              (AI) at USC. Passionate about building innovative solutions that make
               a positive impact.
             </p>
             <div className="flex items-center gap-3">
@@ -84,7 +89,7 @@ export default function Footer() {
                 <li key={link.href}>
                   <button
                     onClick={() => scrollToSection(link.href)}
-                    className="text-white/60 hover:text-primary transition-colors text-sm"
+                    className="text-white/70 hover:text-primary transition-colors text-sm"
                   >
                     {link.label}
                   </button>
@@ -103,7 +108,7 @@ export default function Footer() {
                     href={link.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-white/60 hover:text-primary transition-colors text-sm inline-flex items-center gap-1"
+                    className="text-white/70 hover:text-primary transition-colors text-sm inline-flex items-center gap-1"
                   >
                     {link.label}
                     <ExternalLink size={12} />
@@ -112,21 +117,13 @@ export default function Footer() {
               ))}
             </ul>
 
-            {/* Status */}
-            <div className="mt-6 flex items-center gap-2">
-              <span className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-              <span className="text-xs text-white/40">Available for opportunities</span>
-            </div>
           </div>
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-12 pt-8 border-t border-cyber-border flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-white/40">
+        <div className="mt-12 pt-8 border-t border-primary/10 flex justify-center items-center">
+          <p className="text-sm text-white/50">
             © {currentYear} Parth Gosar. All rights reserved.
-          </p>
-          <p className="text-sm text-white/40">
-            Built with Next.js & Tailwind
           </p>
         </div>
       </div>
