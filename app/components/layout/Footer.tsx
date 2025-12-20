@@ -55,8 +55,8 @@ export default function Footer() {
               }}
               whileHover={{ scale: 1.02 }}
             >
-              <span className="text-primary text-glow">PARTH</span>
-              <span className="text-white/60">//</span>
+              <span className="text-blue-500 text-glow">PARTH</span>
+              <span className="text-white/60">/</span>
               <span className="text-white">GOSAR</span>
             </motion.a>
             <p className="text-white/70 max-w-md mb-6 leading-relaxed">
