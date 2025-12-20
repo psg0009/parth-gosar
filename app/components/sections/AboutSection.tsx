@@ -4,7 +4,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useIntersection } from "@/app/hooks/useIntersection";
 import { useRef, useState } from "react";
 import Card from "../ui/Card";
-import { Brain, Microscope, Award, Rocket, GraduationCap, FlaskConical, Heart, Building, ExternalLink, Users } from "lucide-react";
+import { Brain, Microscope, Award, Rocket, GraduationCap, FlaskConical, Heart, Building, Users } from "lucide-react";
 import DNAHelix from "../visualizations/DNAHelix";
 import CellDivision from "../visualizations/CellDivision";
 import NeuralActivityBar from "../visualizations/NeuralActivityBar";
@@ -599,7 +599,7 @@ export default function AboutSection() {
                           </p>
 
                           {/* Status indicator */}
-                          <div className="flex items-center justify-between mt-4 pt-3 border-t" style={{ borderColor: `${config.primary}20` }}>
+                          <div className="flex items-center mt-4 pt-3 border-t" style={{ borderColor: `${config.primary}20` }}>
                             <div className="flex items-center gap-2">
                               <motion.div
                                 className="w-2 h-2 rounded-full"
@@ -611,19 +611,6 @@ export default function AboutSection() {
                                 {highlight.status}
                               </span>
                             </div>
-                            {highlight.link && (
-                              <a
-                                href={highlight.link}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="flex items-center gap-1 text-[10px] font-mono uppercase tracking-widest hover:opacity-80 transition-opacity"
-                                style={{ color: `${config.primary}99` }}
-                                onClick={(e) => e.stopPropagation()}
-                              >
-                                <ExternalLink size={10} />
-                                <span>View</span>
-                              </a>
-                            )}
                           </div>
                         </div>
 
