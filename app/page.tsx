@@ -11,6 +11,7 @@ import FeaturesSection from "./components/sections/FeaturesSection";
 import ResearchSection from "./components/sections/ResearchSection";
 import ExperienceSection from "./components/sections/ExperienceSection";
 import ProjectsSection from "./components/sections/ProjectsSection";
+import SpotlightSection from "./components/sections/SpotlightSection";
 import SkillsSection from "./components/sections/SkillsSection";
 import ContactSection from "./components/sections/ContactSection";
 
@@ -61,6 +62,7 @@ export default function Home() {
           <ResearchSection />
           <ExperienceSection />
           <ProjectsSection />
+          <SpotlightSection />
           <SkillsSection />
           <ContactSection />
         </main>

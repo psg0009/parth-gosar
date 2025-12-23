@@ -12,6 +12,7 @@ const navLinks = [
   { href: "#research", label: "Research" },
   { href: "#experience", label: "Timeline" },
   { href: "#projects", label: "Portfolio" },
+  { href: "#spotlight", label: "Spotlight" },
   { href: "#skills", label: "Expertise" },
   { href: "#contact", label: "Connect" },
 ];
@@ -74,7 +75,7 @@ export default function Navbar() {
             <div className="flex items-center gap-3 text-xl md:text-2xl font-display font-bold tracking-wider">
               {/* Profile Photo - clicks to open full image in new tab */}
               <motion.a
-                href="/author_image.jpg"
+                href="/images/spotlight/author_image.jpg"
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.02 }}
@@ -90,7 +91,7 @@ export default function Navbar() {
                 {/* Image container */}
                 <div className="relative w-24 h-24 rounded-full overflow-hidden border-2 border-cyber-black">
                   <Image
-                    src="/author_image.jpg"
+                    src="/images/spotlight/author_image.jpg"
                     alt="Parth Gosar"
                     fill
                     className="object-cover object-[52%_18%] scale-[1.3]"
@@ -108,7 +109,7 @@ export default function Navbar() {
                 whileHover={{ scale: 1.02 }}
               >
                 <span className="text-cyan-400">PARTH</span>
-                <span className="text-white/60">/</span>
+                <span className="text-white/60">S</span>
                 <span className="text-white">GOSAR</span>
               </motion.a>
             </div>

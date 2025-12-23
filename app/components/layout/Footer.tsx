@@ -14,6 +14,7 @@ const quickLinks = [
   { href: "#research", label: "Research" },
   { href: "#experience", label: "Timeline" },
   { href: "#projects", label: "Portfolio" },
+  { href: "#spotlight", label: "Spotlight" },
   { href: "#skills", label: "Expertise" },
   { href: "#contact", label: "Connect" },
 ];
@@ -55,8 +56,8 @@ export default function Footer() {
               }}
               whileHover={{ scale: 1.02 }}
             >
-              <span className="text-blue-500 text-glow">PARTH</span>
-              <span className="text-white/60">/</span>
+              <span className="text-cyan-400 text-glow">PARTH</span>
+              <span className="text-white/60">S</span>
               <span className="text-white">GOSAR</span>
             </motion.a>
             <p className="text-white/70 max-w-md mb-6 leading-relaxed">

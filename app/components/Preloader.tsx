@@ -232,7 +232,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
               transition={{ duration: 1.5, ease: "easeOut" }}
             >
               <Image
-                src="/author_image.jpg"
+                src="/images/spotlight/author_image.jpg"
                 alt="Background"
                 fill
                 className="object-cover object-[50%_20%]"
@@ -377,7 +377,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
               {/* Image container */}
               <div className="relative w-28 h-28 md:w-32 md:h-32 rounded-full overflow-hidden border-2 border-cyber-black">
                 <Image
-                  src="/author_image.jpg"
+                  src="/images/spotlight/author_image.jpg"
                   alt="Parth Gosar"
                   fill
                   className="object-cover object-[52%_18%] scale-[1.3]"
