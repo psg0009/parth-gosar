@@ -6,7 +6,7 @@ import { Github, Linkedin, Mail, ExternalLink } from "lucide-react";
 const socialLinks = [
   { href: "https://github.com/psg0009", icon: Github, label: "GitHub" },
   { href: "https://www.linkedin.com/in/parth-gosar-04042b1b1", icon: Linkedin, label: "LinkedIn" },
-  { href: "mailto:gosar@usc.edu", icon: Mail, label: "Email" },
+  { href: "mailto:parthgosar8@gmail.com", icon: Mail, label: "Email" },
 ];
 
 const quickLinks = [
@@ -16,7 +16,6 @@ const quickLinks = [
   { href: "#projects", label: "Portfolio" },
   { href: "#spotlight", label: "Spotlight" },
   { href: "#skills", label: "Expertise" },
-  { href: "#contact", label: "Connect" },
 ];
 
 const externalLinks = [
@@ -57,8 +56,7 @@ export default function Footer() {
               whileHover={{ scale: 1.02 }}
             >
               <span className="text-cyan-400 text-glow">PARTH</span>
-              <span className="text-white/60">S</span>
-              <span className="text-white">GOSAR</span>
+              <span className="text-white"> GOSAR</span>
             </motion.a>
             <p className="text-white/70 max-w-md mb-6 leading-relaxed">
               AI/ML Researcher & Software Engineer pursuing MS in Computer Science

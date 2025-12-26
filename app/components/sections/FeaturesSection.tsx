@@ -8,18 +8,14 @@ import Badge from "../ui/Badge";
 import {
   Brain,
   Award,
-  Newspaper,
-  ExternalLink,
-  Users,
   FlaskConical,
   Rocket,
-  GraduationCap,
   ArrowRight,
   Sparkles,
   TrendingUp,
   Target,
-  Zap,
   Building,
+  Shield,
 } from "lucide-react";
 import DNAHelix from "../visualizations/DNAHelix";
 import NeuralNetwork from "../visualizations/NeuralNetwork";
@@ -49,6 +45,27 @@ const featuredHighlights = [
     metricLabel: "Accuracy Gain",
     icon: FlaskConical,
     color: "emerald",
+    
+  },
+  {
+    id: "insurespectre",
+    category: "Startup",
+    title: "INSURESPECTRE",
+    subtitle: "AI Health Insurance Platform",
+    description: "Founded AI-powered insurance platform helping students find better health insurance options.",
+    icon: Rocket,
+    color: "primary",
+    link: "https://insurespectre.com",
+  },
+  {
+    id: "sentinel-ai",
+    category: "Startup",
+    title: "Sentinel AI",
+    subtitle: "AI-Powered Compliance Firewall",
+    description: "Building Sentinel AI CF - an intelligent compliance firewall for safer digital experiences.",
+    icon: Shield,
+    color: "cyan",
+    link: "https://trysentinelai.com",
   },
   {
     id: "oswald-award",
@@ -63,16 +80,6 @@ const featuredHighlights = [
     link: "https://news.engr.psu.edu/2025/gosar-parth-oswald-award-winner.aspx",
   },
   {
-    id: "insurespectre",
-    category: "Startup",
-    title: "INSURESPECTRE",
-    subtitle: "AI Health Insurance Platform",
-    description: "Founded AI-powered insurance platform helping students find better health insurance options.",
-    icon: Rocket,
-    color: "primary",
-    link: "https://insurespectre.com",
-  },
-  {
     id: "borough-council",
     category: "Leadership",
     title: "Borough Council",
@@ -84,38 +91,7 @@ const featuredHighlights = [
   },
 ];
 
-// Featured news articles
-const featuredNews = [
-  {
-    id: "engr-oswald",
-    title: "Computer science major named 2025 Oswald Award winner",
-    source: "Penn State Engineering",
-    date: "April 2025",
-    url: "https://news.engr.psu.edu/2025/gosar-parth-oswald-award-winner.aspx",
-  },
-  {
-    id: "collegian-watw",
-    title: "ISC hosts 60th We Are The World showcase",
-    source: "The Daily Collegian",
-    date: "March 2025",
-    url: "https://www.psucollegian.com/news/campus/making-culture-accessible-international-student-council-hosts-60th-we-are-the-world-showcase/article_ba7bbe08-f7e2-11ef-883d-bf684639fe4a.html",
-  },
-  {
-    id: "south-asian",
-    title: "Indian student wins PSU's prestigious award",
-    source: "The South Asian Times",
-    date: "April 2025",
-    url: "https://thesouthasiantimes.info/Indian-Community/news/indian-student-wins-psus-prestigious-john-w-oswald-award-/3987",
-  },
-];
 
-// Stats
-const impactStats = [
-  { value: "3K+", label: "Students Supported", icon: GraduationCap, color: "#22d3ee" },
-  { value: "5", label: "Awards Won", icon: Award, color: "#fbbf24" },
-  { value: "3+", label: "Publications", icon: FlaskConical, color: "#34d399" },
-  { value: "2", label: "Research Labs", icon: Brain, color: "#a855f7" },
-];
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // COSMIC NEURAL GENESIS - An Unprecedented Visual Experience
@@ -775,7 +751,7 @@ function FeatureCard({
       <Card
         variant="glass"
         padding="lg"
-        className={`relative overflow-hidden h-full border ${colors.border} hover:border-opacity-60 transition-all duration-500 ${
+        className={`relative overflow-hidden h-full min-h-[220px] border ${colors.border} hover:border-opacity-60 transition-all duration-500 ${
           isHovered ? `shadow-xl ${colors.glow}` : ""
         }`}
       >
@@ -843,19 +819,21 @@ function FeatureCard({
           <p className={`text-sm ${colors.text} mb-3`}>{highlight.subtitle}</p>
           <p className="text-sm text-white/60 leading-relaxed">{highlight.description}</p>
 
-          {/* Link */}
-          {highlight.link && (
-            <motion.a
-              href={highlight.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`inline-flex items-center gap-2 mt-4 text-sm ${colors.text} hover:underline`}
-              whileHover={{ x: 4 }}
-            >
-              Learn more
-              <ArrowRight size={14} />
-            </motion.a>
-          )}
+          {/* Link - only show if link exists */}
+          <div className="h-8 mt-4">
+            {highlight.link && (
+              <motion.a
+                href={highlight.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`inline-flex items-center gap-2 text-sm ${colors.text} hover:underline`}
+                whileHover={{ x: 4 }}
+              >
+                Learn more
+                <ArrowRight size={14} />
+              </motion.a>
+            )}
+          </div>
         </div>
 
         {/* Corner decoration */}
@@ -1010,180 +988,6 @@ export default function FeaturesSection() {
             </p>
           </motion.div>
 
-          {/* Impact Stats - Futuristic Holographic Cards */}
-          <motion.div variants={itemVariants} className="mb-16">
-            {/* Stats container with connecting lines */}
-            <div className="relative">
-              {/* Connecting line behind cards */}
-              <div className="absolute top-1/2 left-0 right-0 h-[1px] hidden md:block" style={{ background: "linear-gradient(90deg, transparent, rgba(52, 211, 153, 0.3), rgba(34, 211, 238, 0.3), rgba(251, 191, 36, 0.3), rgba(168, 85, 247, 0.3), transparent)" }} />
-
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                {impactStats.map((stat, index) => {
-                  const Icon = stat.icon;
-                  return (
-                    <motion.div
-                      key={stat.label}
-                      initial={{ opacity: 0, y: 30, scale: 0.9 }}
-                      animate={isVisible ? { opacity: 1, y: 0, scale: 1 } : {}}
-                      transition={{ delay: index * 0.15, type: "spring", stiffness: 100 }}
-                      whileHover={{ y: -8, scale: 1.05 }}
-                      className="group relative"
-                    >
-                      {/* Card */}
-                      <div
-                        className="relative p-8 rounded-2xl overflow-hidden backdrop-blur-xl"
-                        style={{
-                          background: `linear-gradient(135deg, rgba(0,0,0,0.6) 0%, ${stat.color}10 100%)`,
-                          border: `1px solid ${stat.color}40`,
-                          boxShadow: `0 0 30px ${stat.color}20`,
-                        }}
-                      >
-                        {/* Animated corner accents */}
-                        <motion.div
-                          className="absolute top-0 left-0 w-10 h-10"
-                          initial={{ opacity: 0.5 }}
-                          animate={{ opacity: [0.5, 1, 0.5] }}
-                          transition={{ duration: 2, repeat: Infinity, delay: index * 0.2 }}
-                        >
-                          <div className="absolute top-0 left-0 w-full h-[2px]" style={{ background: `linear-gradient(90deg, ${stat.color}, transparent)` }} />
-                          <div className="absolute top-0 left-0 h-full w-[2px]" style={{ background: `linear-gradient(180deg, ${stat.color}, transparent)` }} />
-                        </motion.div>
-                        <motion.div
-                          className="absolute bottom-0 right-0 w-10 h-10"
-                          initial={{ opacity: 0.5 }}
-                          animate={{ opacity: [0.5, 1, 0.5] }}
-                          transition={{ duration: 2, repeat: Infinity, delay: index * 0.2 + 0.5 }}
-                        >
-                          <div className="absolute bottom-0 right-0 w-full h-[2px]" style={{ background: `linear-gradient(-90deg, ${stat.color}, transparent)` }} />
-                          <div className="absolute bottom-0 right-0 h-full w-[2px]" style={{ background: `linear-gradient(0deg, ${stat.color}, transparent)` }} />
-                        </motion.div>
-
-                        {/* Scanning line effect */}
-                        <motion.div
-                          className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100"
-                          style={{
-                            background: `linear-gradient(180deg, transparent 0%, ${stat.color}15 50%, transparent 100%)`,
-                            height: "30%",
-                          }}
-                          animate={{ y: ["0%", "350%", "0%"] }}
-                          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                        />
-
-                        {/* Holographic shimmer on hover */}
-                        <motion.div
-                          className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100"
-                          style={{
-                            background: `linear-gradient(105deg, transparent 40%, ${stat.color}30 50%, transparent 60%)`,
-                            backgroundSize: "200% 100%",
-                          }}
-                          animate={{ backgroundPosition: ["200% 0%", "-200% 0%"] }}
-                          transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                        />
-
-                        {/* Content */}
-                        <div className="relative z-10 text-center">
-                          {/* Icon with orbital ring */}
-                          <div className="relative w-20 h-20 mx-auto mb-5">
-                            {/* Orbital ring */}
-                            <motion.div
-                              className="absolute inset-0 rounded-full"
-                              style={{ border: `1px dashed ${stat.color}50` }}
-                              animate={{ rotate: 360 }}
-                              transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-                            />
-                            {/* Orbiting dot */}
-                            <motion.div
-                              className="absolute w-2 h-2 rounded-full"
-                              style={{
-                                background: stat.color,
-                                boxShadow: `0 0 10px ${stat.color}`,
-                                top: "50%",
-                                left: "50%",
-                              }}
-                              animate={{
-                                x: [36, 0, -36, 0, 36],
-                                y: [0, -36, 0, 36, 0],
-                              }}
-                              transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-                            />
-                            {/* Icon container */}
-                            <motion.div
-                              className="absolute inset-2 rounded-xl flex items-center justify-center"
-                              style={{
-                                background: `linear-gradient(135deg, ${stat.color}25, ${stat.color}10)`,
-                                border: `1px solid ${stat.color}50`,
-                              }}
-                              animate={{ boxShadow: [`0 0 15px ${stat.color}30`, `0 0 25px ${stat.color}50`, `0 0 15px ${stat.color}30`] }}
-                              transition={{ duration: 2, repeat: Infinity }}
-                            >
-                              <Icon size={28} style={{ color: stat.color }} />
-                            </motion.div>
-                          </div>
-
-                          {/* Value with glow */}
-                          <motion.div
-                            className="text-4xl font-bold font-mono mb-2"
-                            style={{ color: stat.color, textShadow: `0 0 30px ${stat.color}80` }}
-                            animate={{ textShadow: [`0 0 20px ${stat.color}60`, `0 0 40px ${stat.color}90`, `0 0 20px ${stat.color}60`] }}
-                            transition={{ duration: 2, repeat: Infinity }}
-                          >
-                            {stat.value}
-                          </motion.div>
-
-                          {/* Label */}
-                          <div className="text-sm text-white/60">{stat.label}</div>
-
-                          {/* Status indicator */}
-                          <div className="flex items-center justify-center gap-2 mt-4 pt-3 border-t" style={{ borderColor: `${stat.color}20` }}>
-                            <motion.div
-                              className="w-1.5 h-1.5 rounded-full"
-                              style={{ background: stat.color }}
-                              animate={{ opacity: [1, 0.3, 1], scale: [1, 0.8, 1] }}
-                              transition={{ duration: 1.5, repeat: Infinity }}
-                            />
-                            <span className="text-[9px] font-mono uppercase tracking-widest" style={{ color: `${stat.color}99` }}>
-                              Verified
-                            </span>
-                          </div>
-                        </div>
-
-                        {/* Data particles */}
-                        {[...Array(3)].map((_, i) => (
-                          <motion.div
-                            key={i}
-                            className="absolute w-1 h-1 rounded-full"
-                            style={{
-                              background: stat.color,
-                              top: `${20 + i * 25}%`,
-                              right: `${8 + i * 4}%`,
-                            }}
-                            animate={{
-                              y: [0, -8, 0],
-                              opacity: [0.2, 0.6, 0.2],
-                            }}
-                            transition={{
-                              duration: 2 + i * 0.3,
-                              repeat: Infinity,
-                              delay: i * 0.2,
-                            }}
-                          />
-                        ))}
-                      </div>
-
-                      {/* Connection node at bottom */}
-                      <motion.div
-                        className="absolute -bottom-3 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full hidden md:block"
-                        style={{ background: stat.color, boxShadow: `0 0 15px ${stat.color}` }}
-                        animate={{ scale: [1, 1.3, 1], opacity: [0.5, 1, 0.5] }}
-                        transition={{ duration: 2, repeat: Infinity, delay: index * 0.2 }}
-                      />
-                    </motion.div>
-                  );
-                })}
-              </div>
-            </div>
-          </motion.div>
-
           {/* Featured Highlights Grid */}
           <motion.div variants={itemVariants} className="mb-16">
             <div className="flex items-center gap-3 mb-6">
@@ -1206,65 +1010,6 @@ export default function FeaturesSection() {
                 );
               })}
             </div>
-          </motion.div>
-
-          {/* Featured News */}
-          <motion.div variants={itemVariants}>
-            <div className="flex items-center justify-between mb-6">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center">
-                  <Newspaper size={18} className="text-amber-400" />
-                </div>
-                <h3 className="text-xl font-semibold text-white">In The News</h3>
-              </div>
-              <a
-                href="#experience"
-                className="text-sm text-primary hover:underline flex items-center gap-1"
-                onClick={(e) => {
-                  e.preventDefault();
-                  document.getElementById("experience")?.scrollIntoView({ behavior: "smooth" });
-                }}
-              >
-                View all news <ArrowRight size={14} />
-              </a>
-            </div>
-
-            <Card variant="glass" padding="lg" className="border-amber-500/20 relative overflow-hidden">
-              {/* Animated gradient */}
-              <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 via-transparent to-primary/5" />
-
-              <div className="relative grid md:grid-cols-3 gap-6">
-                {featuredNews.map((news, index) => (
-                  <motion.a
-                    key={news.id}
-                    href={news.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group block"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={isVisible ? { opacity: 1, y: 0 } : {}}
-                    transition={{ delay: 0.6 + index * 0.1 }}
-                    whileHover={{ y: -4 }}
-                  >
-                    <div className="p-4 rounded-lg bg-cyber-surface/50 border border-cyber-border hover:border-amber-500/50 transition-all h-full">
-                      <div className="flex items-center gap-2 mb-2">
-                        <Badge variant="outline" size="sm" className="text-amber-400 border-amber-500/30">
-                          {news.source}
-                        </Badge>
-                        <span className="text-[10px] text-white/40">{news.date}</span>
-                      </div>
-                      <h4 className="text-sm font-medium text-white group-hover:text-amber-400 transition-colors line-clamp-2 mb-2">
-                        {news.title}
-                      </h4>
-                      <div className="flex items-center gap-1 text-xs text-amber-400">
-                        <span>Read article</span>
-                        <ExternalLink size={10} />
-                      </div>
-                    </div>
-                  </motion.a>
-                ))}
-              </div>
-            </Card>
           </motion.div>
 
           {/* Impact Journey - Holographic Timeline */}

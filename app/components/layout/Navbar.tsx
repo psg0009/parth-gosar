@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Github, Linkedin, Mail } from "lucide-react";
+import { Menu, X, Github, Linkedin } from "lucide-react";
 import { cn } from "@/app/lib/utils";
 import Button from "../ui/Button";
 import Image from "next/image";
@@ -14,13 +14,11 @@ const navLinks = [
   { href: "#projects", label: "Portfolio" },
   { href: "#spotlight", label: "Spotlight" },
   { href: "#skills", label: "Expertise" },
-  { href: "#contact", label: "Connect" },
 ];
 
 const socialLinks = [
   { href: "https://github.com/psg0009", icon: Github, label: "GitHub" },
   { href: "https://www.linkedin.com/in/parth-gosar-04042b1b1", icon: Linkedin, label: "LinkedIn" },
-  { href: "mailto:gosar@usc.edu", icon: Mail, label: "Email" },
 ];
 
 export default function Navbar() {
@@ -104,18 +102,17 @@ export default function Navbar() {
 
               {/* Name - clicks to email */}
               <motion.a
-                href="mailto:gosar@usc.edu?subject=Let's%20Connect%20-%20From%20Your%20Portfolio"
+                href="mailto:parthgosar8@gmail.com?subject=Let's%20Connect%20-%20From%20Your%20Portfolio"
                 className="flex items-center gap-3 hover:opacity-80 transition-opacity"
                 whileHover={{ scale: 1.02 }}
               >
                 <span className="text-cyan-400">PARTH</span>
-                <span className="text-white/60">S</span>
                 <span className="text-white">GOSAR</span>
               </motion.a>
             </div>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center gap-8">
+            <div className="hidden md:flex items-center gap-8 ml-8">
               {navLinks.map((link) => (
                 <motion.button
                   key={link.href}
@@ -159,7 +156,7 @@ export default function Navbar() {
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => scrollToSection("#contact")}
+                onClick={() => window.location.href = "mailto:parthgosar8@gmail.com"}
                 className="border-cyan-500/50 text-cyan-400 hover:bg-cyan-500/10"
               >
                 Get in Touch
@@ -239,7 +236,7 @@ export default function Navbar() {
                 <Button
                   variant="primary"
                   className="mt-4 bg-cyan-500 hover:bg-cyan-400"
-                  onClick={() => scrollToSection("#contact")}
+                  onClick={() => window.location.href = "mailto:parthgosar8@gmail.com"}
                 >
                   Get in Touch
                 </Button>

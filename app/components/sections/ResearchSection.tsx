@@ -94,12 +94,6 @@ const researchPositions = [
   },
 ];
 
-const impactStats = [
-  { label: "Research Labs", value: "2", icon: FlaskConical, color: "cyan" },
-  { label: "Active Projects", value: "5+", icon: Layers, color: "purple" },
-  { label: "Accuracy Improvement", value: "12%", icon: Target, color: "green" },
-  { label: "Processing Speedup", value: "15%", icon: TrendingUp, color: "pink" },
-];
 
 export default function ResearchSection() {
   const { ref, isVisible } = useIntersection<HTMLElement>({ threshold: 0.1 });
@@ -141,52 +135,6 @@ export default function ResearchSection() {
           <p className="text-white/60 max-w-2xl mx-auto">
             Developing interpretable AI systems for medical imaging, clinical prediction, and personalized medicine
           </p>
-        </motion.div>
-
-        {/* Impact Stats - Hexagonal Design */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isVisible ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 0.2 }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16"
-        >
-          {impactStats.map((stat, index) => {
-            const Icon = stat.icon;
-            const colorClasses: Record<string, string> = {
-              cyan: "from-cyan-500/20 to-cyan-500/5 border-cyan-500/30 text-cyan-400",
-              purple: "from-purple-500/20 to-purple-500/5 border-purple-500/30 text-purple-400",
-              green: "from-emerald-500/20 to-emerald-500/5 border-emerald-500/30 text-emerald-400",
-              pink: "from-pink-500/20 to-pink-500/5 border-pink-500/30 text-pink-400",
-            };
-
-            return (
-              <motion.div
-                key={stat.label}
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={isVisible ? { opacity: 1, scale: 1 } : {}}
-                transition={{ delay: 0.3 + index * 0.1 }}
-                whileHover={{ scale: 1.05, y: -5 }}
-                className={`relative group overflow-hidden rounded-2xl border bg-gradient-to-br ${colorClasses[stat.color]} p-6 text-center`}
-              >
-                {/* Shimmer effect */}
-                <div className="absolute inset-0 research-card-shimmer" />
-
-                {/* Corner accent */}
-                <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-bl from-white/5 to-transparent" />
-
-                <div className="relative">
-                  <motion.div
-                    className="mx-auto w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center mb-3"
-                    whileHover={{ rotate: 10 }}
-                  >
-                    <Icon size={24} className={colorClasses[stat.color].split(" ").pop()} />
-                  </motion.div>
-                  <div className="text-3xl font-bold text-white mb-1">{stat.value}</div>
-                  <div className="text-xs text-white/50 uppercase tracking-wider">{stat.label}</div>
-                </div>
-              </motion.div>
-            );
-          })}
         </motion.div>
 
         {/* Research Positions - Holographic Lab Cards */}

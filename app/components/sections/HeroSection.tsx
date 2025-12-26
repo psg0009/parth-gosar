@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowDown, Linkedin, Mail, Activity, Brain, Microscope, Github } from "lucide-react";
+import { ArrowDown, Linkedin, Mail, Activity, Brain, Microscope, Github, Award } from "lucide-react";
 import Button from "../ui/Button";
 import { useRef } from "react";
 import BrainMRI from "../visualizations/BrainMRI";
@@ -21,6 +21,17 @@ export default function HeroSection() {
     const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  const scrollToAwardsTab = () => {
+    const element = document.getElementById("experience");
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+      // Dispatch custom event to open awards tab
+      setTimeout(() => {
+        window.dispatchEvent(new CustomEvent("openTab", { detail: "awards" }));
+      }, 500);
     }
   };
 
@@ -618,29 +629,46 @@ export default function HeroSection() {
               >
                 Biomedical AI researcher developing deep learning systems for{" "}
                 <span className="text-cyan-400">MRI acceleration</span> and{" "}
-                <span className="text-emerald-400">clinical diagnostics</span>. Currently at USC's Fan MRI Lab.
+                <span className="text-emerald-400">clinical diagnostics</span>. Currently at USC's Fan MRI Lab & Epigenetics Cancer Lab.
               </motion.p>
 
               {/* Stats row */}
               <motion.div
                 variants={itemVariants}
-                className="flex flex-wrap gap-6 mb-8"
+                className="flex flex-wrap gap-4 md:gap-5 mb-8"
               >
                 {[
                   { value: "2", label: "Research Labs", icon: Microscope },
                   { value: "12%", label: "Accuracy Gain", icon: Brain },
-                  { value: "15%", label: "Processing Speedup", icon: Activity },
-                ].map((stat) => (
-                  <div key={stat.label} className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center">
-                      <stat.icon size={18} className="text-cyan-400" />
+                  { value: "15%", label: "Speedup", icon: Activity },
+                  { value: "5", label: "Awards", icon: Award, onClick: scrollToAwardsTab },
+                ].map((stat) => {
+                  const StatContent = (
+                    <>
+                      <div className="w-9 h-9 rounded-lg bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center">
+                        <stat.icon size={16} className="text-cyan-400" />
+                      </div>
+                      <div>
+                        <div className="text-lg font-bold text-white font-mono">{stat.value}</div>
+                        <div className="text-[10px] text-white/40">{stat.label}</div>
+                      </div>
+                    </>
+                  );
+
+                  return stat.onClick ? (
+                    <button
+                      key={stat.label}
+                      onClick={stat.onClick}
+                      className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity"
+                    >
+                      {StatContent}
+                    </button>
+                  ) : (
+                    <div key={stat.label} className="flex items-center gap-2">
+                      {StatContent}
                     </div>
-                    <div>
-                      <div className="text-xl font-bold text-white font-mono">{stat.value}</div>
-                      <div className="text-xs text-white/40">{stat.label}</div>
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </motion.div>
 
               {/* CTA buttons */}
@@ -659,7 +687,7 @@ export default function HeroSection() {
                 <Button
                   variant="outline"
                   size="lg"
-                  onClick={() => scrollToSection("contact")}
+                  onClick={() => window.location.href = "mailto:parthgosar8@gmail.com"}
                   className="border-white/20 text-white hover:border-cyan-500/50 hover:text-cyan-400"
                 >
                   Get in Touch
@@ -673,7 +701,7 @@ export default function HeroSection() {
                   {[
                     { href: "https://github.com/psg0009", icon: Github },
                     { href: "https://www.linkedin.com/in/parth-gosar-04042b1b1", icon: Linkedin },
-                    { href: "mailto:gosar@usc.edu", icon: Mail },
+                    { href: "mailto:parthgosar8@gmail.com", icon: Mail },
                   ].map((link) => (
                     <motion.a
                       key={link.href}

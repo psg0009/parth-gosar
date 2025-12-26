@@ -344,97 +344,13 @@ export default function AboutSection() {
                 </div>
               </Card>
 
-              {/* Visual Element - Animated Medical Scan - moved here to fill space */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={isVisible ? { opacity: 1, y: 0 } : {}}
-                transition={{ delay: 0.7 }}
-                className="mt-4"
-              >
-                <Card variant="glass" padding="md" className="border-cyan-500/20 overflow-hidden relative">
-                  <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-transparent to-emerald-500/5" />
-
-                  {/* Animated scan visualization */}
-                  <div className="relative h-32">
-                    <svg viewBox="0 0 200 80" className="w-full h-full">
-                      <defs>
-                        <linearGradient id="scanGradientLeft" x1="0%" y1="0%" x2="100%" y2="0%">
-                          <stop offset="0%" stopColor="#22d3ee" stopOpacity="0" />
-                          <stop offset="50%" stopColor="#22d3ee" stopOpacity="1" />
-                          <stop offset="100%" stopColor="#22d3ee" stopOpacity="0" />
-                        </linearGradient>
-                      </defs>
-
-                      {/* Grid lines */}
-                      {Array.from({ length: 10 }, (_, i) => (
-                        <line
-                          key={`hl-${i}`}
-                          x1="0"
-                          y1={i * 8}
-                          x2="200"
-                          y2={i * 8}
-                          stroke="rgba(34, 211, 238, 0.1)"
-                          strokeWidth="0.5"
-                        />
-                      ))}
-                      {Array.from({ length: 20 }, (_, i) => (
-                        <line
-                          key={`vl-${i}`}
-                          x1={i * 10}
-                          y1="0"
-                          x2={i * 10}
-                          y2="80"
-                          stroke="rgba(34, 211, 238, 0.1)"
-                          strokeWidth="0.5"
-                        />
-                      ))}
-
-                      {/* Waveform */}
-                      <motion.path
-                        d="M 0 40 Q 20 40 30 20 T 60 40 T 90 50 T 120 30 T 150 40 T 180 35 T 200 40"
-                        fill="none"
-                        stroke="url(#scanGradientLeft)"
-                        strokeWidth="2"
-                        initial={{ pathLength: 0 }}
-                        animate={{ pathLength: 1 }}
-                        transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                      />
-
-                      {/* Moving scan line */}
-                      <motion.line
-                        x1="0"
-                        y1="0"
-                        x2="0"
-                        y2="80"
-                        stroke="#22d3ee"
-                        strokeWidth="2"
-                        animate={{ x1: [0, 200], x2: [0, 200] }}
-                        transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                        opacity="0.5"
-                      />
-                    </svg>
-
-                    {/* Data readout */}
-                    <div className="absolute bottom-2 left-2 right-2 flex justify-between text-[10px] font-mono text-cyan-400/60">
-                      <span>MEDICAL AI RESEARCH</span>
-                      <motion.span
-                        animate={{ opacity: [1, 0.5, 1] }}
-                        transition={{ duration: 1, repeat: Infinity }}
-                      >
-                        ACTIVE
-                      </motion.span>
-                    </div>
-                  </div>
-                </Card>
-              </motion.div>
-
             </motion.div>
 
             {/* Right: Highlight Cards - 5 columns */}
             <motion.div variants={itemVariants} className="lg:col-span-5 space-y-4">
-              {/* Highlight Cards Grid - Hexagonal/Holographic Design */}
-              <div className="grid grid-cols-2 gap-5">
-                {highlights.map((highlight, index) => {
+              {/* Highlight Cards Grid - First 4 cards only */}
+              <div className="grid grid-cols-2 gap-5 auto-rows-fr">
+                {highlights.slice(0, 4).map((highlight, index) => {
                   const Icon = highlight.icon;
                   const colorConfig = {
                     cyan: { primary: "#22d3ee", secondary: "#06b6d4", glow: "rgba(34, 211, 238, 0.4)" },
@@ -452,6 +368,216 @@ export default function AboutSection() {
                       initial={{ opacity: 0, y: 30, rotateX: -15 }}
                       animate={isVisible ? { opacity: 1, y: 0, rotateX: 0 } : {}}
                       transition={{ delay: 0.3 + index * 0.12, type: "spring", stiffness: 100 }}
+                      whileHover={{ y: -8, scale: 1.03, rotateY: 5 }}
+                      className="group perspective-1000 h-full"
+                      style={{ transformStyle: "preserve-3d" }}
+                    >
+                      <div
+                        className="relative p-5 rounded-2xl overflow-hidden backdrop-blur-xl h-full"
+                        style={{
+                          background: `linear-gradient(135deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.3) 100%)`,
+                          border: `1px solid ${config.primary}30`,
+                          boxShadow: `0 0 30px ${config.glow}, inset 0 1px 0 ${config.primary}20`,
+                        }}
+                      >
+                        {/* Animated corner accents */}
+                        <div className="absolute top-0 left-0 w-8 h-8">
+                          <motion.div
+                            className="absolute top-0 left-0 w-full h-[2px]"
+                            style={{ background: `linear-gradient(90deg, ${config.primary}, transparent)` }}
+                            animate={{ opacity: [0.5, 1, 0.5] }}
+                            transition={{ duration: 2, repeat: Infinity }}
+                          />
+                          <motion.div
+                            className="absolute top-0 left-0 h-full w-[2px]"
+                            style={{ background: `linear-gradient(180deg, ${config.primary}, transparent)` }}
+                            animate={{ opacity: [0.5, 1, 0.5] }}
+                            transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
+                          />
+                        </div>
+                        <div className="absolute top-0 right-0 w-8 h-8">
+                          <motion.div
+                            className="absolute top-0 right-0 w-full h-[2px]"
+                            style={{ background: `linear-gradient(-90deg, ${config.primary}, transparent)` }}
+                            animate={{ opacity: [0.5, 1, 0.5] }}
+                            transition={{ duration: 2, repeat: Infinity, delay: 0.25 }}
+                          />
+                          <motion.div
+                            className="absolute top-0 right-0 h-full w-[2px]"
+                            style={{ background: `linear-gradient(180deg, ${config.primary}, transparent)` }}
+                            animate={{ opacity: [0.5, 1, 0.5] }}
+                            transition={{ duration: 2, repeat: Infinity, delay: 0.75 }}
+                          />
+                        </div>
+                        <div className="absolute bottom-0 left-0 w-8 h-8">
+                          <motion.div
+                            className="absolute bottom-0 left-0 w-full h-[2px]"
+                            style={{ background: `linear-gradient(90deg, ${config.primary}, transparent)` }}
+                            animate={{ opacity: [0.5, 1, 0.5] }}
+                            transition={{ duration: 2, repeat: Infinity, delay: 1 }}
+                          />
+                          <motion.div
+                            className="absolute bottom-0 left-0 h-full w-[2px]"
+                            style={{ background: `linear-gradient(0deg, ${config.primary}, transparent)` }}
+                            animate={{ opacity: [0.5, 1, 0.5] }}
+                            transition={{ duration: 2, repeat: Infinity, delay: 1.25 }}
+                          />
+                        </div>
+                        <div className="absolute bottom-0 right-0 w-8 h-8">
+                          <motion.div
+                            className="absolute bottom-0 right-0 w-full h-[2px]"
+                            style={{ background: `linear-gradient(-90deg, ${config.primary}, transparent)` }}
+                            animate={{ opacity: [0.5, 1, 0.5] }}
+                            transition={{ duration: 2, repeat: Infinity, delay: 1.5 }}
+                          />
+                          <motion.div
+                            className="absolute bottom-0 right-0 h-full w-[2px]"
+                            style={{ background: `linear-gradient(0deg, ${config.primary}, transparent)` }}
+                            animate={{ opacity: [0.5, 1, 0.5] }}
+                            transition={{ duration: 2, repeat: Infinity, delay: 1.75 }}
+                          />
+                        </div>
+
+                        {/* Scanning line effect */}
+                        <motion.div
+                          className="absolute inset-0 pointer-events-none"
+                          style={{
+                            background: `linear-gradient(180deg, transparent 0%, ${config.primary}10 50%, transparent 100%)`,
+                            height: "30%",
+                          }}
+                          animate={{ y: ["0%", "350%", "0%"] }}
+                          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                        />
+
+                        {/* Holographic shimmer overlay */}
+                        <motion.div
+                          className="absolute inset-0 pointer-events-none opacity-30"
+                          style={{
+                            background: `linear-gradient(105deg, transparent 40%, ${config.primary}40 50%, transparent 60%)`,
+                            backgroundSize: "200% 100%",
+                          }}
+                          animate={{ backgroundPosition: ["200% 0%", "-200% 0%"] }}
+                          transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+                        />
+
+                        {/* Content */}
+                        <div className="relative z-10">
+                          {/* Icon with orbital ring */}
+                          <div className="relative w-14 h-14 mb-4">
+                            {/* Orbital ring */}
+                            <motion.div
+                              className="absolute inset-0 rounded-full"
+                              style={{ border: `1px dashed ${config.primary}40` }}
+                              animate={{ rotate: 360 }}
+                              transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+                            />
+                            {/* Orbiting dot */}
+                            <motion.div
+                              className="absolute w-2 h-2 rounded-full"
+                              style={{
+                                background: config.primary,
+                                boxShadow: `0 0 10px ${config.glow}`,
+                                top: "50%",
+                                left: "50%",
+                              }}
+                              animate={{
+                                x: [24, 0, -24, 0, 24],
+                                y: [0, -24, 0, 24, 0],
+                              }}
+                              transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+                            />
+                            {/* Center icon container */}
+                            <div
+                              className="absolute inset-2 rounded-xl flex items-center justify-center"
+                              style={{
+                                background: `linear-gradient(135deg, ${config.primary}20, ${config.secondary}10)`,
+                                border: `1px solid ${config.primary}40`,
+                              }}
+                            >
+                              <Icon size={22} style={{ color: config.primary }} />
+                            </div>
+                          </div>
+
+                          {/* Title with glow */}
+                          <h3
+                            className="font-bold text-lg mb-2 tracking-wide"
+                            style={{
+                              color: config.primary,
+                              textShadow: `0 0 20px ${config.glow}`,
+                            }}
+                          >
+                            {highlight.title}
+                          </h3>
+
+                          {/* Description */}
+                          <p className="text-sm text-white/60 leading-relaxed">
+                            {highlight.description}
+                          </p>
+
+                          {/* Status indicator */}
+                          <div className="flex items-center mt-4 pt-3 border-t" style={{ borderColor: `${config.primary}20` }}>
+                            <div className="flex items-center gap-2">
+                              <motion.div
+                                className="w-2 h-2 rounded-full"
+                                style={{ background: config.primary }}
+                                animate={{ opacity: [1, 0.3, 1], scale: [1, 0.8, 1] }}
+                                transition={{ duration: 1.5, repeat: Infinity }}
+                              />
+                              <span className="text-[10px] font-mono uppercase tracking-widest" style={{ color: `${config.primary}99` }}>
+                                {highlight.status}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Data points floating in background */}
+                        {[...Array(4)].map((_, i) => (
+                          <motion.div
+                            key={i}
+                            className="absolute w-1 h-1 rounded-full"
+                            style={{
+                              background: config.primary,
+                              top: `${20 + i * 20}%`,
+                              right: `${10 + i * 5}%`,
+                              opacity: 0.4,
+                            }}
+                            animate={{
+                              y: [0, -10, 0],
+                              opacity: [0.2, 0.6, 0.2],
+                            }}
+                            transition={{
+                              duration: 2 + i * 0.5,
+                              repeat: Infinity,
+                              delay: i * 0.3,
+                            }}
+                          />
+                        ))}
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </div>
+
+              {/* Startup Founder & ISC President cards - last 2 highlight cards */}
+              <div className="grid grid-cols-2 gap-5 auto-rows-fr">
+                {highlights.slice(4, 6).map((highlight, index) => {
+                  const Icon = highlight.icon;
+                  const colorConfig = {
+                    cyan: { primary: "#22d3ee", secondary: "#06b6d4", glow: "rgba(34, 211, 238, 0.4)" },
+                    pink: { primary: "#f472b6", secondary: "#ec4899", glow: "rgba(244, 114, 182, 0.4)" },
+                    amber: { primary: "#fbbf24", secondary: "#f59e0b", glow: "rgba(251, 191, 36, 0.4)" },
+                    emerald: { primary: "#34d399", secondary: "#10b981", glow: "rgba(52, 211, 153, 0.4)" },
+                    purple: { primary: "#a855f7", secondary: "#9333ea", glow: "rgba(168, 85, 247, 0.4)" },
+                    blue: { primary: "#3b82f6", secondary: "#2563eb", glow: "rgba(59, 130, 246, 0.4)" },
+                  };
+                  const config = colorConfig[highlight.color as keyof typeof colorConfig];
+
+                  return (
+                    <motion.div
+                      key={highlight.title}
+                      initial={{ opacity: 0, y: 30, rotateX: -15 }}
+                      animate={isVisible ? { opacity: 1, y: 0, rotateX: 0 } : {}}
+                      transition={{ delay: 0.3 + (index + 4) * 0.12, type: "spring", stiffness: 100 }}
                       whileHover={{ y: -8, scale: 1.03, rotateY: 5 }}
                       className="group perspective-1000"
                       style={{ transformStyle: "preserve-3d" }}
@@ -641,47 +767,134 @@ export default function AboutSection() {
                   );
                 })}
               </div>
+            </motion.div>
+          </div>
 
-              {/* Education Card - Added to right column */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={isVisible ? { opacity: 1, y: 0 } : {}}
-                transition={{ delay: 0.8 }}
-                className="mt-4"
-              >
-                <Card variant="glass" padding="md" className="border-emerald-500/30 overflow-hidden relative">
-                  <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-transparent to-cyan-500/5" />
+          {/* Full-width row: Medical AI Research scan + Education card */}
+          <div className="grid lg:grid-cols-12 gap-8 mt-4">
+            {/* Medical AI Research Scan - 7 columns */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={isVisible ? { opacity: 1, y: 0 } : {}}
+              transition={{ delay: 0.7 }}
+              className="lg:col-span-7"
+            >
+              <Card variant="glass" padding="md" className="border-cyan-500/20 overflow-hidden relative h-full">
+                <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-transparent to-emerald-500/5" />
 
-                  {/* Corner accents */}
-                  <div className="absolute top-2 left-2 w-4 h-4 border-l-2 border-t-2 border-emerald-500/50" />
-                  <div className="absolute top-2 right-2 w-4 h-4 border-r-2 border-t-2 border-emerald-500/50" />
-                  <div className="absolute bottom-2 left-2 w-4 h-4 border-l-2 border-b-2 border-emerald-500/50" />
-                  <div className="absolute bottom-2 right-2 w-4 h-4 border-r-2 border-b-2 border-emerald-500/50" />
+                {/* Animated scan visualization */}
+                <div className="relative h-32">
+                  <svg viewBox="0 0 200 80" className="w-full h-full">
+                    <defs>
+                      <linearGradient id="scanGradientLeft" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="#22d3ee" stopOpacity="0" />
+                        <stop offset="50%" stopColor="#22d3ee" stopOpacity="1" />
+                        <stop offset="100%" stopColor="#22d3ee" stopOpacity="0" />
+                      </linearGradient>
+                    </defs>
 
-                  <div className="relative flex items-start gap-4">
-                    <motion.div
-                      className="w-14 h-14 rounded-xl bg-gradient-to-br from-emerald-500/20 to-emerald-500/5 border border-emerald-500/30 flex items-center justify-center flex-shrink-0"
-                      whileHover={{ rotate: 10, scale: 1.1 }}
+                    {/* Grid lines */}
+                    {Array.from({ length: 10 }, (_, i) => (
+                      <line
+                        key={`hl-${i}`}
+                        x1="0"
+                        y1={i * 8}
+                        x2="200"
+                        y2={i * 8}
+                        stroke="rgba(34, 211, 238, 0.1)"
+                        strokeWidth="0.5"
+                      />
+                    ))}
+                    {Array.from({ length: 20 }, (_, i) => (
+                      <line
+                        key={`vl-${i}`}
+                        x1={i * 10}
+                        y1="0"
+                        x2={i * 10}
+                        y2="80"
+                        stroke="rgba(34, 211, 238, 0.1)"
+                        strokeWidth="0.5"
+                      />
+                    ))}
+
+                    {/* Waveform */}
+                    <motion.path
+                      d="M 0 40 Q 20 40 30 20 T 60 40 T 90 50 T 120 30 T 150 40 T 180 35 T 200 40"
+                      fill="none"
+                      stroke="url(#scanGradientLeft)"
+                      strokeWidth="2"
+                      initial={{ pathLength: 0 }}
+                      animate={{ pathLength: 1 }}
+                      transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                    />
+
+                    {/* Moving scan line */}
+                    <motion.line
+                      x1="0"
+                      y1="0"
+                      x2="0"
+                      y2="80"
+                      stroke="#22d3ee"
+                      strokeWidth="2"
+                      animate={{ x1: [0, 200], x2: [0, 200] }}
+                      transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+                      opacity="0.5"
+                    />
+                  </svg>
+
+                  {/* Data readout */}
+                  <div className="absolute bottom-2 left-2 right-2 flex justify-between text-[10px] font-mono text-cyan-400/60">
+                    <span>MEDICAL AI RESEARCH</span>
+                    <motion.span
+                      animate={{ opacity: [1, 0.5, 1] }}
+                      transition={{ duration: 1, repeat: Infinity }}
                     >
-                      <GraduationCap size={28} className="text-emerald-400" />
-                    </motion.div>
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-2">
-                        <h4 className="font-bold text-white text-lg">Education</h4>
-                        <motion.div
-                          className="w-2 h-2 rounded-full bg-emerald-400"
-                          animate={{ opacity: [1, 0.3, 1], scale: [1, 0.8, 1] }}
-                          transition={{ duration: 1.5, repeat: Infinity }}
-                        />
-                      </div>
-                      <div className="space-y-1">
-                        <p className="text-emerald-400 font-medium">MS Computer Science, USC '27</p>
-                        <p className="text-white/50 text-sm">BS Computer Science, Penn State '25</p>
-                      </div>
+                      ACTIVE
+                    </motion.span>
+                  </div>
+                </div>
+              </Card>
+            </motion.div>
+
+            {/* Education Card - 5 columns */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={isVisible ? { opacity: 1, y: 0 } : {}}
+              transition={{ delay: 0.8 }}
+              className="lg:col-span-5"
+            >
+              <Card variant="glass" padding="md" className="border-emerald-500/30 overflow-hidden relative h-full">
+                <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-transparent to-cyan-500/5" />
+
+                {/* Corner accents */}
+                <div className="absolute top-2 left-2 w-4 h-4 border-l-2 border-t-2 border-emerald-500/50" />
+                <div className="absolute top-2 right-2 w-4 h-4 border-r-2 border-t-2 border-emerald-500/50" />
+                <div className="absolute bottom-2 left-2 w-4 h-4 border-l-2 border-b-2 border-emerald-500/50" />
+                <div className="absolute bottom-2 right-2 w-4 h-4 border-r-2 border-b-2 border-emerald-500/50" />
+
+                <div className="relative flex items-start gap-4">
+                  <motion.div
+                    className="w-16 h-16 rounded-xl bg-gradient-to-br from-emerald-500/20 to-emerald-500/5 border border-emerald-500/30 flex items-center justify-center flex-shrink-0"
+                    whileHover={{ rotate: 10, scale: 1.1 }}
+                  >
+                    <GraduationCap size={32} className="text-emerald-400" />
+                  </motion.div>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-3">
+                      <h4 className="font-bold text-white text-xl">Education</h4>
+                      <motion.div
+                        className="w-2 h-2 rounded-full bg-emerald-400"
+                        animate={{ opacity: [1, 0.3, 1], scale: [1, 0.8, 1] }}
+                        transition={{ duration: 1.5, repeat: Infinity }}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <p className="text-emerald-400 font-medium text-lg">MS Computer Science, USC '27</p>
+                      <p className="text-white/50 text-base">BS Computer Science, Penn State '25</p>
                     </div>
                   </div>
-                </Card>
-              </motion.div>
+                </div>
+              </Card>
             </motion.div>
           </div>
 

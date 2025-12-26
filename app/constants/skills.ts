@@ -47,32 +47,7 @@ export const skillCategories: SkillCategory[] = [
       { name: "Gene Expression" },
       { name: "R/Bioconductor" },
       { name: "Statistical Genetics" },
-    ],
-  },
-  {
-    id: "programming",
-    title: "Programming",
-    icon: "",
-    skills: [
-      { name: "Python" },
-      { name: "SQL" },
-      { name: "Java" },
-      { name: "C++" },
-      { name: "MATLAB" },
-      { name: "R" },
-    ],
-  },
-  {
-    id: "cloud",
-    title: "Cloud & Infrastructure",
-    icon: "",
-    skills: [
-      { name: "Docker" },
-      { name: "GPU Computing (CUDA)" },
-      { name: "AWS (S3, EC2, SageMaker)" },
-      { name: "Google Cloud Platform" },
-      { name: "HPC/SLURM" },
-      { name: "Kubernetes" },
+      { name: "Sequence Alignment" },
     ],
   },
   {

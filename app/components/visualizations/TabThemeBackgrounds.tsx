@@ -846,7 +846,7 @@ export function LeadershipBackground() {
 // MAIN EXPORT - Dynamic Tab Background Selector
 // ============================================
 interface TabBackgroundProps {
-  activeTab: string;
+  activeTab: string | null;
 }
 
 export default function TabThemeBackground({ activeTab }: TabBackgroundProps) {

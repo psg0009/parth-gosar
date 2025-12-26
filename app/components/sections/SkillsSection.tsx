@@ -3,7 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { useIntersection } from "@/app/hooks/useIntersection";
-import { skillCategories, technologies, medicalDomains } from "@/app/constants/skills";
+import { skillCategories, medicalDomains } from "@/app/constants/skills";
 import FlowingBackground from "../visualizations/FlowingBackground";
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -13,8 +13,6 @@ const categoryColors: Record<string, { primary: string; secondary: string; glow:
   "medical-ai": { primary: "#22d3ee", secondary: "#06b6d4", glow: "rgba(34, 211, 238, 0.5)" },
   "ml-ai": { primary: "#a855f7", secondary: "#9333ea", glow: "rgba(168, 85, 247, 0.5)" },
   "bioinformatics": { primary: "#10b981", secondary: "#059669", glow: "rgba(16, 185, 129, 0.5)" },
-  "programming": { primary: "#f59e0b", secondary: "#d97706", glow: "rgba(245, 158, 11, 0.5)" },
-  "cloud": { primary: "#ec4899", secondary: "#db2777", glow: "rgba(236, 72, 153, 0.5)" },
   "research": { primary: "#3b82f6", secondary: "#2563eb", glow: "rgba(59, 130, 246, 0.5)" },
 };
 
@@ -77,10 +75,10 @@ function HolographicSkillCard({ category, index, isVisible }: { category: typeof
       initial={{ opacity: 0, y: 30, rotateX: -10 }}
       animate={isVisible ? { opacity: 1, y: 0, rotateX: 0 } : {}}
       transition={{ delay: 0.2 + index * 0.1, type: "spring", stiffness: 100 }}
-      className="group perspective-1000"
+      className="group perspective-1000 h-full"
     >
       <div
-        className="relative rounded-2xl overflow-hidden backdrop-blur-xl transition-all duration-500"
+        className="relative rounded-2xl overflow-hidden backdrop-blur-xl transition-all duration-500 h-full"
         style={{ background: `linear-gradient(135deg, rgba(0,0,0,0.6), rgba(0,0,0,0.3))`, border: `1px solid ${colors.primary}30` }}
       >
         {/* Holographic shimmer */}
@@ -106,7 +104,7 @@ function HolographicSkillCard({ category, index, isVisible }: { category: typeof
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
               <motion.div
-                className="relative w-12 h-12 rounded-xl flex items-center justify-center"
+                className="relative w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
                 style={{ background: `linear-gradient(135deg, ${colors.primary}20, ${colors.secondary}10)`, border: `1px solid ${colors.primary}40`, boxShadow: `0 0 20px ${colors.primary}20` }}
                 whileHover={{ rotate: 10, scale: 1.1 }}
               >
@@ -123,8 +121,8 @@ function HolographicSkillCard({ category, index, isVisible }: { category: typeof
                   transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
                 />
               </motion.div>
-              <div>
-                <h3 className="text-lg font-bold" style={{ color: colors.primary }}>{category.title}</h3>
+              <div className="min-h-[48px]">
+                <h3 className="text-lg font-bold leading-tight" style={{ color: colors.primary }}>{category.title}</h3>
                 <p className="text-xs text-white/40 font-mono">{category.skills.length} SKILLS</p>
               </div>
             </div>
@@ -324,121 +322,6 @@ function NeuralDomainHub({ domains, isVisible }: { domains: typeof medicalDomain
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// TECH CONSTELLATION - Technology tags cloud
-// ═══════════════════════════════════════════════════════════════════════════════
-function TechConstellation({ isVisible }: { technologies: string[]; isVisible: boolean }) {
-  // Organized tech categories with their colors
-  const techCategories = [
-    {
-      label: "Medical AI",
-      color: "#22d3ee",
-      bg: "rgba(34, 211, 238, 0.1)",
-      border: "rgba(34, 211, 238, 0.3)",
-      techs: ["MONAI", "VarNet", "U-Net", "DICOM", "Bioconductor", "Genomics"],
-    },
-    {
-      label: "ML/Deep Learning",
-      color: "#a855f7",
-      bg: "rgba(168, 85, 247, 0.1)",
-      border: "rgba(168, 85, 247, 0.3)",
-      techs: ["PyTorch", "TensorFlow", "Transformers", "CNNs", "LSTMs", "Scikit-learn"],
-    },
-    {
-      label: "Programming",
-      color: "#f59e0b",
-      bg: "rgba(245, 158, 11, 0.1)",
-      border: "rgba(245, 158, 11, 0.3)",
-      techs: ["Python", "Java", "C++", "R", "SQL", "MATLAB"],
-    },
-    {
-      label: "Cloud/Infra",
-      color: "#ec4899",
-      bg: "rgba(236, 72, 153, 0.1)",
-      border: "rgba(236, 72, 153, 0.3)",
-      techs: ["AWS", "GCP", "Docker", "Kubernetes", "CUDA"],
-    },
-    {
-      label: "Data Science",
-      color: "#10b981",
-      bg: "rgba(16, 185, 129, 0.1)",
-      border: "rgba(16, 185, 129, 0.3)",
-      techs: ["Pandas", "NumPy", "Matplotlib", "OpenCV", "Hugging Face"],
-    },
-  ];
-
-  return (
-    <div className="relative rounded-2xl overflow-hidden" style={{ background: 'linear-gradient(135deg, rgba(0,0,0,0.4), rgba(0,0,0,0.2))' }}>
-      {/* Animated border */}
-      <div className="absolute inset-0 rounded-2xl">
-        <motion.div
-          className="absolute inset-0 rounded-2xl"
-          style={{ background: 'linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.2), rgba(168, 85, 247, 0.2), transparent)', backgroundSize: '200% 100%' }}
-          animate={{ backgroundPosition: ['200% 0', '-200% 0'] }}
-          transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
-        />
-      </div>
-
-      <div className="relative p-8 border border-white/10 rounded-2xl backdrop-blur-xl">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <motion.div className="inline-flex items-center gap-3 px-6 py-2 rounded-full bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-emerald-500/10 border border-white/10 mb-4" whileHover={{ scale: 1.02 }}>
-            <motion.span className="text-cyan-400" animate={{ rotate: 360 }} transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}>◈</motion.span>
-            <span className="text-white/80 font-medium">Technologies & Tools</span>
-            <motion.span className="text-purple-400" animate={{ rotate: -360 }} transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}>◈</motion.span>
-          </motion.div>
-          <p className="text-sm text-white/40">Comprehensive tech stack for biomedical AI research</p>
-        </div>
-
-        {/* Tech tags - Organized by category rows */}
-        <div className="space-y-4">
-          {techCategories.map((category, catIndex) => (
-            <motion.div
-              key={category.label}
-              className="flex flex-wrap justify-center gap-3"
-              initial={{ opacity: 0, y: 20 }}
-              animate={isVisible ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.8 + catIndex * 0.15 }}
-            >
-              {category.techs.map((tech, techIndex) => (
-                <motion.div
-                  key={tech}
-                  initial={{ opacity: 0, scale: 0 }}
-                  animate={isVisible ? { opacity: 1, scale: 1 } : {}}
-                  transition={{ delay: 1 + catIndex * 0.15 + techIndex * 0.05, type: 'spring', stiffness: 200 }}
-                  whileHover={{ scale: 1.1, y: -5 }}
-                  className="group relative"
-                >
-                  <div
-                    className="px-4 py-2 rounded-xl backdrop-blur-md transition-all duration-300 cursor-pointer"
-                    style={{ background: category.bg, border: `1px solid ${category.border}` }}
-                  >
-                    <div
-                      className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity"
-                      style={{ boxShadow: `0 0 20px ${category.color}30` }}
-                    />
-                    <span className="relative text-sm font-medium" style={{ color: category.color }}>{tech}</span>
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Legend */}
-        <div className="flex flex-wrap justify-center gap-6 mt-8 pt-6 border-t border-white/10">
-          {techCategories.map((item) => (
-            <div key={item.label} className="flex items-center gap-2">
-              <div className="w-2 h-2 rounded-full" style={{ background: item.color, boxShadow: `0 0 8px ${item.color}60` }} />
-              <span className="text-xs text-white/50">{item.label}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// ═══════════════════════════════════════════════════════════════════════════════
 // MAIN SKILLS SECTION
 // ═══════════════════════════════════════════════════════════════════════════════
 export default function SkillsSection() {
@@ -613,7 +496,7 @@ export default function SkillsSection() {
           transition={{ delay: 0.6 }}
           className="mb-20"
         >
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
             <AnimatePresence mode="wait">
               {skillCategories
                 .filter((cat) => !activeCategory || cat.id === activeCategory)
@@ -627,15 +510,6 @@ export default function SkillsSection() {
                 ))}
             </AnimatePresence>
           </div>
-        </motion.div>
-
-        {/* Technologies - Constellation */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isVisible ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 0.8 }}
-        >
-          <TechConstellation technologies={technologies} isVisible={isVisible} />
         </motion.div>
       </div>
     </section>

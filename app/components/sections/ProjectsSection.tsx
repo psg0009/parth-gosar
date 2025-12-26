@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useIntersection } from "@/app/hooks/useIntersection";
-import { ExternalLink, Mail, ArrowUpRight, Brain, Activity, Dna, TrendingUp, FileSearch, Car, BookOpen, Beaker, Code, Bug, Calculator, Utensils, Binary, Microscope } from "lucide-react";
+import { ExternalLink, ArrowUpRight, Brain, Activity, Dna, TrendingUp, FileSearch, Car, BookOpen, Beaker, Code, Bug, Calculator, Utensils, Binary, Microscope } from "lucide-react";
 import Card from "../ui/Card";
 import Badge from "../ui/Badge";
 import Button from "../ui/Button";
@@ -501,7 +501,7 @@ function ProjectCard({ project }: ProjectCardProps) {
 
         {/* Featured Badge */}
         {project.featured && (
-          <div className="absolute top-4 left-4 flex items-center gap-1.5 text-xs text-primary font-mono bg-black/30 backdrop-blur-sm px-2 py-1 rounded-full">
+          <div className="absolute top-4 left-4 z-10 flex items-center gap-1.5 text-xs text-primary font-mono bg-black/30 backdrop-blur-sm px-2 py-1 rounded-full">
             <span className="w-1.5 h-1.5 bg-primary rounded-full animate-pulse" />
             FEATURED
           </div>
@@ -510,9 +510,9 @@ function ProjectCard({ project }: ProjectCardProps) {
         {/* Decorative grid pattern */}
         <div className="absolute inset-0 opacity-10 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:20px_20px]" />
 
-        {/* Project Illustration - Centered Visual */}
+        {/* Project Illustration - Centered Visual (behind text) */}
         <motion.div
-          className="absolute inset-0 flex items-center justify-center p-6 pt-10 z-10"
+          className="absolute inset-0 flex items-center justify-center p-6 pt-10 z-0"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
@@ -559,16 +559,6 @@ function ProjectCard({ project }: ProjectCardProps) {
 
         {/* Links */}
         <div className="flex items-center gap-4 pt-4 border-t border-cyber-border/50">
-          {["vwi-mri-reconstruction", "crossmodal-hemanet", "synthetic-data-ml"].includes(project.id) && (
-            <motion.a
-              href="mailto:gosar@usc.edu?subject=Code%20Request%20-%20Project"
-              className="flex items-center gap-1.5 text-sm text-white/60 hover:text-primary transition-colors"
-              whileHover={{ x: 2 }}
-            >
-              <Mail size={16} />
-              Request Code
-            </motion.a>
-          )}
           {project.live && (
             <motion.a
               href={project.live}

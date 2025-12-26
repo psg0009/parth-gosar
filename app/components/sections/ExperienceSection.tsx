@@ -2,7 +2,7 @@
 
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { useIntersection } from "@/app/hooks/useIntersection";
-import { ExternalLink, Briefcase, FlaskConical, GraduationCap, BookOpen, Award, Newspaper, Users, ChevronRight, Sparkles, MapPin, Calendar, ArrowUpRight, Globe, Rocket, Star, Target, Activity, TrendingUp, Crown, Trophy, Building, User, FileText } from "lucide-react";
+import { ExternalLink, Briefcase, FlaskConical, GraduationCap, BookOpen, Award, Newspaper, Users, ChevronRight, Sparkles, MapPin, Calendar, ArrowUpRight, Globe, Crown, Trophy, Building, User, FileText, Rocket, Star } from "lucide-react";
 import Card from "../ui/Card";
 import Badge from "../ui/Badge";
 import { experiences, education, awards, newsArticles, iscJourney, additionalLeadership, publications, leadership } from "@/app/constants/experience";
@@ -11,276 +11,14 @@ import FlowingBackground from "../visualizations/FlowingBackground";
 import TabThemeBackground from "../visualizations/TabThemeBackgrounds";
 
 // ============================================
-// GALAXY JOURNEY VISUALIZATION
-// A stunning 3D-inspired orbital timeline
-// ============================================
-
-type NodeColorKey = "cyan" | "purple" | "pink" | "green" | "amber";
-
-interface GalaxyNode {
-  id: string;
-  label: string;
-  year: string;
-  description: string;
-  icon: React.ReactNode;
-  colorKey: NodeColorKey;
-  size: "lg" | "md" | "sm";
-  highlight?: boolean;
-}
-
-// Map color keys to Tailwind classes
-const nodeColorClasses: Record<NodeColorKey, { bg: string; border: string; text: string; shadow: string }> = {
-  cyan: { bg: "bg-cyan-400", border: "border-cyan-400", text: "text-cyan-400", shadow: "shadow-cyan-400/30" },
-  purple: { bg: "bg-violet-500", border: "border-violet-500", text: "text-violet-500", shadow: "shadow-violet-500/30" },
-  pink: { bg: "bg-pink-400", border: "border-pink-400", text: "text-pink-400", shadow: "shadow-pink-400/30" },
-  green: { bg: "bg-emerald-400", border: "border-emerald-400", text: "text-emerald-400", shadow: "shadow-emerald-400/30" },
-  amber: { bg: "bg-amber-400", border: "border-amber-400", text: "text-amber-400", shadow: "shadow-amber-400/30" },
-};
-
-const journeyMilestones: GalaxyNode[] = [
-  { id: "psu-start", label: "Penn State Journey Begins", year: "2022", description: "Started BS in Computer Science", icon: <GraduationCap size={20} />, colorKey: "cyan", size: "md" },
-  { id: "isc-join", label: "ISC Programming Committee", year: "2022", description: "First step in student leadership", icon: <Users size={20} />, colorKey: "purple", size: "sm" },
-  { id: "upua", label: "UPUA Representative", year: "2022", description: "Voice of international students", icon: <Globe size={20} />, colorKey: "pink", size: "sm" },
-  { id: "research-start", label: "Research Assistant", year: "2023", description: "IST - Conversational AI", icon: <FlaskConical size={20} />, colorKey: "green", size: "md" },
-  { id: "finance-dir", label: "ISC Finance Director", year: "2023", description: "Managing 3000+ student budget", icon: <TrendingUp size={20} />, colorKey: "amber", size: "md" },
-  { id: "nlp-intern", label: "NLP Summer Intern", year: "2024", description: "Influenza Predictive Analysis", icon: <Activity size={20} />, colorKey: "cyan", size: "sm" },
-  { id: "isc-president", label: "60th ISC President", year: "2024", description: "Historic leadership milestone", icon: <Star size={20} />, colorKey: "green", size: "lg", highlight: true },
-  { id: "cob", label: "Oversight Board Member", year: "2024", description: "State College Borough", icon: <Target size={20} />, colorKey: "purple", size: "sm" },
-  { id: "insurespectre", label: "Founded INSURESPECTRE", year: "2025", description: "AI Insurance Platform", icon: <Rocket size={20} />, colorKey: "pink", size: "md" },
-  { id: "oswald", label: "John W. Oswald Award", year: "2025", description: "Highest student honor", icon: <Award size={20} />, colorKey: "amber", size: "lg", highlight: true },
-  { id: "usc-start", label: "USC MS Journey", year: "2025", description: "AI specialization begins", icon: <GraduationCap size={20} />, colorKey: "green", size: "lg", highlight: true },
-  { id: "usc-research", label: "Dual Lab Research", year: "2025", description: "MRI & Epigenetics Labs", icon: <FlaskConical size={20} />, colorKey: "cyan", size: "md" },
-];
-
-// Constellation background with animated stars
-function ConstellationBackground() {
-  const [stars, setStars] = useState<Array<{ x: number; y: number; size: number; delay: number }>>([]);
-
-  useEffect(() => {
-    const newStars = Array.from({ length: 100 }, () => ({
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-      size: Math.random() * 2 + 0.5,
-      delay: Math.random() * 3,
-    }));
-    setStars(newStars);
-  }, []);
-
-  return (
-    <div className="absolute inset-0 overflow-hidden">
-      {stars.map((star, i) => (
-        <motion.div
-          key={i}
-          className="absolute rounded-full bg-white dynamic-position dynamic-size"
-          style={{
-            ['--pos-x' as string]: `${star.x}%`,
-            ['--pos-y' as string]: `${star.y}%`,
-            ['--size' as string]: `${star.size}px`,
-          }}
-          animate={{
-            opacity: [0.2, 0.8, 0.2],
-            scale: [1, 1.2, 1],
-          }}
-          transition={{
-            duration: 2 + Math.random() * 2,
-            delay: star.delay,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
-      ))}
-    </div>
-  );
-}
-
-// Floating particle system
-const particleColors = ["particle-green", "particle-cyan", "particle-purple", "particle-pink"];
-
-function FloatingParticles() {
-  return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {Array.from({ length: 30 }, (_, i) => (
-        <motion.div
-          key={i}
-          className={`absolute w-1 h-1 rounded-full dynamic-position ${particleColors[i % 4]}`}
-          style={{
-            ['--pos-x' as string]: `${Math.random() * 100}%`,
-            ['--pos-y' as string]: `${Math.random() * 100}%`,
-          }}
-          animate={{
-            y: [0, -30, 0],
-            x: [0, Math.random() * 20 - 10, 0],
-            opacity: [0, 0.6, 0],
-          }}
-          transition={{
-            duration: 4 + Math.random() * 3,
-            delay: i * 0.2,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
-      ))}
-    </div>
-  );
-}
-
-// Galaxy orbital path visualization - Elliptical layout around center
-function GalaxyOrbit({ selectedNode, onNodeSelect }: { selectedNode: string | null; onNodeSelect: (id: string) => void }) {
-  const colorClasses = nodeColorClasses;
-  const selectedMilestone = journeyMilestones.find(n => n.id === selectedNode) || null;
-
-  // Node sizes for Tailwind classes
-  const nodeSizeClasses = {
-    lg: "w-14 h-14",
-    md: "w-12 h-12",
-    sm: "w-10 h-10",
-  };
-
-  // Calculate elliptical positions around center - wide horizontal ellipse
-  const getNodePosition = (index: number, total: number) => {
-    const angle = (index / total) * 2 * Math.PI - Math.PI / 2; // Start from top
-    const radiusX = 46; // Horizontal radius (percentage) - wider
-    const radiusY = 32; // Vertical radius (percentage) - shorter for clear ellipse
-    const x = 50 + radiusX * Math.cos(angle);
-    const y = 50 + radiusY * Math.sin(angle);
-    return { x, y };
-  };
-
-  // Generate SVG path for ellipse that passes through nodes
-  const generateEllipsePath = () => {
-    // Use same radiusX and radiusY as getNodePosition
-    const radiusX = 46;
-    const radiusY = 32;
-    // SVG ellipse path: M (start) A (arc) ... Z (close)
-    return `M ${50 + radiusX},50 A ${radiusX},${radiusY} 0 1,1 ${50 - radiusX},50 A ${radiusX},${radiusY} 0 1,1 ${50 + radiusX},50`;
-  };
-
-  return (
-    <div className="relative w-full py-8">
-      {/* Elliptical node layout - contains everything */}
-      <div className="relative w-full aspect-[4/3] max-w-4xl mx-auto min-h-[450px] md:min-h-[550px]">
-        {/* Elliptical orbit path - drawn through node positions */}
-        <svg
-          className="absolute inset-0 w-full h-full pointer-events-none"
-          style={{ overflow: 'visible' }}
-        >
-          <ellipse
-            cx="50%"
-            cy="50%"
-            rx="46%"
-            ry="32%"
-            fill="none"
-            stroke="rgba(139, 92, 246, 0.4)"
-            strokeWidth="2"
-            strokeDasharray="8 6"
-          />
-        </svg>
-
-        {/* Central glow - centered in node container */}
-        <motion.div
-          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-r from-primary/30 via-secondary/20 to-accent/30 blur-3xl w-[180px] h-[180px] pointer-events-none"
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.3, 0.5, 0.3],
-          }}
-          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-        />
-
-        {/* Center label - centered in node container */}
-        <motion.div
-          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center text-center pointer-events-none z-10"
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 1 }}
-        >
-          <span className="text-3xl md:text-4xl font-bold gradient-text">Journey</span>
-          <span className="text-xs text-white/50 font-mono mt-1">2022 - Present</span>
-        </motion.div>
-        {journeyMilestones.map((node, index) => {
-          const colors = colorClasses[node.colorKey];
-          const sizeClass = nodeSizeClasses[node.size];
-          const pos = getNodePosition(index, journeyMilestones.length);
-
-          const pulseColorClass = {
-            cyan: "bg-cyan-400",
-            purple: "bg-violet-500",
-            pink: "bg-pink-400",
-            green: "bg-emerald-400",
-            amber: "bg-amber-400",
-          }[node.colorKey];
-
-          return (
-            <motion.div
-              key={node.id}
-              className="absolute flex flex-col items-center group"
-              style={{
-                left: `${pos.x}%`,
-                top: `${pos.y}%`,
-                transform: "translate(-50%, -50%)",
-              }}
-              initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ delay: index * 0.08, type: "spring", stiffness: 200 }}
-            >
-              <div className="relative">
-                {/* Pulse ring for highlighted nodes */}
-                {node.highlight && (
-                  <motion.div
-                    className={`absolute inset-0 rounded-full ${pulseColorClass}`}
-                    animate={{
-                      scale: [1, 1.8, 1],
-                      opacity: [0.4, 0, 0.4],
-                    }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                  />
-                )}
-
-                {/* Node */}
-                <motion.div
-                  className={`relative flex items-center justify-center rounded-full border-2 backdrop-blur-sm ${sizeClass} bg-black/20 ${colors.border} shadow-lg`}
-                  whileHover={{ scale: 1.1 }}
-                >
-                  <span className={colors.text}>{node.icon}</span>
-                </motion.div>
-              </div>
-
-              {/* Year label */}
-              <motion.div
-                className={`mt-2 text-xs font-mono whitespace-nowrap ${colors.text}`}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: index * 0.1 + 0.5 }}
-              >
-                {node.year}
-              </motion.div>
-
-              {/* Hover tooltip with label */}
-              <div className="absolute -top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
-                <div className="px-3 py-1.5 rounded-lg bg-black/90 backdrop-blur-sm border border-white/20 whitespace-nowrap shadow-lg">
-                  <span className="text-xs text-white/90">{node.label}</span>
-                </div>
-              </div>
-            </motion.div>
-          );
-        })}
-
-      </div>
-    </div>
-  );
-}
-
-
-// ============================================
 // TABS AND CONTENT SECTIONS
 // ============================================
 
 const tabs = [
-  { id: "journey", label: "Journey", icon: Rocket, color: "gradient", hex: "#00ff88" },
   { id: "work", label: "Work", icon: Briefcase, color: "primary", hex: "#00ff88" },
   { id: "research", label: "Research", icon: FlaskConical, color: "secondary", hex: "#8b5cf6" },
   { id: "teaching", label: "Teaching", icon: BookOpen, color: "accent", hex: "#f472b6" },
   { id: "publications", label: "Publications", icon: BookOpen, color: "cyan", hex: "#22d3ee" },
-  { id: "education", label: "Education", icon: GraduationCap, color: "emerald", hex: "#10b981" },
   { id: "awards", label: "Awards", icon: Award, color: "amber", hex: "#fbbf24" },
   { id: "news", label: "News", icon: Newspaper, color: "pink", hex: "#f472b6" },
   { id: "leadership", label: "Leadership", icon: Users, color: "purple", hex: "#a855f7" },
@@ -288,13 +26,24 @@ const tabs = [
 
 export default function ExperienceSection() {
   const { ref, isVisible } = useIntersection<HTMLElement>({ threshold: 0.1 });
-  const [activeTab, setActiveTab] = useState("journey");
+  const [activeTab, setActiveTab] = useState<string | null>("work");
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"],
   });
+
+  // Listen for custom event to open specific tab
+  useEffect(() => {
+    const handleOpenTab = (event: CustomEvent) => {
+      setActiveTab(event.detail);
+    };
+    window.addEventListener("openTab", handleOpenTab as EventListener);
+    return () => {
+      window.removeEventListener("openTab", handleOpenTab as EventListener);
+    };
+  }, []);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -340,9 +89,6 @@ export default function ExperienceSection() {
 
       {/* Pink/Purple theme for Experience timeline */}
       <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-pink-500/5 to-transparent pointer-events-none" />
-
-      {/* Galaxy Background for constellation effect */}
-      <ConstellationBackground />
 
       <div ref={containerRef} className="relative container-custom">
         <motion.div
@@ -453,7 +199,7 @@ export default function ExperienceSection() {
                   </div>
 
                   {/* Tab grid */}
-                  <div className="relative grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-9 gap-3">
+                  <div className="relative flex flex-wrap justify-center gap-3">
                     {tabs.map((tab, index) => {
                       const Icon = tab.icon;
                       const isActive = activeTab === tab.id;
@@ -461,7 +207,7 @@ export default function ExperienceSection() {
                       return (
                         <motion.button
                           key={tab.id}
-                          onClick={() => setActiveTab(tab.id)}
+                          onClick={() => setActiveTab(activeTab === tab.id ? null : tab.id)}
                           className="relative group"
                           initial={{ opacity: 0, y: 20, rotateX: -30 }}
                           animate={{ opacity: 1, y: 0, rotateX: 0 }}
@@ -475,6 +221,7 @@ export default function ExperienceSection() {
                             className={`
                               relative flex flex-col items-center gap-2 p-4 rounded-2xl
                               border transition-all duration-500 overflow-hidden
+                              w-24 h-28
                               ${isActive
                                 ? "bg-black/30 border-transparent"
                                 : "bg-white/[0.02] border-white/10 hover:border-white/20 hover:bg-white/[0.05]"
@@ -635,7 +382,7 @@ export default function ExperienceSection() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.5 }}
-                    style={{ ['--tab-color' as string]: tabs.find(t => t.id === activeTab)?.hex }}
+                    style={{ ['--tab-color' as string]: tabs.find(t => t.id === activeTab)?.hex || '#10b981' }}
                   >
                     <div className="flex items-center gap-2">
                       <motion.div
@@ -644,11 +391,15 @@ export default function ExperienceSection() {
                         transition={{ duration: 1.5, repeat: Infinity }}
                       />
                       <span className="text-xs font-mono text-white/40 tracking-widest">
-                        VIEWING: <span className="font-semibold tab-viewing-text">{activeTab.toUpperCase()}</span>
+                        {activeTab ? (
+                          <>VIEWING: <span className="font-semibold tab-viewing-text">{activeTab.toUpperCase()}</span></>
+                        ) : (
+                          <>SELECT A TAB</>
+                        )}
                       </span>
                     </div>
                     <div className="text-xs font-mono text-white/20">
-                      [{tabs.findIndex(t => t.id === activeTab) + 1}/{tabs.length}]
+                      [{activeTab ? tabs.findIndex(t => t.id === activeTab) + 1 : 0}/{tabs.length}]
                     </div>
                   </motion.div>
                 </div>
@@ -672,26 +423,6 @@ export default function ExperienceSection() {
             </motion.div>
 
             <AnimatePresence mode="wait">
-              {/* JOURNEY TAB - Galaxy Visualization */}
-              {activeTab === "journey" && (
-                <motion.div
-                  key="journey"
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.4 }}
-                  className="relative space-y-8"
-                >
-                  {/* Galaxy Orbit Visualization */}
-                  <motion.div
-                    className="relative overflow-hidden"
-                    variants={itemVariants}
-                  >
-                    <GalaxyOrbit selectedNode={null} onNodeSelect={() => {}} />
-                  </motion.div>
-                </motion.div>
-              )}
-
             {/* WORK TAB */}
             {activeTab === "work" && (
               <motion.div
@@ -1117,183 +848,6 @@ export default function ExperienceSection() {
                                   <ExternalLink size={16} className="text-cyan-400" />
                                 </motion.a>
                               )}
-                            </div>
-                          </div>
-                        </div>
-                      </motion.div>
-                    ))}
-                  </div>
-                </div>
-              </motion.div>
-            )}
-
-            {/* EDUCATION TAB */}
-            {activeTab === "education" && (
-              <motion.div
-                key="education"
-                variants={containerVariants}
-                initial="hidden"
-                animate="visible"
-                exit={{ opacity: 0, x: -20 }}
-                className="relative space-y-8"
-              >
-                {/* Section Header */}
-                <motion.div
-                  className="flex items-center gap-4 mb-2"
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                >
-                  <motion.div
-                    className="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-400 via-emerald-500 to-teal-600 flex items-center justify-center shadow-lg shadow-emerald-500/30"
-                    animate={{ rotate: [0, 5, -5, 0] }}
-                    transition={{ duration: 6, repeat: Infinity }}
-                  >
-                    <GraduationCap size={28} className="text-white" />
-                  </motion.div>
-                  <div className="flex-1">
-                    <h3 className="text-xl font-bold text-white tracking-tight">Academic Journey</h3>
-                    <motion.div
-                      className="h-0.5 bg-gradient-to-r from-emerald-400 via-teal-400 to-transparent mt-1"
-                      initial={{ width: 0 }}
-                      animate={{ width: "100%" }}
-                      transition={{ duration: 0.8, delay: 0.2 }}
-                    />
-                  </div>
-                </motion.div>
-
-                {/* Education Cards - Timeline Style */}
-                <div className="relative">
-                  {/* Vertical Timeline Line */}
-                  <motion.div
-                    className="absolute left-6 top-0 bottom-0 w-0.5 bg-gradient-to-b from-emerald-400 via-teal-500 to-cyan-500"
-                    initial={{ scaleY: 0, originY: 0 }}
-                    animate={{ scaleY: 1 }}
-                    transition={{ duration: 1, delay: 0.3 }}
-                  />
-
-                  <div className="space-y-8">
-                    {education.map((edu, index) => (
-                      <motion.div
-                        key={edu.id}
-                        initial={{ opacity: 0, x: -50 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: index * 0.2 + 0.4, type: "spring", stiffness: 100 }}
-                        className="relative pl-16 group"
-                      >
-                        {/* Timeline Node */}
-                        <motion.div
-                          className="absolute left-3 top-6 w-7 h-7 rounded-full bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center z-10 shadow-lg shadow-emerald-500/30"
-                          initial={{ scale: 0 }}
-                          animate={{ scale: 1 }}
-                          transition={{ delay: index * 0.2 + 0.5, type: "spring" }}
-                        >
-                          <motion.div
-                            className="absolute inset-0 rounded-full bg-emerald-400"
-                            animate={{ scale: [1, 1.5, 1], opacity: [0.5, 0, 0.5] }}
-                            transition={{ duration: 2, repeat: Infinity, delay: index * 0.3 }}
-                          />
-                          <div className="w-2 h-2 rounded-full bg-white" />
-                        </motion.div>
-
-                        {/* Education Card */}
-                        <div className="relative bg-gradient-to-br from-black/20 via-black/15 to-emerald-900/20 backdrop-blur-md rounded-2xl border border-emerald-500/20 overflow-hidden hover:border-emerald-400/50 transition-all duration-500 hover:shadow-2xl hover:shadow-emerald-500/10 group-hover:translate-x-2">
-                          {/* Animated Top Border */}
-                          <motion.div
-                            className="h-1 bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400"
-                            initial={{ scaleX: 0 }}
-                            animate={{ scaleX: 1 }}
-                            transition={{ delay: index * 0.2 + 0.6, duration: 0.5 }}
-                          />
-
-                          {/* Holographic Effect */}
-                          <div className="absolute top-0 right-0 w-32 h-32">
-                            <motion.div
-                              className="absolute inset-0 bg-gradient-to-bl from-emerald-500/10 via-transparent to-transparent"
-                              animate={{ opacity: [0.3, 0.6, 0.3] }}
-                              transition={{ duration: 3, repeat: Infinity }}
-                            />
-                          </div>
-
-                          <div className="p-6 relative">
-                            <div className="flex flex-wrap items-start justify-between gap-4">
-                              <div className="flex-1">
-                                {/* Degree */}
-                                <motion.h3
-                                  className="text-xl font-bold text-white mb-2 group-hover:text-emerald-400 transition-colors"
-                                  whileHover={{ x: 5 }}
-                                >
-                                  {edu.degree}
-                                </motion.h3>
-
-                                {/* School */}
-                                <div className="flex items-center gap-3 mb-3">
-                                  <motion.div
-                                    className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center"
-                                    whileHover={{ rotate: 10 }}
-                                  >
-                                    <Building size={16} className="text-emerald-400" />
-                                  </motion.div>
-                                  <span className="text-emerald-400 font-semibold">{edu.school}</span>
-                                </div>
-
-                                {/* Location */}
-                                <div className="flex items-center gap-2 text-white/50 text-sm">
-                                  <MapPin size={14} className="text-emerald-400/60" />
-                                  <span>{edu.location}</span>
-                                </div>
-
-                                {/* Focus */}
-                                {edu.focus && (
-                                  <motion.div
-                                    className="mt-4 p-3 bg-emerald-500/5 rounded-lg border border-emerald-500/10"
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    transition={{ delay: index * 0.2 + 0.8 }}
-                                  >
-                                    <p className="text-white/70 text-sm">
-                                      <span className="text-emerald-400 font-medium">Focus: </span>{edu.focus}
-                                    </p>
-                                  </motion.div>
-                                )}
-                              </div>
-
-                              {/* Right Side - Date & GPA */}
-                              <div className="flex flex-col items-end gap-3">
-                                {/* Date Badge */}
-                                <motion.div
-                                  className="px-4 py-2 bg-emerald-500/10 rounded-xl border border-emerald-500/20"
-                                  whileHover={{ scale: 1.05 }}
-                                >
-                                  <div className="flex items-center gap-2">
-                                    <Calendar size={14} className="text-emerald-400" />
-                                    <span className="text-emerald-400 font-medium text-sm">
-                                      {edu.startDate} - {edu.endDate}
-                                    </span>
-                                  </div>
-                                </motion.div>
-
-                                {/* GPA Display */}
-                                {edu.gpa && (
-                                  <motion.div
-                                    className="relative"
-                                    initial={{ scale: 0 }}
-                                    animate={{ scale: 1 }}
-                                    transition={{ delay: index * 0.2 + 0.7, type: "spring" }}
-                                  >
-                                    <div className="px-4 py-3 bg-gradient-to-br from-emerald-500/20 to-teal-500/10 rounded-xl border border-emerald-500/30 relative overflow-hidden">
-                                      <motion.div
-                                        className="absolute inset-0 bg-gradient-to-r from-transparent via-emerald-400/10 to-transparent"
-                                        animate={{ x: ["-100%", "200%"] }}
-                                        transition={{ duration: 2, repeat: Infinity }}
-                                      />
-                                      <div className="relative text-center">
-                                        <span className="text-xs text-emerald-400/70 font-mono uppercase tracking-wider">GPA</span>
-                                        <p className="text-2xl font-bold text-emerald-400 font-mono">{edu.gpa}</p>
-                                      </div>
-                                    </div>
-                                  </motion.div>
-                                )}
-                              </div>
                             </div>
                           </div>
                         </div>

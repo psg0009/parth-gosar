@@ -5,6 +5,7 @@ import { useIntersection } from "@/app/hooks/useIntersection";
 import { useState } from "react";
 import { X } from "lucide-react";
 import Image from "next/image";
+import FlowingBackground from "../visualizations/FlowingBackground";
 
 // Photo data - ordered from 2025 to 2022
 const photos = [
@@ -21,6 +22,7 @@ const photos = [
     alt: "With Mayor Ezra Nanes",
     caption: "With Mayor Ezra Nanes",
     event: "State College Mayor | We Are The World 2025",
+    objectPosition: "center 20%",
   },
   {
     id: 3,
@@ -28,65 +30,45 @@ const photos = [
     alt: "With Penn State President Dr. Neeli Bendapudi",
     caption: "With President Dr. Neeli Bendapudi",
     event: "19th Penn State President | Harrisburg Capital",
+    objectPosition: "center 25%",
   },
   {
     id: 4,
-    src: "/images/spotlight/Penn State Startup Week.jpg",
-    alt: "Penn State Startup Week",
-    caption: "Penn State Startup Week",
-    event: "Pitching INSURESPECTRE | Entrepreneurship",
-  },
-  {
-    id: 5,
     src: "/images/spotlight/Student Leaders Fall 2024.jpg",
     alt: "Student Leaders",
     caption: "Penn State Student Leaders",
     event: "Campus Leadership Summit | Fall 2024",
   },
   {
-    id: 6,
+    id: 5,
     src: "/images/spotlight/ISC Presidents Cabinet -2025.jpeg",
     alt: "ISC Presidents Cabinet 2025",
     caption: "ISC Presidents Cabinet",
     event: "Leading 3,000+ International Students | Spring 2025",
   },
   {
-    id: 7,
+    id: 6,
     src: "/images/spotlight/International  Student Council  60th Year Photo.png",
     alt: "ISC 60th Year",
     caption: "ISC 60th Anniversary",
     event: "Six Decades of International Student Advocacy",
   },
   {
-    id: 8,
-    src: "/images/spotlight/ISCs Exec Board.png",
-    alt: "ISC Executive Board",
-    caption: "ISC Executive Board",
-    event: "60th President's Leadership Team | 2024",
-  },
-  {
-    id: 9,
-    src: "/images/spotlight/SpRING 2024- Spring Bankquet of International student organozations with President Bendapudi..jpg",
-    alt: "Spring Banquet with President Bendapudi",
-    caption: "International Organizations Banquet",
-    event: "With President Bendapudi | Spring 2024",
-  },
-  {
-    id: 10,
+    id: 7,
     src: "/images/spotlight/UPUA swearing in for 17th Assembly..jpg",
     alt: "UPUA Swearing In",
     caption: "UPUA 17th Assembly",
     event: "University Park Undergraduate Association",
   },
   {
-    id: 11,
+    id: 8,
     src: "/images/spotlight/With Alan Vernebaec (one of the oldest serving professor at Penn State ).jpg",
     alt: "With Professor Alan Verbanec",
     caption: "With Prof. Alan Verbanec",
     event: "Computer Science Faculty | Penn State",
   },
   {
-    id: 12,
+    id: 9,
     src: "/images/spotlight/Mathias Fonkam - Research Professor at Penn State.jpg",
     alt: "With Dr. Mathias Fonkam",
     caption: "With Dr. Mathias Fonkam",
@@ -100,6 +82,7 @@ interface Photo {
   alt: string;
   caption: string;
   event: string;
+  objectPosition?: string;
 }
 
 export default function SpotlightSection() {
@@ -128,10 +111,11 @@ export default function SpotlightSection() {
   return (
     <>
       <section id="spotlight" ref={ref} className="section relative overflow-hidden">
-        {/* Background Elements */}
-        <div className="absolute inset-0 grid-bg opacity-20" />
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl" />
+        {/* Flowing Background - consistent with other sections */}
+        <FlowingBackground />
+
+        {/* Purple/Accent theme for Spotlight */}
+        <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-purple-500/5 to-transparent pointer-events-none" />
 
         <div className="relative container-custom">
           <motion.div
@@ -185,6 +169,7 @@ export default function SpotlightSection() {
                     alt={photo.alt}
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-110"
+                    style={{ objectPosition: photo.objectPosition || "center" }}
                   />
 
                   {/* Overlay */}
