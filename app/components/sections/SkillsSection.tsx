@@ -441,9 +441,9 @@ export default function SkillsSection() {
           initial={{ opacity: 0 }}
           animate={isVisible ? { opacity: 1 } : {}}
           transition={{ delay: 0.4 }}
-          className="mb-10"
+          className="mb-6 md:mb-10"
         >
-          <div className="flex flex-wrap justify-center gap-3">
+          <div className="flex flex-nowrap justify-start md:justify-center gap-1.5 sm:gap-2 md:gap-3 overflow-x-auto pb-2 px-1">
             {skillCategories.map((category, index) => {
               const isActive = activeCategory === category.id;
               const colors = categoryColors[category.id];
@@ -457,10 +457,10 @@ export default function SkillsSection() {
                   onClick={() => setActiveCategory(isActive ? null : category.id)}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="relative group"
+                  className="relative group flex-shrink-0"
                 >
                   <div
-                    className="px-5 py-2.5 rounded-xl backdrop-blur-md transition-all duration-300"
+                    className="px-2.5 py-1.5 sm:px-3 sm:py-2 md:px-5 md:py-2.5 rounded-lg md:rounded-xl backdrop-blur-md transition-all duration-300"
                     style={{
                       background: isActive ? `${colors.primary}20` : 'rgba(0,0,0,0.3)',
                       border: `1px solid ${isActive ? colors.primary : 'rgba(255,255,255,0.1)'}`,
@@ -468,7 +468,7 @@ export default function SkillsSection() {
                     }}
                   >
                     <span
-                      className="text-sm font-medium transition-colors"
+                      className="text-[10px] sm:text-xs md:text-sm font-medium transition-colors whitespace-nowrap"
                       style={{ color: isActive ? colors.primary : 'rgba(255,255,255,0.7)' }}
                     >
                       {category.title}
@@ -479,7 +479,7 @@ export default function SkillsSection() {
                   {isActive && (
                     <motion.div
                       layoutId="skillActiveTab"
-                      className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded-full"
+                      className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-6 md:w-8 h-0.5 rounded-full"
                       style={{ background: colors.primary }}
                     />
                   )}

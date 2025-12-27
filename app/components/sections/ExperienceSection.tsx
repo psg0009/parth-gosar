@@ -199,7 +199,7 @@ export default function ExperienceSection() {
                   </div>
 
                   {/* Tab grid */}
-                  <div className="relative flex flex-wrap justify-center gap-3">
+                  <div className="relative flex flex-wrap justify-center gap-1.5 sm:gap-2 md:gap-3">
                     {tabs.map((tab, index) => {
                       const Icon = tab.icon;
                       const isActive = activeTab === tab.id;
@@ -219,9 +219,9 @@ export default function ExperienceSection() {
                           {/* Card container */}
                           <motion.div
                             className={`
-                              relative flex flex-col items-center gap-1 md:gap-2 p-2 md:p-4 rounded-xl md:rounded-2xl
+                              relative flex flex-col items-center gap-0.5 sm:gap-1 md:gap-2 p-1.5 sm:p-2 md:p-4 rounded-lg sm:rounded-xl md:rounded-2xl
                               border transition-all duration-500 overflow-hidden
-                              w-16 h-20 md:w-24 md:h-28
+                              w-11 h-14 sm:w-14 sm:h-18 md:w-24 md:h-28
                               ${isActive
                                 ? "bg-black/30 border-transparent"
                                 : "bg-white/[0.02] border-white/10 hover:border-white/20 hover:bg-white/[0.05]"
@@ -279,7 +279,7 @@ export default function ExperienceSection() {
                             {/* Hexagonal icon container */}
                             <motion.div
                               className={`
-                                relative w-8 h-8 md:w-10 md:h-10 flex items-center justify-center
+                                relative w-5 h-5 sm:w-7 sm:h-7 md:w-10 md:h-10 flex items-center justify-center
                                 ${isActive ? "" : "group-hover:scale-110"}
                                 transition-transform duration-300
                               `}
@@ -317,8 +317,8 @@ export default function ExperienceSection() {
                                 transition={{ duration: 1.5, repeat: Infinity }}
                               >
                                 <Icon
-                                  size={14}
-                                  className={`md:w-[18px] md:h-[18px] ${isActive ? "text-black" : "text-white/60 group-hover:text-white transition-colors"}`}
+                                  size={10}
+                                  className={`sm:w-3 sm:h-3 md:w-[18px] md:h-[18px] ${isActive ? "text-black" : "text-white/60 group-hover:text-white transition-colors"}`}
                                 />
                               </motion.div>
                             </motion.div>
@@ -326,7 +326,7 @@ export default function ExperienceSection() {
                             {/* Label */}
                             <motion.span
                               className={`
-                                text-[10px] md:text-xs font-medium tracking-wide transition-all duration-300
+                                text-[7px] sm:text-[8px] md:text-xs font-medium tracking-wide transition-all duration-300
                                 ${isActive ? "text-white" : "text-white/40 group-hover:text-white/80"}
                               `}
                               style={{

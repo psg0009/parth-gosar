@@ -486,7 +486,7 @@ function ProjectCard({ project }: ProjectCardProps) {
       className="group h-full flex flex-col overflow-hidden card-shine"
     >
       {/* Header with gradient */}
-      <div className={`relative h-36 bg-gradient-to-br ${categoryGradients[project.category] || "from-cyber-card to-cyber-elevated"} p-6`}>
+      <div className={`relative h-24 md:h-36 bg-gradient-to-br ${categoryGradients[project.category] || "from-cyber-card to-cyber-elevated"} p-3 md:p-6`}>
         {/* Animated background glow on hover */}
         <div className="absolute inset-0 bg-gradient-to-br from-primary/0 to-secondary/0 group-hover:from-primary/10 group-hover:to-secondary/5 transition-all duration-500" />
 
@@ -494,15 +494,15 @@ function ProjectCard({ project }: ProjectCardProps) {
         <Badge
           variant={categoryColors[project.category] as any}
           size="sm"
-          className="absolute top-4 right-4 z-10"
+          className="absolute top-2 right-2 md:top-4 md:right-4 z-10 text-[10px] md:text-xs"
         >
           {project.category.toUpperCase()}
         </Badge>
 
         {/* Featured Badge */}
         {project.featured && (
-          <div className="absolute top-4 left-4 z-10 flex items-center gap-1.5 text-xs text-primary font-mono bg-black/30 backdrop-blur-sm px-2 py-1 rounded-full">
-            <span className="w-1.5 h-1.5 bg-primary rounded-full animate-pulse" />
+          <div className="absolute top-2 left-2 md:top-4 md:left-4 z-10 flex items-center gap-1 md:gap-1.5 text-[10px] md:text-xs text-primary font-mono bg-black/30 backdrop-blur-sm px-1.5 py-0.5 md:px-2 md:py-1 rounded-full">
+            <span className="w-1 h-1 md:w-1.5 md:h-1.5 bg-primary rounded-full animate-pulse" />
             FEATURED
           </div>
         )}
@@ -512,13 +512,13 @@ function ProjectCard({ project }: ProjectCardProps) {
 
         {/* Project Illustration - Centered Visual (behind text) */}
         <motion.div
-          className="absolute inset-0 flex items-center justify-center p-6 pt-10 z-0"
+          className="absolute inset-0 flex items-center justify-center p-3 pt-6 md:p-6 md:pt-10 z-0"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
         >
           <motion.div
-            className="w-40 h-24"
+            className="w-28 h-16 md:w-40 md:h-24"
             whileHover={{ scale: 1.05 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
@@ -532,26 +532,26 @@ function ProjectCard({ project }: ProjectCardProps) {
       </div>
 
       {/* Content */}
-      <div className="flex-1 p-6 flex flex-col relative">
-        <h3 className="text-xl font-semibold text-white mb-2 group-hover:text-primary transition-colors duration-300">
+      <div className="flex-1 p-3 md:p-6 flex flex-col relative">
+        <h3 className="text-base md:text-xl font-semibold text-white mb-1 md:mb-2 group-hover:text-primary transition-colors duration-300">
           {project.title}
         </h3>
-        <p className="text-white/60 text-sm mb-4 flex-1 line-clamp-3 leading-relaxed">
+        <p className="text-white/60 text-xs md:text-sm mb-2 md:mb-4 flex-1 line-clamp-2 md:line-clamp-3 leading-relaxed">
           {project.description}
         </p>
 
         {/* Tech Stack */}
-        <div className="flex flex-wrap gap-2 mb-4">
-          {project.tech.slice(0, 4).map((tech) => (
+        <div className="flex flex-wrap gap-1 md:gap-2 mb-2 md:mb-4">
+          {project.tech.slice(0, 3).map((tech) => (
             <span
               key={tech}
-              className="text-xs px-2.5 py-1 bg-cyber-surface rounded-md text-white/50 border border-cyber-border/50 hover:border-primary/30 hover:text-white/70 transition-all"
+              className="text-[10px] md:text-xs px-1.5 py-0.5 md:px-2.5 md:py-1 bg-cyber-surface rounded-md text-white/50 border border-cyber-border/50 hover:border-primary/30 hover:text-white/70 transition-all"
             >
               {tech}
             </span>
           ))}
-          {project.tech.length > 4 && (
-            <span className="text-xs px-2.5 py-1 bg-cyber-surface rounded-md text-white/50 border border-cyber-border/50">
+          {project.tech.length > 3 && (
+            <span className="text-[10px] md:text-xs px-1.5 py-0.5 md:px-2.5 md:py-1 bg-cyber-surface rounded-md text-white/50 border border-cyber-border/50">
               +{project.tech.length - 4}
             </span>
           )}

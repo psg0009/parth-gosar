@@ -77,9 +77,9 @@ export default function HeroSection() {
               {/* Status badge */}
               <motion.div
                 variants={itemVariants}
-                className="inline-flex items-center gap-3 px-4 py-2 bg-cyber-card/50 border border-cyan-500/30 rounded-full mb-6 backdrop-blur-sm"
+                className="relative z-20 inline-flex items-center gap-3 px-3 md:px-4 py-1.5 md:py-2 bg-cyber-card/80 border border-cyan-500/30 rounded-full mb-4 md:mb-6 backdrop-blur-sm"
               >
-                                <span className="text-xs text-white/50 font-mono">USC MS CS '27</span>
+                <span className="text-[10px] md:text-xs text-white/70 font-mono">USC MS CS '27</span>
               </motion.div>
 
               {/* Main title */}
@@ -635,7 +635,7 @@ export default function HeroSection() {
               {/* Stats row */}
               <motion.div
                 variants={itemVariants}
-                className="flex flex-wrap gap-4 md:gap-5 mb-8"
+                className="flex flex-nowrap gap-2 sm:gap-4 md:gap-5 mb-6 md:mb-8 overflow-x-auto"
               >
                 {[
                   { value: "2", label: "Research Labs", icon: Microscope },
@@ -645,12 +645,12 @@ export default function HeroSection() {
                 ].map((stat) => {
                   const StatContent = (
                     <>
-                      <div className="w-9 h-9 rounded-lg bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center">
-                        <stat.icon size={16} className="text-cyan-400" />
+                      <div className="w-7 h-7 md:w-9 md:h-9 rounded-lg bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center flex-shrink-0">
+                        <stat.icon size={14} className="text-cyan-400 md:w-4 md:h-4" />
                       </div>
                       <div>
-                        <div className="text-lg font-bold text-white font-mono">{stat.value}</div>
-                        <div className="text-[10px] text-white/40">{stat.label}</div>
+                        <div className="text-sm md:text-lg font-bold text-white font-mono">{stat.value}</div>
+                        <div className="text-[8px] md:text-[10px] text-white/40 whitespace-nowrap">{stat.label}</div>
                       </div>
                     </>
                   );
@@ -659,12 +659,12 @@ export default function HeroSection() {
                     <button
                       key={stat.label}
                       onClick={stat.onClick}
-                      className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity"
+                      className="flex items-center gap-1.5 md:gap-2 cursor-pointer hover:opacity-80 transition-opacity flex-shrink-0"
                     >
                       {StatContent}
                     </button>
                   ) : (
-                    <div key={stat.label} className="flex items-center gap-2">
+                    <div key={stat.label} className="flex items-center gap-1.5 md:gap-2 flex-shrink-0">
                       {StatContent}
                     </div>
                   );
@@ -674,13 +674,14 @@ export default function HeroSection() {
               {/* CTA buttons */}
               <motion.div
                 variants={itemVariants}
-                className="flex flex-wrap gap-4 mb-8"
+                className="flex flex-nowrap gap-2 md:gap-4 mb-6 md:mb-8"
               >
                 <Button
                   variant="glow"
                   size="lg"
                   onClick={() => scrollToSection("research")}
-                  icon={<Brain size={20} />}
+                  icon={<Brain size={18} className="md:w-5 md:h-5" />}
+                  className="text-sm md:text-base px-3 md:px-6 py-2 md:py-3"
                 >
                   View Research
                 </Button>
@@ -688,7 +689,7 @@ export default function HeroSection() {
                   variant="outline"
                   size="lg"
                   onClick={() => window.location.href = "mailto:parthgosar8@gmail.com"}
-                  className="border-white/20 text-white hover:border-cyan-500/50 hover:text-cyan-400"
+                  className="border-white/20 text-white hover:border-cyan-500/50 hover:text-cyan-400 text-sm md:text-base px-3 md:px-6 py-2 md:py-3"
                 >
                   Get in Touch
                 </Button>

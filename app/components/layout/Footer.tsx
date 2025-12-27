@@ -56,7 +56,7 @@ export default function Footer() {
               whileHover={{ scale: 1.02 }}
             >
               <span className="text-cyan-400 text-glow">PARTH</span>
-              <span className="text-white"> GOSAR</span>
+              <span className="text-white"> S GOSAR</span>
             </motion.a>
             <p className="text-white/70 max-w-md mb-6 leading-relaxed">
               AI/ML Researcher & Software Engineer pursuing MS in Computer Science
