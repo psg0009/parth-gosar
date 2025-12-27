@@ -403,7 +403,6 @@ export default function Preloader({ onComplete }: PreloaderProps) {
                 <span className="text-cyan-400 drop-shadow-[0_0_20px_rgba(34,211,238,0.5)]">
                   PARTH
                 </span>
-                <span className="text-white/80"> // </span>
                 <span className="text-white">GOSAR</span>
               </h1>
               <p className="text-center text-white/50 text-sm mt-2 font-mono">

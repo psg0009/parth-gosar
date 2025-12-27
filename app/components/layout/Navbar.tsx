@@ -70,7 +70,7 @@ export default function Navbar() {
         <div className="container-custom">
           <nav className="flex items-center justify-between">
             {/* Logo with Profile Photo */}
-            <div className="flex items-center gap-3 text-xl md:text-2xl font-display font-bold tracking-wider">
+            <div className="flex items-center gap-2 md:gap-3 text-lg md:text-2xl font-display font-bold tracking-wider">
               {/* Profile Photo - clicks to open full image in new tab */}
               <motion.a
                 href="/images/spotlight/author_image.jpg"
@@ -82,12 +82,12 @@ export default function Navbar() {
               >
                 {/* Animated ring */}
                 <motion.div
-                  className="absolute -inset-1.5 rounded-full bg-gradient-to-r from-cyan-400 via-emerald-400 to-primary opacity-80"
+                  className="absolute -inset-1 md:-inset-1.5 rounded-full bg-gradient-to-r from-cyan-400 via-emerald-400 to-primary opacity-80"
                   animate={{ rotate: 360 }}
                   transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
                 />
                 {/* Image container */}
-                <div className="relative w-24 h-24 rounded-full overflow-hidden border-2 border-cyber-black">
+                <div className="relative w-12 h-12 md:w-24 md:h-24 rounded-full overflow-hidden border-2 border-cyber-black">
                   <Image
                     src="/images/spotlight/author_image.jpg"
                     alt="Parth Gosar"
@@ -97,17 +97,17 @@ export default function Navbar() {
                   />
                 </div>
                 {/* Status dot */}
-                <span className="absolute bottom-1 right-1 w-5 h-5 rounded-full bg-emerald-400 border-2 border-cyber-black" />
+                <span className="absolute bottom-0 right-0 md:bottom-1 md:right-1 w-3 h-3 md:w-5 md:h-5 rounded-full bg-emerald-400 border-2 border-cyber-black" />
               </motion.a>
 
               {/* Name - clicks to email */}
               <motion.a
                 href="mailto:parthgosar8@gmail.com?subject=Let's%20Connect%20-%20From%20Your%20Portfolio"
-                className="flex items-center gap-3 hover:opacity-80 transition-opacity"
+                className="flex items-center gap-1 md:gap-3 hover:opacity-80 transition-opacity"
                 whileHover={{ scale: 1.02 }}
               >
                 <span className="text-cyan-400">PARTH</span>
-                <span className="text-white">GOSAR</span>
+                <span className="text-white hidden sm:inline">GOSAR</span>
               </motion.a>
             </div>
 
@@ -192,7 +192,7 @@ export default function Navbar() {
 
             {/* Menu Content */}
             <motion.div
-              className="absolute top-[72px] left-0 right-0 bg-cyber-elevated border-b border-cyber-border p-6"
+              className="absolute top-[60px] md:top-[72px] left-0 right-0 bg-cyber-elevated border-b border-cyber-border p-6"
               initial={{ y: -20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: -20, opacity: 0 }}

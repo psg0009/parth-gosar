@@ -1105,7 +1105,7 @@ export default function FeaturesSection() {
                           />
                           {/* Main node */}
                           <div
-                            className="relative w-14 h-14 rounded-full flex items-center justify-center text-2xl"
+                            className="relative w-10 h-10 md:w-14 md:h-14 rounded-full flex items-center justify-center text-lg md:text-2xl"
                             style={{
                               background: `linear-gradient(135deg, ${node.color}30, ${node.color}10)`,
                               border: `2px solid ${node.color}`,
@@ -1118,18 +1118,18 @@ export default function FeaturesSection() {
 
                         {/* Year label */}
                         <motion.div
-                          className="mt-3 text-center"
+                          className="mt-2 md:mt-3 text-center"
                           initial={{ opacity: 0 }}
                           animate={isVisible ? { opacity: 1 } : {}}
                           transition={{ delay: 1 + index * 0.15 }}
                         >
                           <div
-                            className="text-lg font-bold font-mono"
+                            className="text-sm md:text-lg font-bold font-mono"
                             style={{ color: node.color }}
                           >
                             {node.year}
                           </div>
-                          <div className="text-xs text-white/60 mt-1">{node.label}</div>
+                          <div className="text-[10px] md:text-xs text-white/60 mt-1 hidden sm:block">{node.label}</div>
                         </motion.div>
                       </motion.div>
                     ))}
@@ -1137,7 +1137,7 @@ export default function FeaturesSection() {
                 </div>
 
                 {/* Bottom stats row */}
-                <div className="grid grid-cols-4 gap-4 mt-6 pt-6 border-t border-white/10">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6 pt-6 border-t border-white/10">
                   {[
                     { value: "3+", label: "Years of Impact", color: "#22d3ee" },
                     { value: "5", label: "Major Milestones", color: "#a855f7" },
@@ -1152,12 +1152,12 @@ export default function FeaturesSection() {
                       transition={{ delay: 1.2 + index * 0.1 }}
                     >
                       <div
-                        className="text-2xl font-bold font-mono leading-none"
-                        style={{ color: stat.color, textShadow: `0 0 20px ${stat.color}50`, fontSize: "1.5rem" }}
+                        className="text-xl md:text-2xl font-bold font-mono leading-none"
+                        style={{ color: stat.color, textShadow: `0 0 20px ${stat.color}50` }}
                       >
                         {stat.value}
                       </div>
-                      <div className="text-[10px] text-white/50 uppercase tracking-wider mt-1">{stat.label}</div>
+                      <div className="text-[9px] md:text-[10px] text-white/50 uppercase tracking-wider mt-1">{stat.label}</div>
                     </motion.div>
                   ))}
                 </div>
