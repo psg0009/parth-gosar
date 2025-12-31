@@ -58,6 +58,36 @@ export const metadata: Metadata = {
   },
 };
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Parth Gosar",
+  url: "https://psg.bio",
+  jobTitle: "AI/ML Researcher & Software Engineer",
+  worksFor: {
+    "@type": "Organization",
+    name: "University of Southern California",
+  },
+  alumniOf: [
+    {
+      "@type": "Organization",
+      name: "Penn State University",
+    },
+  ],
+  sameAs: [
+    "https://www.linkedin.com/in/parth-gosar-04042b1b1",
+    "https://github.com/psg0009",
+    "mailto:parthgosar8@gmail.com",
+  ],
+  knowsAbout: [
+    "Machine Learning",
+    "Artificial Intelligence",
+    "Deep Learning",
+    "Natural Language Processing",
+    "Software Engineering",
+  ],
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -65,12 +95,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body
         className={`${spaceGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable} font-body antialiased bg-black text-white`}
       >
         {/* Noise Overlay */}
         <div className="noise-overlay" />
-        
+
         {children}
       </body>
     </html>
