@@ -40,7 +40,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://parthgosar.com",
+    url: "https://psg.bio",
     title: "Parth Gosar | AI/ML Researcher & Software Engineer",
     description:
       "AI/ML Researcher at USC, 2025 Oswald Award recipient, building impactful AI solutions.",
